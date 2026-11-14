@@ -1,0 +1,661 @@
+@using System.Web.Script.Serialization
+
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title - Trà Sữa</title>
+    <!--Bootstrap 4-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    <!--CSS nhung thang trong layout: sua mau o khoi :root-->
+    <style>
+             /* =====================================================
+        LAYOUT TRA SUA - phoi mau dieu mat (gop tu 2 anh)
+        Kem xanh #DADDCC | Sage #AEBFB0 | Vang bo #E8C45F | Cam gach #BC6A52 | Tim xam #574C50
+        Y tuong: nen kem am nhu sua, nut vang nhu caramel/tra, diem nhan cam gach, chu tim xam (do chói hon den)
+        Muon doi mau: chi sua khoi :root ben duoi
+        ===================================================== */
+             :root {
+                 --bg: #F7F2E6; /* kem sua am */
+                 --text: #574C50; /* tim xam */
+                 --heading: #574C50;
+                 --muted: #8A8379;
+                 --link: #B5624A; /* cam gach */
+                 --link-hover: #8F4A37;
+                 --accent: #E8C45F; /* vang caramel: nut chinh */
+                 --on-accent: #574C50;
+                 --accent-2: #BC6A52; /* cam gach: hover / nhan manh */
+                 --on-accent-2: #FFFFFF;
+                 --nav-bg: #FBFAF3; /* trang kem */
+                 --nav-text: #574C50;
+                 --brand: #BC6A52;
+                 --toggler-filter: none;
+                 --card-bg: #FBFAF3;
+                 --border: #E1E4D3; /* sage rat nhat */
+                 --side-title-bg: #AEBFB0; /* sage */
+                 --side-title-text: #4A3F43;
+                 --input-bg: #FFFFFF;
+                 --input-text: #574C50;
+                 --ring: rgba(188,106,82,.25);
+                 --stripe: rgba(174,191,176,.18);
+                 --footer-bg: #574C50;
+                 --footer-text: #E9E7D8;
+                 --shadow: rgba(87,76,80,.12);
+             }
+
+             /* ===== Phan dung chung: chi dung bien mau o tren ===== */
+             body {
+                 background: var(--bg);
+                 color: var(--text);
+                 font-family: "Segoe UI", Roboto, Arial, sans-serif;
+             }
+
+             a {
+                 color: var(--link);
+             }
+
+                 a:hover {
+                     color: var(--link-hover);
+                     text-decoration: none;
+                 }
+
+             h1, h2, h3, h4, h5, h6 {
+                 color: var(--heading);
+             }
+
+             .text-muted {
+                 color: var(--muted) !important;
+             }
+
+             /* Navbar */
+             .ts-navbar {
+                 background: var(--nav-bg);
+                 border-radius: 0 0 12px 12px;
+                 box-shadow: 0 2px 8px var(--shadow);
+             }
+
+                 .ts-navbar .navbar-brand {
+                     color: var(--brand);
+                     font-weight: 700;
+                     letter-spacing: .5px;
+                 }
+
+                 .ts-navbar .nav-link, .ts-navbar .navbar-text {
+                     color: var(--nav-text) !important;
+                 }
+
+                     .ts-navbar .nav-link:hover, .ts-navbar .nav-item.show .nav-link {
+                         color: var(--accent) !important;
+                     }
+
+                 .ts-navbar .navbar-toggler {
+                     border-color: var(--nav-text);
+                 }
+
+                 .ts-navbar .navbar-toggler-icon {
+                     filter: var(--toggler-filter);
+                 }
+
+             .dropdown-menu {
+                 background: var(--card-bg);
+                 border: 1px solid var(--border);
+             }
+
+             .dropdown-item {
+                 color: var(--text);
+             }
+
+                 .dropdown-item:hover, .dropdown-item:focus {
+                     background: var(--accent);
+                     color: var(--on-accent);
+                 }
+
+             .dropdown-divider {
+                 border-color: var(--border);
+             }
+
+             /* Nut va o nhap */
+             .btn-ts, .btn-primary {
+                 background: var(--accent);
+                 border-color: var(--accent);
+                 color: var(--on-accent);
+                 font-weight: 600;
+             }
+
+                 .btn-ts:hover, .btn-primary:hover, .btn-ts:focus, .btn-primary:focus {
+                     background: var(--accent-2);
+                     border-color: var(--accent-2);
+                     color: var(--on-accent-2);
+                 }
+
+             .btn-outline-primary {
+                 color: var(--accent-2);
+                 border-color: var(--accent-2);
+             }
+
+                 .btn-outline-primary:hover {
+                     background: var(--accent-2);
+                     color: var(--on-accent-2);
+                 }
+
+             .form-control {
+                 background: var(--input-bg);
+                 color: var(--input-text);
+                 border: 1px solid var(--border);
+             }
+
+                 .form-control:focus {
+                     background: var(--input-bg);
+                     color: var(--input-text);
+                     border-color: var(--accent);
+                     box-shadow: 0 0 0 .2rem var(--ring);
+                 }
+
+                 .form-control::placeholder {
+                     color: var(--muted);
+                 }
+
+             /* Sidebar */
+             .ts-side {
+                 background: var(--card-bg);
+                 border: 1px solid var(--border);
+                 border-radius: 12px;
+                 padding: 8px 0;
+             }
+
+                 .ts-side .list-group-item {
+                     background: transparent;
+                     color: var(--text);
+                     border-color: var(--border);
+                 }
+
+                     .ts-side .list-group-item a {
+                         color: var(--text);
+                     }
+
+                         .ts-side .list-group-item a:hover {
+                             color: var(--accent-2);
+                         }
+
+                 .ts-side .ts-side-title {
+                     background: var(--side-title-bg);
+                     font-weight: 700;
+                 }
+
+                     .ts-side .ts-side-title a {
+                         color: var(--side-title-text);
+                     }
+
+             /* Noi dung */
+             .ts-content {
+                 padding-bottom: 16px;
+             }
+
+             .card {
+                 background: var(--card-bg);
+                 border: 1px solid var(--border);
+                 color: var(--text);
+                 border-radius: 12px;
+             }
+
+             .card-title, .card-header {
+                 color: var(--heading);
+             }
+
+             .card-header, .card-footer {
+                 background: var(--side-title-bg);
+                 border-color: var(--border);
+             }
+
+             .list-group-item {
+                 background: var(--card-bg);
+                 border-color: var(--border);
+                 color: var(--text);
+             }
+
+             .table {
+                 color: var(--text);
+             }
+
+                 .table thead th {
+                     background: var(--side-title-bg);
+                     color: var(--side-title-text);
+                     border-color: var(--border);
+                 }
+
+                 .table td, .table th {
+                     border-color: var(--border);
+                 }
+
+             .table-striped tbody tr:nth-of-type(odd) {
+                 background: var(--stripe);
+             }
+
+             .badge-primary, .badge-info {
+                 background: var(--accent-2);
+                 color: var(--on-accent-2);
+             }
+
+             .alert-info, .alert-success {
+                 background: var(--card-bg);
+                 color: var(--text);
+                 border-color: var(--accent);
+             }
+
+             .page-link {
+                 background: var(--card-bg);
+                 border-color: var(--border);
+                 color: var(--link);
+             }
+
+             .page-item.active .page-link {
+                 background: var(--accent);
+                 border-color: var(--accent);
+                 color: var(--on-accent);
+             }
+
+             .modal-content {
+                 background: var(--card-bg);
+                 color: var(--text);
+             }
+
+             /* Footer */
+             .ts-footer {
+                 background: var(--footer-bg);
+                 color: var(--footer-text);
+                 border-radius: 12px 12px 0 0;
+                 font-size: .9rem;
+             }
+
+             /* ===== Diem nhan lam dep them ===== */
+             .ts-navbar {
+                 border-bottom: 3px solid var(--accent);
+             }
+
+                 .ts-navbar .navbar-brand {
+                     font-size: 1.4rem;
+                 }
+
+                 .ts-navbar .nav-link {
+                     border-radius: 20px;
+                     padding: .4rem .9rem !important;
+                     transition: background .2s;
+                 }
+
+                     .ts-navbar .nav-link:hover {
+                         background: rgba(232,196,95,.3);
+                     }
+
+             .btn-ts, .btn-primary {
+                 border-radius: 20px;
+                 padding-left: 1.1rem;
+                 padding-right: 1.1rem;
+             }
+
+             .form-control {
+                 border-radius: 20px;
+             }
+
+             .card, .ts-side {
+                 box-shadow: 0 2px 10px var(--shadow);
+             }
+
+                 .ts-side .ts-side-title {
+                     border-radius: 8px;
+                     margin: 0 8px 4px;
+                     border: 0;
+                 }
+
+                 .ts-side .list-group-item {
+                     transition: padding-left .15s;
+                 }
+
+                     .ts-side .list-group-item:hover {
+                         padding-left: 1.5rem;
+                         background: var(--stripe);
+                     }
+
+             .carousel-inner {
+                 border-radius: 14px;
+                 box-shadow: 0 3px 12px var(--shadow);
+             }
+
+             .card:hover {
+                 box-shadow: 0 6px 16px var(--shadow);
+                 transition: box-shadow .2s;
+             }
+
+             /* ===== V2: toi uu mau + sua lech bo cuc ===== */
+             body {
+                 background-color: var(--bg);
+                 background-image: radial-gradient(circle at 8% 0%, rgba(232,196,95,.22), transparent 38%), radial-gradient(circle at 95% 25%, rgba(174,191,176,.30), transparent 40%), radial-gradient(circle at 50% 100%, rgba(188,106,82,.10), transparent 45%);
+                 background-attachment: fixed;
+             }
+             /* navbar bang mep voi noi dung phia duoi */
+             .ts-navbar {
+                 margin-left: -15px;
+                 margin-right: -15px;
+                 background: linear-gradient(180deg, #FFFDF6, #FAF5E6);
+             }
+
+                 .ts-navbar .navbar-brand {
+                     background: linear-gradient(90deg, #BC6A52, #D98B4A);
+                     -webkit-background-clip: text;
+                     background-clip: text;
+                     -webkit-text-fill-color: transparent;
+                 }
+
+                 .ts-navbar .nav-link:hover {
+                     background: rgba(232,196,95,.35);
+                     color: #8F4A37 !important;
+                 }
+
+             .btn-ts, .btn-primary {
+                 background: linear-gradient(135deg, #F0CD6B, #E2B94C);
+                 border: 0;
+                 box-shadow: 0 2px 6px rgba(226,185,76,.45);
+             }
+
+                 .btn-ts:hover, .btn-primary:hover {
+                     background: linear-gradient(135deg, #C97A5F, #B5624A);
+                     color: #fff;
+                     box-shadow: 0 3px 8px rgba(188,106,82,.4);
+                 }
+             /* sidebar */
+             .ts-side {
+                 background: #FFFDF8;
+                 padding: 10px;
+             }
+
+                 .ts-side .ts-side-title {
+                     background: linear-gradient(135deg, #AEBFB0, #C9D6C7);
+                     margin: 4px 0 6px;
+                 }
+
+                     .ts-side .ts-side-title a {
+                         font-weight: 700;
+                     }
+
+                         .ts-side .ts-side-title a::before {
+                             content: "🧋 ";
+                         }
+
+                 .ts-side .list-group-item {
+                     border: 0;
+                     border-left: 3px solid transparent;
+                     border-radius: 8px;
+                     margin-bottom: 2px;
+                     padding: .65rem 1rem;
+                 }
+
+                     .ts-side .list-group-item:hover {
+                         background: #F6EBC8;
+                         border-left-color: #E8C45F;
+                         padding-left: 1.3rem;
+                     }
+
+                     .ts-side .list-group-item a:hover {
+                         color: #8F4A37;
+                     }
+
+                 .ts-side ul + ul {
+                     margin-top: 10px;
+                     border-top: 1px dashed var(--border);
+                     padding-top: 10px;
+                 }
+             /* banner: co nen gradient + chu thay the khi chua co anh */
+             .carousel-item {
+                 min-height: 260px;
+                 background: linear-gradient(120deg, #F0D58A, #E7B9A3 55%, #C9D6C7);
+             }
+
+                 .carousel-item:nth-child(2) {
+                     background: linear-gradient(120deg, #C9D6C7, #F0D58A 60%, #F3E3B0);
+                 }
+
+                 .carousel-item:nth-child(3) {
+                     background: linear-gradient(120deg, #E7B9A3, #F0D58A 55%, #AEBFB0);
+                 }
+
+                 .carousel-item::after {
+                     content: attr(data-title);
+                     position: absolute;
+                     inset: 0;
+                     display: flex;
+                     align-items: center;
+                     justify-content: center;
+                     font-size: 2rem;
+                     font-weight: 700;
+                     color: #574C50;
+                     text-shadow: 0 1px 0 rgba(255,255,255,.6);
+                 }
+
+                 .carousel-item img {
+                     position: relative;
+                     z-index: 1;
+                 }
+
+             .carousel-control-prev, .carousel-control-next {
+                 z-index: 2;
+             }
+             /* the san pham / card */
+             .card {
+                 background: #FFFDF8;
+                 border-radius: 14px;
+             }
+
+                 .card:hover {
+                     transform: translateY(-3px);
+                     transition: transform .2s, box-shadow .2s;
+                 }
+
+             .price, .gia {
+                 color: #BC6A52;
+                 font-weight: 700;
+             }
+             /* footer */
+             .ts-footer {
+                 background: linear-gradient(135deg, #574C50, #6C5C5F);
+                 border-top: 4px solid #E8C45F;
+             }
+    </style>
+</head>
+<body>
+    @{
+        // ASP.NET MVC 5 (.NET Framework): doc truc tiep tu Session, ho tro ca JSON string lan object
+        // Vi du luc dang nhap: Session["TaiKhoan"] = new JavaScriptSerializer().Serialize(new { name = user.name, role = user.role });
+        string tenTk = null, vaiTro = null;
+        int soLuongGio = 0;
+
+        var session = ViewContext.HttpContext.Session;   // null neu chua bat Session -> layout van chay binh thuong
+        var tk = session != null ? session["TaiKhoan"] : null;
+        if (tk is string)
+        {
+            try
+            {
+                var dict = new JavaScriptSerializer().Deserialize<Dictionary<string, object>>((string)tk);
+                foreach (var p in dict)
+                {
+                    if (p.Key.Equals("name", StringComparison.OrdinalIgnoreCase)) { tenTk = p.Value as string; }
+                    if (p.Key.Equals("role", StringComparison.OrdinalIgnoreCase)) { vaiTro = p.Value as string; }
+                }
+            }
+            catch { }
+        }
+        else if (tk != null)
+        {
+            // Session luu thang object (vd: model NguoiDung co thuoc tinh name/role)
+            foreach (var pr in tk.GetType().GetProperties())
+            {
+                if (pr.Name.Equals("name", StringComparison.OrdinalIgnoreCase)) { tenTk = Convert.ToString(pr.GetValue(tk, null)); }
+                if (pr.Name.Equals("role", StringComparison.OrdinalIgnoreCase)) { vaiTro = Convert.ToString(pr.GetValue(tk, null)); }
+            }
+        }
+
+        var gio = session != null ? session["GioHang"] : null;   // gio hang: JSON mang hoac List<...>
+        if (gio is string)
+        {
+            try
+            {
+                var arr = new JavaScriptSerializer().DeserializeObject((string)gio) as object[];
+                soLuongGio = arr == null ? 0 : arr.Length;
+            }
+            catch { soLuongGio = 0; }
+        }
+        else if (gio is System.Collections.ICollection)
+        {
+            soLuongGio = ((System.Collections.ICollection)gio).Count;
+        }
+    }
+    <div class="container text-center">
+        <!--NAVIGATION-->
+        <nav class="navbar navbar-expand-lg navbar-light ts-navbar">
+            <a class="navbar-brand" href="@Url.Action("Index", "TrangChu")">🧋 Trà Sữa</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMain"
+                    aria-controls="navbarMain" aria-expanded="false" aria-label="Mở menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "TrangChu")">Trang chủ</a>
+                    </li>
+
+                    <!--MENU 2 CAP: San pham -> Loai-->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">Sản phẩm</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="@Url.Action("Index", "SanPham")">Tất cả sản phẩm</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="@Url.Action("Index", "SanPham", new { maLoai = 1 })">Trà sữa</a>
+                            <a class="dropdown-item" href="@Url.Action("Index", "SanPham", new { maLoai = 2 })">Trà trái cây</a>
+                            <a class="dropdown-item" href="@Url.Action("Index", "SanPham", new { maLoai = 3 })">Cà phê</a>
+                        </div>
+                    </li>
+
+                    @if (tenTk == null)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("DangKy", "NguoiDung")">Đăng ký</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("DangNhap", "NguoiDung")">Đăng nhập</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <span class="nav-link">Xin chào, <b>@tenTk</b></span>
+                        </li>
+                        if (vaiTro == "admin")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Admin")">Quản trị</a>
+                            </li>
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("LichSuDonHang", "DonHang")">Đơn hàng</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("DangXuat", "NguoiDung")">Đăng xuất</a>
+                        </li>
+                    }
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Liên hệ</a>
+                    </li>
+                    <li class="nav-item">
+                        @* Gio hang: TV3 viet action GioHangPartial (hien so luong mon) *@
+                        <a class="nav-link" href="@Url.Action("Index", "GioHang")">Giỏ hàng (@soLuongGio)</a>
+                    </li>
+                </ul>
+
+                <!--TIM KIEM (TV1 lam, ket qua hien o trang danh sach cua TV2)-->
+                @using (Html.BeginForm("TimKiem", "SanPham", FormMethod.Get, new { @class = "form-inline" }))
+                {
+                    <input class="form-control mr-1" style="width:170px" type="search" name="tuKhoa"
+                           placeholder="Tìm món..." value="@Request.QueryString["tuKhoa"]" />
+                    <button class="btn btn-ts" type="submit">Tìm</button>
+                }
+            </div>
+        </nav>
+
+        <!--CONTAIN-->
+        <div class="row mt-3">
+            <div class="col-12 col-md-3 card ts-side">
+                @* Phan hien thi loai san pham (lay tu bang categories) *@
+                <ul class="list-group list-group-flush text-left">
+                    <li class="list-group-item ts-side-title"><a href="@Url.Action("Index", "SanPham")">Loại sản phẩm</a></li>
+                    <li class="list-group-item"><a href="@Url.Action("Index", "SanPham", new { maLoai = 1 })">Trà sữa</a></li>
+                    <li class="list-group-item"><a href="@Url.Action("Index", "SanPham", new { maLoai = 2 })">Trà trái cây</a></li>
+                    <li class="list-group-item"><a href="@Url.Action("Index", "SanPham", new { maLoai = 3 })">Cà phê</a></li>
+                </ul>
+                @*<ul class="list-group list-group-flush text-left">
+                        <li class="list-group-item ts-side-title"><a href="#">Loại sản phẩm</a></li>
+                        <li class="list-group-item"><a href="#">Trà sữa</a></li>
+                        <li class="list-group-item"><a href="#">Trà trái cây</a></li>
+                        <li class="list-group-item"><a href="#">Cà phê</a></li>
+                    </ul>*@
+
+                @* Phan Topping (tham khao, du lieu mau trong bang toppings) *@
+                <ul class="list-group list-group-flush text-left">
+                    <li class="list-group-item ts-side-title"><a href="#">Topping</a></li>
+                    <li class="list-group-item">Trân châu đen</li>
+                    <li class="list-group-item">Thạch trái cây</li>
+                    <li class="list-group-item">Pudding trứng</li>
+                </ul>
+            </div>
+
+            <div class="col-12 col-md-9 ts-content">
+                @if (!(ViewBag.HideBanner is bool && (bool)ViewBag.HideBanner))
+                {
+                    <div class="row">
+                        <div class="col">
+                            <div id="carouselBanner" class="carousel slide w-100 mx-auto mt-3" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active" data-title="🧋 Trà sữa thơm ngon mỗi ngày">
+                                        <img src="@Url.Content("~/Images/Banner1.png")" class="d-block w-100" alt="" onerror="this.style.display='none'" />
+                                    </div>
+                                    <div class="carousel-item" data-title="🍊 Trà trái cây tươi mát">
+                                        <img src="@Url.Content("~/Images/Banner2.png")" class="d-block w-100" alt="" onerror="this.style.display='none'" />
+                                    </div>
+                                    <div class="carousel-item" data-title="☕ Cà phê đậm vị">
+                                        <img src="@Url.Content("~/Images/Banner3.png")" class="d-block w-100" alt="" onerror="this.style.display='none'" />
+                                    </div>
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselBanner" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselBanner" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div>
+                    <br />
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+
+        <!--Footer-->
+        <div class="row ts-footer mt-3">
+            <div class="col mt-3 mb-3">
+                Website quản lý mua bán trà sữa - Đồ án Lập trình web <br />
+                Hotline: 0901 000 001 &nbsp;|&nbsp; Email: admin@trasua.local &nbsp;|&nbsp; Mở cửa: 8:00 - 22:00
+            </div>
+        </div>
+    </div>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

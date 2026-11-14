@@ -1,0 +1,428 @@
+@model WebApplication4.Models.TrangChuViewModel
+
+@{
+    ViewBag.Title = "Trang Chủ - Tiệm Trà Sữa Thơm Ngon";
+    Layout = "~/Views/Shared/LayoutPage.cshtml";
+}
+
+@functions {
+  
+    public string ResolveProductImage(string imgPath)
+    {
+        if (string.IsNullOrWhiteSpace(imgPath))
+        {
+            return Url.Content("~/Images/default-tea.png");
+        }
+        if (imgPath.StartsWith("~/"))
+        {
+            return Url.Content(imgPath);
+        }
+        if (imgPath.StartsWith("/"))
+        {
+            return Url.Content("~" + imgPath);
+        }
+        return Url.Content("~/Images/" + imgPath);
+    }
+
+    public string GetCategoryIcon(string catName)
+    {
+        if (string.IsNullOrEmpty(catName)) return "🧋";
+        var lower = catName.ToLower();
+        if (lower.Contains("trái cây") || lower.Contains("hoa quả")) return "🍊";
+        if (lower.Contains("cà phê") || lower.Contains("cafe")) return "☕";
+        if (lower.Contains("đá xay")) return "🍧";
+        return "🧋";
+    }
+}
+
+<style>
+    /* Custom Styling for Homepage */
+    .home-hero-banner {
+        background: linear-gradient(135deg, rgba(188, 106, 82, 0.12), rgba(232, 196, 95, 0.18));
+        border: 1px dashed var(--accent-2);
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 28px;
+        text-align: center;
+    }
+
+    .home-hero-banner h2 {
+        font-weight: 800;
+        color: var(--brand);
+        margin-bottom: 8px;
+    }
+
+    .section-title-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid var(--border);
+        padding-bottom: 10px;
+        margin-bottom: 22px;
+        margin-top: 10px;
+    }
+
+    .section-title-wrap h3 {
+        font-size: 1.45rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--heading);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .section-title-wrap a {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--link);
+    }
+
+    .ts-card {
+        background: #FFFFFF;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        position: relative;
+    }
+
+    .ts-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(87, 76, 80, 0.12);
+        border-color: var(--accent-2);
+    }
+
+    .ts-card-img-wrap {
+        position: relative;
+        width: 100%;
+        height: 190px;
+        background: #FAF7F0;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ts-card-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .ts-card:hover .ts-card-img-wrap img {
+        transform: scale(1.05);
+    }
+
+    .ts-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 20px;
+        z-index: 2;
+    }
+
+    .ts-badge-hot {
+        background: #E53935;
+        color: #FFFFFF;
+        box-shadow: 0 2px 6px rgba(229, 57, 53, 0.4);
+    }
+
+    .ts-card-body {
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        text-align: left;
+    }
+
+    .ts-category-tag {
+        font-size: 0.78rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+        font-weight: 600;
+    }
+
+    .ts-product-name {
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin-bottom: 6px;
+        line-height: 1.35;
+        color: var(--heading);
+        height: 2.7em;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .ts-product-name a {
+        color: var(--heading);
+    }
+
+    .ts-product-name a:hover {
+        color: var(--link);
+    }
+
+    .ts-product-desc {
+        font-size: 0.82rem;
+        color: var(--muted);
+        line-height: 1.4;
+        margin-bottom: 12px;
+        height: 2.8em;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .ts-price-box {
+        margin-top: auto;
+        padding-top: 8px;
+        border-top: 1px dashed var(--border);
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+    }
+
+    .ts-current-price {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: var(--brand);
+    }
+
+    .ts-card-actions {
+        margin-top: 12px;
+        display: flex;
+        gap: 6px;
+    }
+
+    .ts-card-actions .btn {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+        border-radius: 8px;
+    }
+
+    /* Category pills */
+    .cat-pill {
+        background: #FFFFFF;
+        border: 1px solid var(--border);
+        border-radius: 25px;
+        padding: 8px 18px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text);
+        font-weight: 600;
+        font-size: 0.92rem;
+        transition: all 0.2s ease;
+        margin: 4px;
+        text-decoration: none !important;
+    }
+
+    .cat-pill:hover {
+        background: var(--accent);
+        color: var(--on-accent);
+        border-color: var(--accent);
+        transform: translateY(-2px);
+    }
+
+    /* Policy boxes */
+    .policy-box {
+        background: #FFFFFF;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 18px 14px;
+        text-align: center;
+        height: 100%;
+        transition: transform 0.2s ease;
+    }
+
+    .policy-box:hover {
+        transform: translateY(-3px);
+    }
+
+    .policy-icon {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+
+    .policy-title {
+        font-weight: 700;
+        font-size: 0.98rem;
+        color: var(--heading);
+        margin-bottom: 4px;
+    }
+
+    .policy-desc {
+        font-size: 0.82rem;
+        color: var(--muted);
+        margin-bottom: 0;
+    }
+</style>
+
+<!-- HERO / SLOGAN -->
+<div class="home-hero-banner">
+    <h2>🧋 Chào Mừng Đến Với Tiệm Trà Sữa</h2>
+    <p class="text-muted mb-3" style="max-width: 650px; margin: 0 auto; font-size: 0.95rem;">
+        Thưởng thức hương vị trà nguyên bản, sữa béo ngậy thơm ngon cùng trân châu thủ công giòn dai. 
+        Đậm vị - Trọn hương - Pha chế tươi mỗi ngày!
+    </p>
+    <div class="d-flex flex-wrap justify-content-center">
+        @if (Model != null && Model.DanhMucNoiBat != null)
+        {
+            foreach (var cat in Model.DanhMucNoiBat)
+            {
+                <a href="@Url.Action("Index", "SanPham", new { maLoai = cat.id })" class="cat-pill">
+                    <span>@GetCategoryIcon(cat.name)</span>
+                    <span>@cat.name</span>
+                    @if (cat.products != null && cat.products.Count > 0)
+                    {
+                        <span class="badge badge-light" style="background: rgba(0,0,0,0.06);">@cat.products.Count</span>
+                    }
+                </a>
+            }
+        }
+    </div>
+</div>
+
+<!-- ============================================== -->
+<!-- 1. MÓN BÁN CHẠY NHẤT (BEST SELLER) -->
+<!-- ============================================== -->
+<div class="section-title-wrap">
+    <h3>🔥 Món Bán Chạy / Nổi Bật</h3>
+    <a href="@Url.Action("Index", "SanPham", new { sort = "banchay" })">Xem tất cả &rarr;</a>
+</div>
+
+<div class="row">
+    @if (Model != null && Model.SanPhamBanChay != null && Model.SanPhamBanChay.Any())
+    {
+        foreach (var item in Model.SanPhamBanChay)
+        {
+            <div class="col-12 col-sm-6 col-lg-3 mb-4">
+                <div class="ts-card">
+                    @if (item.is_featured)
+                    {
+                        <span class="ts-badge ts-badge-hot">BEST SELLER</span>
+                    }
+                    <div class="ts-card-img-wrap">
+                        <img src="@ResolveProductImage(item.image)" 
+                             alt="@item.name"
+                             onerror="this.onerror=null; this.src='https://placehold.co/400x300/F7F2E6/574C50?text=' + encodeURIComponent('@item.name');" />
+                    </div>
+                    <div class="ts-card-body">
+                        <span class="ts-category-tag">@(item.categories != null ? item.categories.name : "Trà sữa")</span>
+                        <div class="ts-product-name">
+                            <a href="@Url.Action("Details", "SanPham", new { id = item.id })" title="@item.name">
+                                @item.name
+                            </a>
+                        </div>
+                        <p class="ts-product-desc" title="@item.description">
+                            @(string.IsNullOrEmpty(item.description) ? "Thức uống thơm ngon pha chế từ trà tươi mỗi ngày." : item.description)
+                        </p>
+                        <div class="ts-price-box">
+                            <span class="ts-current-price">@item.price.ToString("N0") đ</span>
+                        </div>
+                        <div class="ts-card-actions">
+                            <a href="@Url.Action("Details", "SanPham", new { id = item.id })" class="btn btn-outline-primary flex-fill">
+                                Chi tiết
+                            </a>
+                            <a href="@Url.Action("Details", "SanPham", new { id = item.id })" class="btn btn-ts flex-fill">
+                                Chọn món
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<!-- ============================================== -->
+<!-- 2. THỰC ĐƠN ĐA DẠNG DÀNH CHO BẠN -->
+<!-- ============================================== -->
+<div class="section-title-wrap mt-2">
+    <h3>✨ Món Mới & Đa Dạng Hương Vị</h3>
+    <a href="@Url.Action("Index", "SanPham")">Xem thực đơn đầy đủ &rarr;</a>
+</div>
+
+<div class="row">
+    @if (Model != null && Model.SanPhamMoi != null && Model.SanPhamMoi.Any())
+    {
+        foreach (var item in Model.SanPhamMoi)
+        {
+            <div class="col-12 col-sm-6 col-lg-3 mb-4">
+                <div class="ts-card">
+                    @if (item.is_featured)
+                    {
+                        <span class="ts-badge ts-badge-hot">HOT</span>
+                    }
+                    <div class="ts-card-img-wrap">
+                        <img src="@ResolveProductImage(item.image)" 
+                             alt="@item.name"
+                             onerror="this.onerror=null; this.src='https://placehold.co/400x300/F7F2E6/574C50?text=' + encodeURIComponent('@item.name');" />
+                    </div>
+                    <div class="ts-card-body">
+                        <span class="ts-category-tag">@(item.categories != null ? item.categories.name : "Trà sữa")</span>
+                        <div class="ts-product-name">
+                            <a href="@Url.Action("Details", "SanPham", new { id = item.id })" title="@item.name">
+                                @item.name
+                            </a>
+                        </div>
+                        <p class="ts-product-desc" title="@item.description">
+                            @(string.IsNullOrEmpty(item.description) ? "Thức uống thơm ngon pha chế từ trà tươi mỗi ngày." : item.description)
+                        </p>
+                        <div class="ts-price-box">
+                            <span class="ts-current-price">@item.price.ToString("N0") đ</span>
+                        </div>
+                        <div class="ts-card-actions">
+                            <a href="@Url.Action("Details", "SanPham", new { id = item.id })" class="btn btn-outline-primary flex-fill">
+                                Chi tiết
+                            </a>
+                            <a href="@Url.Action("Details", "SanPham", new { id = item.id })" class="btn btn-ts flex-fill">
+                                Chọn món
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<!-- ============================================== -->
+<!-- 3. CAM KẾT DỊCH VỤ -->
+<!-- ============================================== -->
+<div class="row mt-4 mb-3">
+    <div class="col-12 col-md-4 mb-3">
+        <div class="policy-box">
+            <span class="policy-icon">🍃</span>
+            <div class="policy-title">100% Trà Tươi Hảo Hạng</div>
+            <p class="policy-desc">Chắt lọc từ những búp trà tươi tuyển chọn, đảm bảo an toàn & thanh khiết.</p>
+        </div>
+    </div>
+    <div class="col-12 col-md-4 mb-3">
+        <div class="policy-box">
+            <span class="policy-icon">🧋</span>
+            <div class="policy-title">Topping Nấu Mới Mỗi Ngày</div>
+            <p class="policy-desc">Trân châu dẻo bùi, thạch giòn sần sật được nấu mới liên tục trong ngày.</p>
+        </div>
+    </div>
+    <div class="col-12 col-md-4 mb-3">
+        <div class="policy-box">
+            <span class="policy-icon">🛵</span>
+            <div class="policy-title">Giao Hàng Siêu Tốc</div>
+            <p class="policy-desc">Đóng gói cẩn thận, giữ trọn độ lạnh và hương vị thơm ngon tận tay bạn.</p>
+        </div>
+    </div>
+</div>

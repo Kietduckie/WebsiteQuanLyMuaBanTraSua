@@ -1,0 +1,1568 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="QuanLyMuaBanTraSuaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="cart_item_toppings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cart_item_id" Type="int" Nullable="false" />
+          <Property Name="topping_id" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="cart_items">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cart_id" Type="int" Nullable="false" />
+          <Property Name="product_id" Type="int" Nullable="false" />
+          <Property Name="product_size_id" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="sugar_level" Type="int" Nullable="false" />
+          <Property Name="ice_level" Type="int" Nullable="false" />
+          <Property Name="note" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="carts">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="session_key" Type="varchar" MaxLength="100" />
+          <Property Name="created_at" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="categories">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="parent_category_id" Type="int" />
+          <Property Name="description" Type="nvarchar" MaxLength="255" />
+          <Property Name="status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="inventory_transactions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ingredient_id" Type="int" Nullable="false" />
+          <Property Name="transaction_type" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="quantity" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="order_id" Type="int" />
+          <Property Name="created_by" Type="int" Nullable="false" />
+          <Property Name="created_at" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="note" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="ingredients">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="unit" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="current_quantity" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="min_quantity" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="reorder_quantity" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="unit_cost" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="status" Type="bit" Nullable="false" />
+          <Property Name="updated_at" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="order_item_toppings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="order_item_id" Type="int" Nullable="false" />
+          <Property Name="topping_id" Type="int" Nullable="false" />
+          <Property Name="topping_name_snapshot" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="unit_price" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="order_items">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="order_id" Type="int" Nullable="false" />
+          <Property Name="product_id" Type="int" Nullable="false" />
+          <Property Name="product_size_id" Type="int" Nullable="false" />
+          <Property Name="product_name_snapshot" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="size_name_snapshot" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="unit_price" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="sugar_level" Type="int" Nullable="false" />
+          <Property Name="ice_level" Type="int" Nullable="false" />
+          <Property Name="note" Type="nvarchar" MaxLength="255" />
+          <Property Name="line_total" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="order_status_histories">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="order_id" Type="int" Nullable="false" />
+          <Property Name="old_status" Type="varchar" MaxLength="30" />
+          <Property Name="new_status" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="changed_by" Type="int" Nullable="false" />
+          <Property Name="changed_at" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="note" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="promotion_id" Type="int" />
+          <Property Name="receiver_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="phone" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="delivery_address" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="subtotal" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="discount_amount" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="total" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="payment_method" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="payment_status" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="status" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="created_at" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="product_recipes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="product_size_id" Type="int" Nullable="false" />
+          <Property Name="ingredient_id" Type="int" Nullable="false" />
+          <Property Name="quantity_required" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="product_sizes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="product_id" Type="int" Nullable="false" />
+          <Property Name="size_name" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="extra_price" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="products">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="category_id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="price" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="image" Type="nvarchar" MaxLength="255" />
+          <Property Name="description" Type="nvarchar" MaxLength="500" />
+          <Property Name="status" Type="bit" Nullable="false" />
+          <Property Name="is_featured" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="promotions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="255" />
+          <Property Name="discount_type" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="discount_value" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="min_order_amount" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="max_discount_amount" Type="decimal" Precision="12" Scale="2" />
+          <Property Name="start_date" Type="date" Nullable="false" />
+          <Property Name="end_date" Type="date" Nullable="false" />
+          <Property Name="usage_limit" Type="int" />
+          <Property Name="used_count" Type="int" Nullable="false" />
+          <Property Name="status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="topping_recipes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="topping_id" Type="int" Nullable="false" />
+          <Property Name="ingredient_id" Type="int" Nullable="false" />
+          <Property Name="quantity_required" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="toppings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="price" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="image" Type="nvarchar" MaxLength="255" />
+          <Property Name="status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="password_hash" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="phone" Type="varchar" MaxLength="15" />
+          <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="status" Type="bit" Nullable="false" />
+          <Property Name="created_at" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__cart_item__cart___6754599E">
+          <End Role="carts" Type="Self.carts" Multiplicity="1" />
+          <End Role="cart_items" Type="Self.cart_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="carts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cart_items">
+              <PropertyRef Name="cart_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__cart_item__cart___70DDC3D8">
+          <End Role="cart_items" Type="Self.cart_items" Multiplicity="1" />
+          <End Role="cart_item_toppings" Type="Self.cart_item_toppings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cart_items">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cart_item_toppings">
+              <PropertyRef Name="cart_item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__cart_item__produ__68487DD7">
+          <End Role="products" Type="Self.products" Multiplicity="1" />
+          <End Role="cart_items" Type="Self.cart_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="products">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cart_items">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__cart_item__produ__693CA210">
+          <End Role="product_sizes" Type="Self.product_sizes" Multiplicity="1" />
+          <End Role="cart_items" Type="Self.cart_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product_sizes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cart_items">
+              <PropertyRef Name="product_size_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__cart_item__toppi__71D1E811">
+          <End Role="toppings" Type="Self.toppings" Multiplicity="1" />
+          <End Role="cart_item_toppings" Type="Self.cart_item_toppings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="toppings">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cart_item_toppings">
+              <PropertyRef Name="topping_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__carts__user_id__6383C8BA">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="carts" Type="Self.carts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="carts">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__categorie__paren__5070F446">
+          <End Role="categories" Type="Self.categories" Multiplicity="0..1" />
+          <End Role="categories1" Type="Self.categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categories">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="categories1">
+              <PropertyRef Name="parent_category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__inventory__creat__2FCF1A8A">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="inventory_transactions" Type="Self.inventory_transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="inventory_transactions">
+              <PropertyRef Name="created_by" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__inventory__ingre__2CF2ADDF">
+          <End Role="ingredients" Type="Self.ingredients" Multiplicity="1" />
+          <End Role="inventory_transactions" Type="Self.inventory_transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ingredients">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="inventory_transactions">
+              <PropertyRef Name="ingredient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__inventory__order__2EDAF651">
+          <End Role="orders" Type="Self.orders" Multiplicity="0..1" />
+          <End Role="inventory_transactions" Type="Self.inventory_transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="inventory_transactions">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_ite__order__01142BA1">
+          <End Role="orders" Type="Self.orders" Multiplicity="1" />
+          <End Role="order_items" Type="Self.order_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_items">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_ite__order__08B54D69">
+          <End Role="order_items" Type="Self.order_items" Multiplicity="1" />
+          <End Role="order_item_toppings" Type="Self.order_item_toppings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order_items">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_item_toppings">
+              <PropertyRef Name="order_item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_ite__produ__02084FDA">
+          <End Role="products" Type="Self.products" Multiplicity="1" />
+          <End Role="order_items" Type="Self.order_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="products">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_items">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_ite__produ__02FC7413">
+          <End Role="product_sizes" Type="Self.product_sizes" Multiplicity="1" />
+          <End Role="order_items" Type="Self.order_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product_sizes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_items">
+              <PropertyRef Name="product_size_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_ite__toppi__09A971A2">
+          <End Role="toppings" Type="Self.toppings" Multiplicity="1" />
+          <End Role="order_item_toppings" Type="Self.order_item_toppings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="toppings">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_item_toppings">
+              <PropertyRef Name="topping_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_sta__chang__0F624AF8">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="order_status_histories" Type="Self.order_status_histories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_status_histories">
+              <PropertyRef Name="changed_by" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_sta__order__0E6E26BF">
+          <End Role="orders" Type="Self.orders" Multiplicity="1" />
+          <End Role="order_status_histories" Type="Self.order_status_histories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_status_histories">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orders__user_id__76969D2E">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__product_r__ingre__245D67DE">
+          <End Role="ingredients" Type="Self.ingredients" Multiplicity="1" />
+          <End Role="product_recipes" Type="Self.product_recipes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ingredients">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="product_recipes">
+              <PropertyRef Name="ingredient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__product_r__produ__236943A5">
+          <End Role="product_sizes" Type="Self.product_sizes" Multiplicity="1" />
+          <End Role="product_recipes" Type="Self.product_recipes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product_sizes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="product_recipes">
+              <PropertyRef Name="product_size_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__product_s__produ__59FA5E80">
+          <End Role="products" Type="Self.products" Multiplicity="1" />
+          <End Role="product_sizes" Type="Self.product_sizes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="products">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="product_sizes">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__products__catego__5441852A">
+          <End Role="categories" Type="Self.categories" Multiplicity="1" />
+          <End Role="products" Type="Self.products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categories">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="products">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__topping_r__ingre__29221CFB">
+          <End Role="ingredients" Type="Self.ingredients" Multiplicity="1" />
+          <End Role="topping_recipes" Type="Self.topping_recipes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ingredients">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="topping_recipes">
+              <PropertyRef Name="ingredient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__topping_r__toppi__282DF8C2">
+          <End Role="toppings" Type="Self.toppings" Multiplicity="1" />
+          <End Role="topping_recipes" Type="Self.topping_recipes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="toppings">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="topping_recipes">
+              <PropertyRef Name="topping_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orders_promotions">
+          <End Role="promotions" Type="Self.promotions" Multiplicity="0..1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="promotions">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="promotion_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QuanLyMuaBanTraSuaModelStoreContainer">
+          <EntitySet Name="cart_item_toppings" EntityType="Self.cart_item_toppings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="cart_items" EntityType="Self.cart_items" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="carts" EntityType="Self.carts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="categories" EntityType="Self.categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="inventory_transactions" EntityType="Self.inventory_transactions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ingredients" EntityType="Self.ingredients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order_item_toppings" EntityType="Self.order_item_toppings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order_items" EntityType="Self.order_items" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order_status_histories" EntityType="Self.order_status_histories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="orders" EntityType="Self.orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="product_recipes" EntityType="Self.product_recipes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="product_sizes" EntityType="Self.product_sizes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="products" EntityType="Self.products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="promotions" EntityType="Self.promotions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="topping_recipes" EntityType="Self.topping_recipes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="toppings" EntityType="Self.toppings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__cart_item__cart___6754599E" Association="Self.FK__cart_item__cart___6754599E">
+            <End Role="carts" EntitySet="carts" />
+            <End Role="cart_items" EntitySet="cart_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__cart_item__cart___70DDC3D8" Association="Self.FK__cart_item__cart___70DDC3D8">
+            <End Role="cart_items" EntitySet="cart_items" />
+            <End Role="cart_item_toppings" EntitySet="cart_item_toppings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__cart_item__produ__68487DD7" Association="Self.FK__cart_item__produ__68487DD7">
+            <End Role="products" EntitySet="products" />
+            <End Role="cart_items" EntitySet="cart_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__cart_item__produ__693CA210" Association="Self.FK__cart_item__produ__693CA210">
+            <End Role="product_sizes" EntitySet="product_sizes" />
+            <End Role="cart_items" EntitySet="cart_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__cart_item__toppi__71D1E811" Association="Self.FK__cart_item__toppi__71D1E811">
+            <End Role="toppings" EntitySet="toppings" />
+            <End Role="cart_item_toppings" EntitySet="cart_item_toppings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__carts__user_id__6383C8BA" Association="Self.FK__carts__user_id__6383C8BA">
+            <End Role="users" EntitySet="users" />
+            <End Role="carts" EntitySet="carts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__categorie__paren__5070F446" Association="Self.FK__categorie__paren__5070F446">
+            <End Role="categories" EntitySet="categories" />
+            <End Role="categories1" EntitySet="categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK__inventory__creat__2FCF1A8A" Association="Self.FK__inventory__creat__2FCF1A8A">
+            <End Role="users" EntitySet="users" />
+            <End Role="inventory_transactions" EntitySet="inventory_transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__inventory__ingre__2CF2ADDF" Association="Self.FK__inventory__ingre__2CF2ADDF">
+            <End Role="ingredients" EntitySet="ingredients" />
+            <End Role="inventory_transactions" EntitySet="inventory_transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__inventory__order__2EDAF651" Association="Self.FK__inventory__order__2EDAF651">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="inventory_transactions" EntitySet="inventory_transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_ite__order__01142BA1" Association="Self.FK__order_ite__order__01142BA1">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="order_items" EntitySet="order_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_ite__order__08B54D69" Association="Self.FK__order_ite__order__08B54D69">
+            <End Role="order_items" EntitySet="order_items" />
+            <End Role="order_item_toppings" EntitySet="order_item_toppings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_ite__produ__02084FDA" Association="Self.FK__order_ite__produ__02084FDA">
+            <End Role="products" EntitySet="products" />
+            <End Role="order_items" EntitySet="order_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_ite__produ__02FC7413" Association="Self.FK__order_ite__produ__02FC7413">
+            <End Role="product_sizes" EntitySet="product_sizes" />
+            <End Role="order_items" EntitySet="order_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_ite__toppi__09A971A2" Association="Self.FK__order_ite__toppi__09A971A2">
+            <End Role="toppings" EntitySet="toppings" />
+            <End Role="order_item_toppings" EntitySet="order_item_toppings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_sta__chang__0F624AF8" Association="Self.FK__order_sta__chang__0F624AF8">
+            <End Role="users" EntitySet="users" />
+            <End Role="order_status_histories" EntitySet="order_status_histories" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_sta__order__0E6E26BF" Association="Self.FK__order_sta__order__0E6E26BF">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="order_status_histories" EntitySet="order_status_histories" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orders__user_id__76969D2E" Association="Self.FK__orders__user_id__76969D2E">
+            <End Role="users" EntitySet="users" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__product_r__ingre__245D67DE" Association="Self.FK__product_r__ingre__245D67DE">
+            <End Role="ingredients" EntitySet="ingredients" />
+            <End Role="product_recipes" EntitySet="product_recipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__product_r__produ__236943A5" Association="Self.FK__product_r__produ__236943A5">
+            <End Role="product_sizes" EntitySet="product_sizes" />
+            <End Role="product_recipes" EntitySet="product_recipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__product_s__produ__59FA5E80" Association="Self.FK__product_s__produ__59FA5E80">
+            <End Role="products" EntitySet="products" />
+            <End Role="product_sizes" EntitySet="product_sizes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__products__catego__5441852A" Association="Self.FK__products__catego__5441852A">
+            <End Role="categories" EntitySet="categories" />
+            <End Role="products" EntitySet="products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__topping_r__ingre__29221CFB" Association="Self.FK__topping_r__ingre__29221CFB">
+            <End Role="ingredients" EntitySet="ingredients" />
+            <End Role="topping_recipes" EntitySet="topping_recipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__topping_r__toppi__282DF8C2" Association="Self.FK__topping_r__toppi__282DF8C2">
+            <End Role="toppings" EntitySet="toppings" />
+            <End Role="topping_recipes" EntitySet="topping_recipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orders_promotions" Association="Self.FK_orders_promotions">
+            <End Role="promotions" EntitySet="promotions" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="QuanLyMuaBanTraSuaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="cart_item_toppings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cart_item_id" Type="Int32" Nullable="false" />
+          <Property Name="topping_id" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="cart_items" Relationship="Self.FK__cart_item__cart___70DDC3D8" FromRole="cart_item_toppings" ToRole="cart_items" />
+          <NavigationProperty Name="toppings" Relationship="Self.FK__cart_item__toppi__71D1E811" FromRole="cart_item_toppings" ToRole="toppings" />
+        </EntityType>
+        <EntityType Name="cart_items">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cart_id" Type="Int32" Nullable="false" />
+          <Property Name="product_id" Type="Int32" Nullable="false" />
+          <Property Name="product_size_id" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="sugar_level" Type="Int32" Nullable="false" />
+          <Property Name="ice_level" Type="Int32" Nullable="false" />
+          <Property Name="note" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="cart_item_toppings" Relationship="Self.FK__cart_item__cart___70DDC3D8" FromRole="cart_items" ToRole="cart_item_toppings" />
+          <NavigationProperty Name="carts" Relationship="Self.FK__cart_item__cart___6754599E" FromRole="cart_items" ToRole="carts" />
+          <NavigationProperty Name="products" Relationship="Self.FK__cart_item__produ__68487DD7" FromRole="cart_items" ToRole="products" />
+          <NavigationProperty Name="product_sizes" Relationship="Self.FK__cart_item__produ__693CA210" FromRole="cart_items" ToRole="product_sizes" />
+        </EntityType>
+        <EntityType Name="carts">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="session_key" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="cart_items" Relationship="Self.FK__cart_item__cart___6754599E" FromRole="carts" ToRole="cart_items" />
+          <NavigationProperty Name="users" Relationship="Self.FK__carts__user_id__6383C8BA" FromRole="carts" ToRole="users" />
+        </EntityType>
+        <EntityType Name="categories">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="parent_category_id" Type="Int32" />
+          <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="categories1" Relationship="Self.FK__categorie__paren__5070F446" FromRole="categories" ToRole="categories1" />
+          <NavigationProperty Name="categories2" Relationship="Self.FK__categorie__paren__5070F446" FromRole="categories1" ToRole="categories" />
+          <NavigationProperty Name="products" Relationship="Self.FK__products__catego__5441852A" FromRole="categories" ToRole="products" />
+        </EntityType>
+        <EntityType Name="inventory_transactions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ingredient_id" Type="Int32" Nullable="false" />
+          <Property Name="transaction_type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="quantity" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="order_id" Type="Int32" />
+          <Property Name="created_by" Type="Int32" Nullable="false" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="note" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="users" Relationship="Self.FK__inventory__creat__2FCF1A8A" FromRole="inventory_transactions" ToRole="users" />
+          <NavigationProperty Name="ingredients" Relationship="Self.FK__inventory__ingre__2CF2ADDF" FromRole="inventory_transactions" ToRole="ingredients" />
+          <NavigationProperty Name="orders" Relationship="Self.FK__inventory__order__2EDAF651" FromRole="inventory_transactions" ToRole="orders" />
+        </EntityType>
+        <EntityType Name="ingredients">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="unit" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="current_quantity" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="min_quantity" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="reorder_quantity" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="unit_cost" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <Property Name="updated_at" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="inventory_transactions" Relationship="Self.FK__inventory__ingre__2CF2ADDF" FromRole="ingredients" ToRole="inventory_transactions" />
+          <NavigationProperty Name="product_recipes" Relationship="Self.FK__product_r__ingre__245D67DE" FromRole="ingredients" ToRole="product_recipes" />
+          <NavigationProperty Name="topping_recipes" Relationship="Self.FK__topping_r__ingre__29221CFB" FromRole="ingredients" ToRole="topping_recipes" />
+        </EntityType>
+        <EntityType Name="order_item_toppings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="order_item_id" Type="Int32" Nullable="false" />
+          <Property Name="topping_id" Type="Int32" Nullable="false" />
+          <Property Name="topping_name_snapshot" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="unit_price" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="order_items" Relationship="Self.FK__order_ite__order__08B54D69" FromRole="order_item_toppings" ToRole="order_items" />
+          <NavigationProperty Name="toppings" Relationship="Self.FK__order_ite__toppi__09A971A2" FromRole="order_item_toppings" ToRole="toppings" />
+        </EntityType>
+        <EntityType Name="order_items">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="order_id" Type="Int32" Nullable="false" />
+          <Property Name="product_id" Type="Int32" Nullable="false" />
+          <Property Name="product_size_id" Type="Int32" Nullable="false" />
+          <Property Name="product_name_snapshot" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="size_name_snapshot" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="unit_price" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="sugar_level" Type="Int32" Nullable="false" />
+          <Property Name="ice_level" Type="Int32" Nullable="false" />
+          <Property Name="note" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="line_total" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <NavigationProperty Name="order_item_toppings" Relationship="Self.FK__order_ite__order__08B54D69" FromRole="order_items" ToRole="order_item_toppings" />
+          <NavigationProperty Name="orders" Relationship="Self.FK__order_ite__order__01142BA1" FromRole="order_items" ToRole="orders" />
+          <NavigationProperty Name="products" Relationship="Self.FK__order_ite__produ__02084FDA" FromRole="order_items" ToRole="products" />
+          <NavigationProperty Name="product_sizes" Relationship="Self.FK__order_ite__produ__02FC7413" FromRole="order_items" ToRole="product_sizes" />
+        </EntityType>
+        <EntityType Name="order_status_histories">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="order_id" Type="Int32" Nullable="false" />
+          <Property Name="old_status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="new_status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="changed_by" Type="Int32" Nullable="false" />
+          <Property Name="changed_at" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="note" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="users" Relationship="Self.FK__order_sta__chang__0F624AF8" FromRole="order_status_histories" ToRole="users" />
+          <NavigationProperty Name="orders" Relationship="Self.FK__order_sta__order__0E6E26BF" FromRole="order_status_histories" ToRole="orders" />
+        </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="promotion_id" Type="Int32" />
+          <Property Name="receiver_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="delivery_address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="subtotal" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="discount_amount" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="total" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="payment_method" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="payment_status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="inventory_transactions" Relationship="Self.FK__inventory__order__2EDAF651" FromRole="orders" ToRole="inventory_transactions" />
+          <NavigationProperty Name="order_items" Relationship="Self.FK__order_ite__order__01142BA1" FromRole="orders" ToRole="order_items" />
+          <NavigationProperty Name="order_status_histories" Relationship="Self.FK__order_sta__order__0E6E26BF" FromRole="orders" ToRole="order_status_histories" />
+          <NavigationProperty Name="users" Relationship="Self.FK__orders__user_id__76969D2E" FromRole="orders" ToRole="users" />
+          <NavigationProperty Name="promotions" Relationship="Self.FK_orders_promotions" FromRole="orders" ToRole="promotions" />
+        </EntityType>
+        <EntityType Name="product_recipes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="product_size_id" Type="Int32" Nullable="false" />
+          <Property Name="ingredient_id" Type="Int32" Nullable="false" />
+          <Property Name="quantity_required" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <NavigationProperty Name="ingredients" Relationship="Self.FK__product_r__ingre__245D67DE" FromRole="product_recipes" ToRole="ingredients" />
+          <NavigationProperty Name="product_sizes" Relationship="Self.FK__product_r__produ__236943A5" FromRole="product_recipes" ToRole="product_sizes" />
+        </EntityType>
+        <EntityType Name="product_sizes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="product_id" Type="Int32" Nullable="false" />
+          <Property Name="size_name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="extra_price" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="cart_items" Relationship="Self.FK__cart_item__produ__693CA210" FromRole="product_sizes" ToRole="cart_items" />
+          <NavigationProperty Name="order_items" Relationship="Self.FK__order_ite__produ__02FC7413" FromRole="product_sizes" ToRole="order_items" />
+          <NavigationProperty Name="product_recipes" Relationship="Self.FK__product_r__produ__236943A5" FromRole="product_sizes" ToRole="product_recipes" />
+          <NavigationProperty Name="products" Relationship="Self.FK__product_s__produ__59FA5E80" FromRole="product_sizes" ToRole="products" />
+        </EntityType>
+        <EntityType Name="products">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="category_id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="price" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="image" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <Property Name="is_featured" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="cart_items" Relationship="Self.FK__cart_item__produ__68487DD7" FromRole="products" ToRole="cart_items" />
+          <NavigationProperty Name="categories" Relationship="Self.FK__products__catego__5441852A" FromRole="products" ToRole="categories" />
+          <NavigationProperty Name="order_items" Relationship="Self.FK__order_ite__produ__02084FDA" FromRole="products" ToRole="order_items" />
+          <NavigationProperty Name="product_sizes" Relationship="Self.FK__product_s__produ__59FA5E80" FromRole="products" ToRole="product_sizes" />
+        </EntityType>
+        <EntityType Name="promotions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="discount_type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="discount_value" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="min_order_amount" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="max_discount_amount" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="start_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="end_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="usage_limit" Type="Int32" />
+          <Property Name="used_count" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="orders" Relationship="Self.FK_orders_promotions" FromRole="promotions" ToRole="orders" />
+        </EntityType>
+        <EntityType Name="topping_recipes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="topping_id" Type="Int32" Nullable="false" />
+          <Property Name="ingredient_id" Type="Int32" Nullable="false" />
+          <Property Name="quantity_required" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <NavigationProperty Name="ingredients" Relationship="Self.FK__topping_r__ingre__29221CFB" FromRole="topping_recipes" ToRole="ingredients" />
+          <NavigationProperty Name="toppings" Relationship="Self.FK__topping_r__toppi__282DF8C2" FromRole="topping_recipes" ToRole="toppings" />
+        </EntityType>
+        <EntityType Name="toppings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="price" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="image" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="cart_item_toppings" Relationship="Self.FK__cart_item__toppi__71D1E811" FromRole="toppings" ToRole="cart_item_toppings" />
+          <NavigationProperty Name="order_item_toppings" Relationship="Self.FK__order_ite__toppi__09A971A2" FromRole="toppings" ToRole="order_item_toppings" />
+          <NavigationProperty Name="topping_recipes" Relationship="Self.FK__topping_r__toppi__282DF8C2" FromRole="toppings" ToRole="topping_recipes" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password_hash" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="role" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="carts" Relationship="Self.FK__carts__user_id__6383C8BA" FromRole="users" ToRole="carts" />
+          <NavigationProperty Name="inventory_transactions" Relationship="Self.FK__inventory__creat__2FCF1A8A" FromRole="users" ToRole="inventory_transactions" />
+          <NavigationProperty Name="order_status_histories" Relationship="Self.FK__order_sta__chang__0F624AF8" FromRole="users" ToRole="order_status_histories" />
+          <NavigationProperty Name="orders" Relationship="Self.FK__orders__user_id__76969D2E" FromRole="users" ToRole="orders" />
+        </EntityType>
+        <Association Name="FK__cart_item__cart___70DDC3D8">
+          <End Role="cart_items" Type="Self.cart_items" Multiplicity="1" />
+          <End Role="cart_item_toppings" Type="Self.cart_item_toppings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cart_items">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cart_item_toppings">
+              <PropertyRef Name="cart_item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__cart_item__toppi__71D1E811">
+          <End Role="toppings" Type="Self.toppings" Multiplicity="1" />
+          <End Role="cart_item_toppings" Type="Self.cart_item_toppings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="toppings">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cart_item_toppings">
+              <PropertyRef Name="topping_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__cart_item__cart___6754599E">
+          <End Role="carts" Type="Self.carts" Multiplicity="1" />
+          <End Role="cart_items" Type="Self.cart_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="carts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cart_items">
+              <PropertyRef Name="cart_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__cart_item__produ__68487DD7">
+          <End Role="products" Type="Self.products" Multiplicity="1" />
+          <End Role="cart_items" Type="Self.cart_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="products">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cart_items">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__cart_item__produ__693CA210">
+          <End Role="product_sizes" Type="Self.product_sizes" Multiplicity="1" />
+          <End Role="cart_items" Type="Self.cart_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product_sizes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cart_items">
+              <PropertyRef Name="product_size_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__carts__user_id__6383C8BA">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="carts" Type="Self.carts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="carts">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__categorie__paren__5070F446">
+          <End Role="categories" Type="Self.categories" Multiplicity="0..1" />
+          <End Role="categories1" Type="Self.categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categories">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="categories1">
+              <PropertyRef Name="parent_category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__products__catego__5441852A">
+          <End Role="categories" Type="Self.categories" Multiplicity="1" />
+          <End Role="products" Type="Self.products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categories">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="products">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__inventory__creat__2FCF1A8A">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="inventory_transactions" Type="Self.inventory_transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="inventory_transactions">
+              <PropertyRef Name="created_by" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__inventory__ingre__2CF2ADDF">
+          <End Role="ingredients" Type="Self.ingredients" Multiplicity="1" />
+          <End Role="inventory_transactions" Type="Self.inventory_transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ingredients">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="inventory_transactions">
+              <PropertyRef Name="ingredient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__inventory__order__2EDAF651">
+          <End Role="orders" Type="Self.orders" Multiplicity="0..1" />
+          <End Role="inventory_transactions" Type="Self.inventory_transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="inventory_transactions">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__product_r__ingre__245D67DE">
+          <End Role="ingredients" Type="Self.ingredients" Multiplicity="1" />
+          <End Role="product_recipes" Type="Self.product_recipes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ingredients">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="product_recipes">
+              <PropertyRef Name="ingredient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__topping_r__ingre__29221CFB">
+          <End Role="ingredients" Type="Self.ingredients" Multiplicity="1" />
+          <End Role="topping_recipes" Type="Self.topping_recipes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ingredients">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="topping_recipes">
+              <PropertyRef Name="ingredient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_ite__order__08B54D69">
+          <End Role="order_items" Type="Self.order_items" Multiplicity="1" />
+          <End Role="order_item_toppings" Type="Self.order_item_toppings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order_items">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_item_toppings">
+              <PropertyRef Name="order_item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_ite__toppi__09A971A2">
+          <End Role="toppings" Type="Self.toppings" Multiplicity="1" />
+          <End Role="order_item_toppings" Type="Self.order_item_toppings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="toppings">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_item_toppings">
+              <PropertyRef Name="topping_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_ite__order__01142BA1">
+          <End Role="orders" Type="Self.orders" Multiplicity="1" />
+          <End Role="order_items" Type="Self.order_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_items">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_ite__produ__02084FDA">
+          <End Role="products" Type="Self.products" Multiplicity="1" />
+          <End Role="order_items" Type="Self.order_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="products">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_items">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_ite__produ__02FC7413">
+          <End Role="product_sizes" Type="Self.product_sizes" Multiplicity="1" />
+          <End Role="order_items" Type="Self.order_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product_sizes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_items">
+              <PropertyRef Name="product_size_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_sta__chang__0F624AF8">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="order_status_histories" Type="Self.order_status_histories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_status_histories">
+              <PropertyRef Name="changed_by" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_sta__order__0E6E26BF">
+          <End Role="orders" Type="Self.orders" Multiplicity="1" />
+          <End Role="order_status_histories" Type="Self.order_status_histories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_status_histories">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orders__user_id__76969D2E">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orders_promotions">
+          <End Role="promotions" Type="Self.promotions" Multiplicity="0..1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="promotions">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="promotion_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__product_r__produ__236943A5">
+          <End Role="product_sizes" Type="Self.product_sizes" Multiplicity="1" />
+          <End Role="product_recipes" Type="Self.product_recipes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product_sizes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="product_recipes">
+              <PropertyRef Name="product_size_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__product_s__produ__59FA5E80">
+          <End Role="products" Type="Self.products" Multiplicity="1" />
+          <End Role="product_sizes" Type="Self.product_sizes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="products">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="product_sizes">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__topping_r__toppi__282DF8C2">
+          <End Role="toppings" Type="Self.toppings" Multiplicity="1" />
+          <End Role="topping_recipes" Type="Self.topping_recipes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="toppings">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="topping_recipes">
+              <PropertyRef Name="topping_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QuanLyMuaBanTraSuaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cart_item_toppings" EntityType="Self.cart_item_toppings" />
+          <EntitySet Name="cart_items" EntityType="Self.cart_items" />
+          <EntitySet Name="carts" EntityType="Self.carts" />
+          <EntitySet Name="categories" EntityType="Self.categories" />
+          <EntitySet Name="inventory_transactions" EntityType="Self.inventory_transactions" />
+          <EntitySet Name="ingredients" EntityType="Self.ingredients" />
+          <EntitySet Name="order_item_toppings" EntityType="Self.order_item_toppings" />
+          <EntitySet Name="order_items" EntityType="Self.order_items" />
+          <EntitySet Name="order_status_histories" EntityType="Self.order_status_histories" />
+          <EntitySet Name="orders" EntityType="Self.orders" />
+          <EntitySet Name="product_recipes" EntityType="Self.product_recipes" />
+          <EntitySet Name="product_sizes" EntityType="Self.product_sizes" />
+          <EntitySet Name="products" EntityType="Self.products" />
+          <EntitySet Name="promotions" EntityType="Self.promotions" />
+          <EntitySet Name="topping_recipes" EntityType="Self.topping_recipes" />
+          <EntitySet Name="toppings" EntityType="Self.toppings" />
+          <EntitySet Name="users" EntityType="Self.users" />
+          <AssociationSet Name="FK__cart_item__cart___70DDC3D8" Association="Self.FK__cart_item__cart___70DDC3D8">
+            <End Role="cart_items" EntitySet="cart_items" />
+            <End Role="cart_item_toppings" EntitySet="cart_item_toppings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__cart_item__toppi__71D1E811" Association="Self.FK__cart_item__toppi__71D1E811">
+            <End Role="toppings" EntitySet="toppings" />
+            <End Role="cart_item_toppings" EntitySet="cart_item_toppings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__cart_item__cart___6754599E" Association="Self.FK__cart_item__cart___6754599E">
+            <End Role="carts" EntitySet="carts" />
+            <End Role="cart_items" EntitySet="cart_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__cart_item__produ__68487DD7" Association="Self.FK__cart_item__produ__68487DD7">
+            <End Role="products" EntitySet="products" />
+            <End Role="cart_items" EntitySet="cart_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__cart_item__produ__693CA210" Association="Self.FK__cart_item__produ__693CA210">
+            <End Role="product_sizes" EntitySet="product_sizes" />
+            <End Role="cart_items" EntitySet="cart_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__carts__user_id__6383C8BA" Association="Self.FK__carts__user_id__6383C8BA">
+            <End Role="users" EntitySet="users" />
+            <End Role="carts" EntitySet="carts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__categorie__paren__5070F446" Association="Self.FK__categorie__paren__5070F446">
+            <End Role="categories" EntitySet="categories" />
+            <End Role="categories1" EntitySet="categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK__products__catego__5441852A" Association="Self.FK__products__catego__5441852A">
+            <End Role="categories" EntitySet="categories" />
+            <End Role="products" EntitySet="products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__inventory__creat__2FCF1A8A" Association="Self.FK__inventory__creat__2FCF1A8A">
+            <End Role="users" EntitySet="users" />
+            <End Role="inventory_transactions" EntitySet="inventory_transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__inventory__ingre__2CF2ADDF" Association="Self.FK__inventory__ingre__2CF2ADDF">
+            <End Role="ingredients" EntitySet="ingredients" />
+            <End Role="inventory_transactions" EntitySet="inventory_transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__inventory__order__2EDAF651" Association="Self.FK__inventory__order__2EDAF651">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="inventory_transactions" EntitySet="inventory_transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__product_r__ingre__245D67DE" Association="Self.FK__product_r__ingre__245D67DE">
+            <End Role="ingredients" EntitySet="ingredients" />
+            <End Role="product_recipes" EntitySet="product_recipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__topping_r__ingre__29221CFB" Association="Self.FK__topping_r__ingre__29221CFB">
+            <End Role="ingredients" EntitySet="ingredients" />
+            <End Role="topping_recipes" EntitySet="topping_recipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_ite__order__08B54D69" Association="Self.FK__order_ite__order__08B54D69">
+            <End Role="order_items" EntitySet="order_items" />
+            <End Role="order_item_toppings" EntitySet="order_item_toppings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_ite__toppi__09A971A2" Association="Self.FK__order_ite__toppi__09A971A2">
+            <End Role="toppings" EntitySet="toppings" />
+            <End Role="order_item_toppings" EntitySet="order_item_toppings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_ite__order__01142BA1" Association="Self.FK__order_ite__order__01142BA1">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="order_items" EntitySet="order_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_ite__produ__02084FDA" Association="Self.FK__order_ite__produ__02084FDA">
+            <End Role="products" EntitySet="products" />
+            <End Role="order_items" EntitySet="order_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_ite__produ__02FC7413" Association="Self.FK__order_ite__produ__02FC7413">
+            <End Role="product_sizes" EntitySet="product_sizes" />
+            <End Role="order_items" EntitySet="order_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_sta__chang__0F624AF8" Association="Self.FK__order_sta__chang__0F624AF8">
+            <End Role="users" EntitySet="users" />
+            <End Role="order_status_histories" EntitySet="order_status_histories" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_sta__order__0E6E26BF" Association="Self.FK__order_sta__order__0E6E26BF">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="order_status_histories" EntitySet="order_status_histories" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orders__user_id__76969D2E" Association="Self.FK__orders__user_id__76969D2E">
+            <End Role="users" EntitySet="users" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orders_promotions" Association="Self.FK_orders_promotions">
+            <End Role="promotions" EntitySet="promotions" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__product_r__produ__236943A5" Association="Self.FK__product_r__produ__236943A5">
+            <End Role="product_sizes" EntitySet="product_sizes" />
+            <End Role="product_recipes" EntitySet="product_recipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__product_s__produ__59FA5E80" Association="Self.FK__product_s__produ__59FA5E80">
+            <End Role="products" EntitySet="products" />
+            <End Role="product_sizes" EntitySet="product_sizes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__topping_r__toppi__282DF8C2" Association="Self.FK__topping_r__toppi__282DF8C2">
+            <End Role="toppings" EntitySet="toppings" />
+            <End Role="topping_recipes" EntitySet="topping_recipes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="QuanLyMuaBanTraSuaModelStoreContainer" CdmEntityContainer="QuanLyMuaBanTraSuaEntities">
+          <EntitySetMapping Name="cart_item_toppings">
+            <EntityTypeMapping TypeName="QuanLyMuaBanTraSuaModel.cart_item_toppings">
+              <MappingFragment StoreEntitySet="cart_item_toppings">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="cart_item_id" ColumnName="cart_item_id" />
+                <ScalarProperty Name="topping_id" ColumnName="topping_id" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cart_items">
+            <EntityTypeMapping TypeName="QuanLyMuaBanTraSuaModel.cart_items">
+              <MappingFragment StoreEntitySet="cart_items">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="cart_id" ColumnName="cart_id" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="product_size_id" ColumnName="product_size_id" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="sugar_level" ColumnName="sugar_level" />
+                <ScalarProperty Name="ice_level" ColumnName="ice_level" />
+                <ScalarProperty Name="note" ColumnName="note" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="carts">
+            <EntityTypeMapping TypeName="QuanLyMuaBanTraSuaModel.carts">
+              <MappingFragment StoreEntitySet="carts">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="session_key" ColumnName="session_key" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="categories">
+            <EntityTypeMapping TypeName="QuanLyMuaBanTraSuaModel.categories">
+              <MappingFragment StoreEntitySet="categories">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="parent_category_id" ColumnName="parent_category_id" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="inventory_transactions">
+            <EntityTypeMapping TypeName="QuanLyMuaBanTraSuaModel.inventory_transactions">
+              <MappingFragment StoreEntitySet="inventory_transactions">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ingredient_id" ColumnName="ingredient_id" />
+                <ScalarProperty Name="transaction_type" ColumnName="transaction_type" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="note" ColumnName="note" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ingredients">
+            <EntityTypeMapping TypeName="QuanLyMuaBanTraSuaModel.ingredients">
+              <MappingFragment StoreEntitySet="ingredients">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="unit" ColumnName="unit" />
+                <ScalarProperty Name="current_quantity" ColumnName="current_quantity" />
+                <ScalarProperty Name="min_quantity" ColumnName="min_quantity" />
+                <ScalarProperty Name="reorder_quantity" ColumnName="reorder_quantity" />
+                <ScalarProperty Name="unit_cost" ColumnName="unit_cost" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="order_item_toppings">
+            <EntityTypeMapping TypeName="QuanLyMuaBanTraSuaModel.order_item_toppings">
+              <MappingFragment StoreEntitySet="order_item_toppings">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="order_item_id" ColumnName="order_item_id" />
+                <ScalarProperty Name="topping_id" ColumnName="topping_id" />
+                <ScalarProperty Name="topping_name_snapshot" ColumnName="topping_name_snapshot" />
+                <ScalarProperty Name="unit_price" ColumnName="unit_price" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="order_items">
+            <EntityTypeMapping TypeName="QuanLyMuaBanTraSuaModel.order_items">
+              <MappingFragment StoreEntitySet="order_items">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="product_size_id" ColumnName="product_size_id" />
+                <ScalarProperty Name="product_name_snapshot" ColumnName="product_name_snapshot" />
+                <ScalarProperty Name="size_name_snapshot" ColumnName="size_name_snapshot" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="unit_price" ColumnName="unit_price" />
+                <ScalarProperty Name="sugar_level" ColumnName="sugar_level" />
+                <ScalarProperty Name="ice_level" ColumnName="ice_level" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="line_total" ColumnName="line_total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="order_status_histories">
+            <EntityTypeMapping TypeName="QuanLyMuaBanTraSuaModel.order_status_histories">
+              <MappingFragment StoreEntitySet="order_status_histories">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="old_status" ColumnName="old_status" />
+                <ScalarProperty Name="new_status" ColumnName="new_status" />
+                <ScalarProperty Name="changed_by" ColumnName="changed_by" />
+                <ScalarProperty Name="changed_at" ColumnName="changed_at" />
+                <ScalarProperty Name="note" ColumnName="note" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orders">
+            <EntityTypeMapping TypeName="QuanLyMuaBanTraSuaModel.orders">
+              <MappingFragment StoreEntitySet="orders">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="promotion_id" ColumnName="promotion_id" />
+                <ScalarProperty Name="receiver_name" ColumnName="receiver_name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="delivery_address" ColumnName="delivery_address" />
+                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
+                <ScalarProperty Name="discount_amount" ColumnName="discount_amount" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="payment_method" ColumnName="payment_method" />
+                <ScalarProperty Name="payment_status" ColumnName="payment_status" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="product_recipes">
+            <EntityTypeMapping TypeName="QuanLyMuaBanTraSuaModel.product_recipes">
+              <MappingFragment StoreEntitySet="product_recipes">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="product_size_id" ColumnName="product_size_id" />
+                <ScalarProperty Name="ingredient_id" ColumnName="ingredient_id" />
+                <ScalarProperty Name="quantity_required" ColumnName="quantity_required" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="product_sizes">
+            <EntityTypeMapping TypeName="QuanLyMuaBanTraSuaModel.product_sizes">
+              <MappingFragment StoreEntitySet="product_sizes">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="size_name" ColumnName="size_name" />
+                <ScalarProperty Name="extra_price" ColumnName="extra_price" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="products">
+            <EntityTypeMapping TypeName="QuanLyMuaBanTraSuaModel.products">
+              <MappingFragment StoreEntitySet="products">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="is_featured" ColumnName="is_featured" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="promotions">
+            <EntityTypeMapping TypeName="QuanLyMuaBanTraSuaModel.promotions">
+              <MappingFragment StoreEntitySet="promotions">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="discount_type" ColumnName="discount_type" />
+                <ScalarProperty Name="discount_value" ColumnName="discount_value" />
+                <ScalarProperty Name="min_order_amount" ColumnName="min_order_amount" />
+                <ScalarProperty Name="max_discount_amount" ColumnName="max_discount_amount" />
+                <ScalarProperty Name="start_date" ColumnName="start_date" />
+                <ScalarProperty Name="end_date" ColumnName="end_date" />
+                <ScalarProperty Name="usage_limit" ColumnName="usage_limit" />
+                <ScalarProperty Name="used_count" ColumnName="used_count" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="topping_recipes">
+            <EntityTypeMapping TypeName="QuanLyMuaBanTraSuaModel.topping_recipes">
+              <MappingFragment StoreEntitySet="topping_recipes">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="topping_id" ColumnName="topping_id" />
+                <ScalarProperty Name="ingredient_id" ColumnName="ingredient_id" />
+                <ScalarProperty Name="quantity_required" ColumnName="quantity_required" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="toppings">
+            <EntityTypeMapping TypeName="QuanLyMuaBanTraSuaModel.toppings">
+              <MappingFragment StoreEntitySet="toppings">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="QuanLyMuaBanTraSuaModel.users">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password_hash" ColumnName="password_hash" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
