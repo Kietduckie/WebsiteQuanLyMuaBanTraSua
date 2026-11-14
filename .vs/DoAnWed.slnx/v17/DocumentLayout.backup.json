@@ -1,0 +1,234 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\webapplication4\\views\\trangchu\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|solutionrelative:webapplication4\\views\\trangchu\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|d:\\html\\l\u1EADp tr\u00ECnh web\\doanwed\\doanwed\\webapplication4\\controllers\\thanhtoancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|solutionrelative:webapplication4\\controllers\\thanhtoancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\webapplication4\\controllers\\trangchucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|solutionrelative:webapplication4\\controllers\\trangchucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|d:\\html\\l\u1EADp tr\u00ECnh web\\doanwed\\doanwed\\webapplication4\\views\\thanhtoan\\checkout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|solutionrelative:webapplication4\\views\\thanhtoan\\checkout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|d:\\html\\l\u1EADp tr\u00ECnh web\\doanwed\\doanwed\\webapplication4\\models\\thanhtoan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|solutionrelative:webapplication4\\models\\thanhtoan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|d:\\html\\l\u1EADp tr\u00ECnh web\\doanwed\\doanwed\\webapplication4\\views\\giohang\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|solutionrelative:webapplication4\\views\\giohang\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\webapplication4\\models\\sanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|solutionrelative:webapplication4\\models\\sanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\webapplication4\\controllers\\giohangcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|solutionrelative:webapplication4\\controllers\\giohangcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\webapplication4\\views\\shared\\layoutpage.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|solutionrelative:webapplication4\\views\\shared\\layoutpage.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\webapplication4\\views\\shared\\_sidebarpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|solutionrelative:webapplication4\\views\\shared\\_sidebarpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\webapplication4\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|solutionrelative:webapplication4\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\webapplication4\\models\\giohang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6A1BBAB0-48A2-486C-9E43-AF496F77BFFC}|WebApplication4\\DoAnWed.csproj|solutionrelative:webapplication4\\models\\giohang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Checkout.cshtml",
+              "DocumentMoniker": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Views\\ThanhToan\\Checkout.cshtml",
+              "RelativeDocumentMoniker": "WebApplication4\\Views\\ThanhToan\\Checkout.cshtml",
+              "ToolTip": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Views\\ThanhToan\\Checkout.cshtml",
+              "RelativeToolTip": "WebApplication4\\Views\\ThanhToan\\Checkout.cshtml",
+              "ViewState": "AgIAAKsBAAAAAAAAAAApwIcBAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-11-14T14:23:31.706Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ThanhToan.cs",
+              "DocumentMoniker": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Models\\ThanhToan.cs",
+              "RelativeDocumentMoniker": "WebApplication4\\Models\\ThanhToan.cs",
+              "ToolTip": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Models\\ThanhToan.cs",
+              "RelativeToolTip": "WebApplication4\\Models\\ThanhToan.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-14T14:19:10.19Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ThanhToanController.cs",
+              "DocumentMoniker": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Controllers\\ThanhToanController.cs",
+              "RelativeDocumentMoniker": "WebApplication4\\Controllers\\ThanhToanController.cs",
+              "ToolTip": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Controllers\\ThanhToanController.cs",
+              "RelativeToolTip": "WebApplication4\\Controllers\\ThanhToanController.cs",
+              "ViewState": "AgIAAKUAAAAAAAAAAAAAAMIAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-14T14:15:17.343Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Views\\GioHang\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebApplication4\\Views\\GioHang\\Index.cshtml",
+              "ToolTip": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Views\\GioHang\\Index.cshtml",
+              "RelativeToolTip": "WebApplication4\\Views\\GioHang\\Index.cshtml",
+              "ViewState": "AgIAAHUBAAAAAAAAAAApwKIBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-11-14T11:17:29.226Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Views\\TrangChu\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebApplication4\\Views\\TrangChu\\Index.cshtml",
+              "ToolTip": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Views\\TrangChu\\Index.cshtml",
+              "RelativeToolTip": "WebApplication4\\Views\\TrangChu\\Index.cshtml",
+              "ViewState": "AgIAAGIBAAAAAAAAAAAAAH8BAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-11-14T06:09:38.583Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TrangChuController.cs",
+              "DocumentMoniker": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Controllers\\TrangChuController.cs",
+              "RelativeDocumentMoniker": "WebApplication4\\Controllers\\TrangChuController.cs",
+              "ToolTip": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Controllers\\TrangChuController.cs",
+              "RelativeToolTip": "WebApplication4\\Controllers\\TrangChuController.cs",
+              "ViewState": "AgIAADQAAAAAAAAAAAAuwA8AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-14T08:05:25.405Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Web.config",
+              "DocumentMoniker": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Web.config",
+              "RelativeDocumentMoniker": "WebApplication4\\Web.config",
+              "ToolTip": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Web.config",
+              "RelativeToolTip": "WebApplication4\\Web.config",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAAC0AAAAOAQAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2026-11-14T10:58:51.004Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "_SidebarPartial.cshtml",
+              "DocumentMoniker": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Views\\Shared\\_SidebarPartial.cshtml",
+              "RelativeDocumentMoniker": "WebApplication4\\Views\\Shared\\_SidebarPartial.cshtml",
+              "ToolTip": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Views\\Shared\\_SidebarPartial.cshtml",
+              "RelativeToolTip": "WebApplication4\\Views\\Shared\\_SidebarPartial.cshtml",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAmwEMAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-11-14T11:15:05.275Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "GioHangController.cs",
+              "DocumentMoniker": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Controllers\\GioHangController.cs",
+              "RelativeDocumentMoniker": "WebApplication4\\Controllers\\GioHangController.cs",
+              "ToolTip": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Controllers\\GioHangController.cs",
+              "RelativeToolTip": "WebApplication4\\Controllers\\GioHangController.cs",
+              "ViewState": "AgIAAJABAAAAAAAAAAAiwKUBAABKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-14T08:07:53.162Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "SanPham.cs",
+              "DocumentMoniker": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Models\\SanPham.cs",
+              "RelativeDocumentMoniker": "WebApplication4\\Models\\SanPham.cs",
+              "ToolTip": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Models\\SanPham.cs",
+              "RelativeToolTip": "WebApplication4\\Models\\SanPham.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-14T10:40:59.105Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "LayoutPage.cshtml",
+              "DocumentMoniker": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Views\\Shared\\LayoutPage.cshtml",
+              "RelativeDocumentMoniker": "WebApplication4\\Views\\Shared\\LayoutPage.cshtml",
+              "ToolTip": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Views\\Shared\\LayoutPage.cshtml",
+              "RelativeToolTip": "WebApplication4\\Views\\Shared\\LayoutPage.cshtml",
+              "ViewState": "AgIAABEAAAAAAAAAAAAEwDcCAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-11-14T06:19:32.875Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "GioHang.cs",
+              "DocumentMoniker": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Models\\GioHang.cs",
+              "RelativeDocumentMoniker": "WebApplication4\\Models\\GioHang.cs",
+              "ToolTip": "D:\\HTML\\L\u1EACP TR\u00CCNH WEB\\DoAnWed\\DoAnWed\\WebApplication4\\Models\\GioHang.cs",
+              "RelativeToolTip": "WebApplication4\\Models\\GioHang.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAQwCMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-14T08:02:49.991Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

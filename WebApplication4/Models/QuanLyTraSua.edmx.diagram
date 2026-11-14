@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6a275adeb27546968786cb6718fac60f" Name="Diagram1">
+        <EntityTypeShape EntityType="QuanLyMuaBanTraSuaModel.cart_item_toppings" Width="1.5" PointX="10.5" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyMuaBanTraSuaModel.cart_items" Width="1.5" PointX="5.25" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyMuaBanTraSuaModel.carts" Width="1.5" PointX="3" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyMuaBanTraSuaModel.categories" Width="1.5" PointX="0.75" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyMuaBanTraSuaModel.inventory_transactions" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyMuaBanTraSuaModel.ingredients" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyMuaBanTraSuaModel.order_item_toppings" Width="1.5" PointX="15.5" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyMuaBanTraSuaModel.order_items" Width="1.5" PointX="13.25" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyMuaBanTraSuaModel.order_status_histories" Width="1.5" PointX="3" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyMuaBanTraSuaModel.orders" Width="1.5" PointX="8" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyMuaBanTraSuaModel.product_recipes" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyMuaBanTraSuaModel.product_sizes" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyMuaBanTraSuaModel.products" Width="1.5" PointX="3" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyMuaBanTraSuaModel.promotions" Width="1.5" PointX="5.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyMuaBanTraSuaModel.topping_recipes" Width="1.5" PointX="10.5" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyMuaBanTraSuaModel.toppings" Width="1.5" PointX="8.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyMuaBanTraSuaModel.users" Width="1.5" PointX="0.75" PointY="9.125" IsExpanded="true" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__cart_item__cart___70DDC3D8" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__cart_item__toppi__71D1E811" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__cart_item__cart___6754599E" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__cart_item__produ__68487DD7" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__cart_item__produ__693CA210" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__carts__user_id__6383C8BA" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__categorie__paren__5070F446" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__products__catego__5441852A" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__inventory__creat__2FCF1A8A" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__inventory__ingre__2CF2ADDF" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__inventory__order__2EDAF651" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__product_r__ingre__245D67DE" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__topping_r__ingre__29221CFB" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__order_ite__order__08B54D69" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__order_ite__toppi__09A971A2" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__order_ite__order__01142BA1" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__order_ite__produ__02084FDA" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__order_ite__produ__02FC7413" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__order_sta__chang__0F624AF8" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__order_sta__order__0E6E26BF" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__orders__user_id__76969D2E" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK_orders_promotions" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__product_r__produ__236943A5" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__product_s__produ__59FA5E80" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyMuaBanTraSuaModel.FK__topping_r__toppi__282DF8C2" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

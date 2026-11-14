@@ -1,0 +1,483 @@
+﻿@model WebApplication4.Models.ThanhToan
+@{
+    ViewBag.Title = "Xác nhận thanh toán";
+    Layout = "~/Views/Shared/LayoutPage.cshtml";
+}
+
+@section styles {
+    <style>
+        .checkout-wrapper {
+            background: #FFFDF8;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: 0 4px 16px var(--shadow);
+            overflow: hidden;
+        }
+
+        .checkout-banner-header {
+            background: linear-gradient(135deg, rgba(174,191,176,.35), rgba(232,196,95,.25));
+            border-bottom: 1px solid var(--border);
+            padding: 18px 28px;
+        }
+
+        .checkout-banner-title {
+            color: var(--accent-2);
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: .4px;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .checkout-section-title {
+            color: var(--heading);
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-bottom: 12px;
+        }
+
+        .shipping-info-card {
+            background: #FAF5E6;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 20px;
+        }
+
+        .shipping-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            border-bottom: 1px dashed rgba(133, 108, 82, 0.2);
+        }
+
+            .shipping-row:last-child {
+                border-bottom: 0;
+            }
+
+        .shipping-label {
+            color: var(--muted);
+            font-size: .92rem;
+            min-width: 145px;
+        }
+
+        .shipping-input {
+            background: #FFFDF8;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-weight: 600;
+            color: var(--heading);
+            text-align: right;
+            width: 100%;
+            transition: all .2s;
+        }
+
+            .shipping-input:focus {
+                outline: none;
+                border-color: var(--accent-2);
+                box-shadow: 0 0 0 3px rgba(188,106,82,.14);
+                text-align: left;
+                background: #FFFFFF;
+            }
+
+        .checkout-note-box {
+            background: #FFFDF8;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 14px;
+            color: var(--text);
+            resize: vertical;
+        }
+
+            .checkout-note-box:focus {
+                border-color: var(--accent-2);
+                box-shadow: 0 0 0 3px rgba(188,106,82,.14);
+                outline: none;
+            }
+
+        /* Bảng chi tiết món */
+        .order-items-card {
+            background: #FFFDF8;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .order-items-head {
+            background: linear-gradient(135deg, rgba(174,191,176,.32), rgba(232,196,95,.2));
+            color: var(--side-title-text);
+            font-weight: 700;
+            font-size: .9rem;
+            padding: 11px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .order-item-line {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            transition: background .15s;
+        }
+
+            .order-item-line:last-child {
+                border-bottom: 0;
+            }
+
+            .order-item-line:hover {
+                background: #F6EBC8;
+            }
+
+        .order-item-thumb {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            background: #FAF5E6;
+        }
+
+        /* Cột phải: Tóm tắt chi phí & Phương thức thanh toán */
+        .summary-box-card {
+            background: #FAF5E6;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 20px;
+        }
+
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: .95rem;
+            color: var(--text);
+        }
+
+        .summary-total-line {
+            border-top: 1px dashed var(--border);
+            padding-top: 14px;
+            margin-top: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .summary-total-price {
+            color: var(--accent-2);
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .payment-option-card {
+            display: flex;
+            align-items: center;
+            background: #FFFDF8;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+            .payment-option-card:hover {
+                background: #F6EBC8;
+                border-color: var(--accent);
+            }
+
+            .payment-option-card.active {
+                border-color: var(--accent-2);
+                background: rgba(232,196,95,.16);
+                box-shadow: 0 2px 8px rgba(188,106,82,.15);
+            }
+
+            .payment-option-card input[type="radio"] {
+                accent-color: var(--accent-2);
+                width: 18px;
+                height: 18px;
+                margin-right: 14px;
+                cursor: pointer;
+            }
+
+        .btn-confirm-order {
+            width: 100%;
+            background: linear-gradient(135deg, #C97A5F, #BC6A52);
+            border: 0;
+            color: var(--on-accent-2) !important;
+            font-weight: 700;
+            font-size: 1.02rem;
+            border-radius: 12px;
+            padding: 14px 24px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            box-shadow: 0 4px 12px rgba(188,106,82,.35);
+            transition: all .2s;
+            cursor: pointer;
+        }
+
+            .btn-confirm-order:hover {
+                background: linear-gradient(135deg, #B5624A, #8F4A37);
+                transform: translateY(-1px);
+                box-shadow: 0 6px 16px rgba(143,74,55,.42);
+            }
+    </style>
+}
+
+<div class="container my-4">
+    <div class="checkout-wrapper">
+        <!-- HEADER BANNER -->
+        <div class="checkout-banner-header d-flex flex-wrap justify-content-between align-items-center">
+            <h4 class="checkout-banner-title">
+                Xác Nhận Thanh Toán Đơn Hàng
+            </h4>
+            <a href="@Url.Action("Index", "GioHang")" class="small font-weight-bold" style="color: var(--side-title-text);">
+                <i class="fas fa-arrow-left mr-1"></i> Quay lại giỏ hàng
+            </a>
+        </div>
+
+        @using (Html.BeginForm("Checkout", "Orders", FormMethod.Post, new { id = "checkoutForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.AppliedVoucherCode, new { id = "hdnAppliedVoucherCode" })
+
+            if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger m-4 mb-0 rounded">
+                    @Html.ValidationSummary(false, "Vui lòng kiểm tra lại thông tin đặt hàng:")
+                </div>
+            }
+
+            <div class="p-4">
+                <div class="row">
+                    <!-- CỘT TRÁI: THÔNG TIN GIAO HÀNG + GHI CHÚ + CHI TIẾT MÓN -->
+                    <div class="col-lg-7 mb-4 mb-lg-0">
+                        <!-- 1. Thông tin giao hàng (cho phép khách chỉnh sửa trực tiếp) -->
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="checkout-section-title mb-0">
+                                 Thông tin giao hàng
+                            </div>
+                            <small class="text-muted"><i class="fas fa-pen mr-1"></i> Nhấn vào ô để thay đổi</small>
+                        </div>
+
+                        <div class="shipping-info-card mb-4">
+                            <div class="shipping-row">
+                                <span class="shipping-label">Người nhận:</span>
+                                <div class="flex-grow-1">
+                                    @Html.TextBoxFor(m => m.ReceiverName, new { @class = "shipping-input", placeholder = "Nhập họ tên người nhận..." })
+                                    @Html.ValidationMessageFor(m => m.ReceiverName, "", new { @class = "text-danger small d-block text-right" })
+                                </div>
+                            </div>
+
+                            <div class="shipping-row">
+                                <span class="shipping-label">Số điện thoại:</span>
+                                <div class="flex-grow-1">
+                                    @Html.TextBoxFor(m => m.Phone, new { @class = "shipping-input", placeholder = "Nhập số điện thoại nhận hàng..." })
+                                    @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger small d-block text-right" })
+                                </div>
+                            </div>
+
+                            <div class="shipping-row">
+                                <span class="shipping-label">Địa chỉ giao hàng:</span>
+                                <div class="flex-grow-1">
+                                    @Html.TextBoxFor(m => m.DeliveryAddress, new { @class = "shipping-input", placeholder = "Số nhà, tên đường, phường/xã, quận/huyện..." })
+                                    @Html.ValidationMessageFor(m => m.DeliveryAddress, "", new { @class = "text-danger small d-block text-right" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Ghi chú cho đơn hàng -->
+                        <div class="checkout-section-title">
+                            Ghi chú cho đơn hàng
+                        </div>
+                        <div class="mb-4">
+                            @Html.TextAreaFor(m => m.OrderNote, 3, 40, new
+                            {
+                                @class = "form-control checkout-note-box",
+                                placeholder = "Nhập ghi chú cho quán hoặc tài xế giao hàng (Ví dụ: Giao giờ hành chính, gọi trước khi đến, để riêng đá...)"
+                            })
+                        </div>
+
+                        <!-- 3. Chi tiết thức uống trong đơn -->
+                        <div class="checkout-section-title">
+                           Chi tiết đơn
+                        </div>
+                        <div class="order-items-card">
+                            <div class="order-items-head d-none d-sm-flex text-center">
+                                <div class="col-sm-6 text-left pl-0">Sản phẩm</div>
+                                <div class="col-sm-2">Số lượng</div>
+                                <div class="col-sm-2">Đơn giá</div>
+                                <div class="col-sm-2 pr-0 text-right">Thành tiền</div>
+                            </div>
+
+                            @foreach (var item in Model.CartItems)
+                            {
+                                <div class="order-item-line">
+                                    <div class="row align-items-center text-center">
+                                        <div class="col-12 col-sm-6 text-left d-flex align-items-center mb-2 mb-sm-0">
+                                            <img src="@(string.IsNullOrEmpty(item.ProductImage) ? "https://hacoocha.com/wp-content/uploads/tra-la-gi.jpg" : item.ProductImage)"
+                                                 alt="@item.ProductName" class="order-item-thumb mr-3 flex-shrink-0" />
+                                            <div>
+                                                <div class="font-weight-bold" style="color: var(--heading);">@item.ProductName</div>
+                                                <div class="small text-muted">
+                                                    Size @item.SizeName, @item.SugarLevel% đường, @item.IceLevel% đá
+                                                    @if (item.ToppingNames != null && item.ToppingNames.Any())
+                                                    {
+                                                        <span> | Topping: @string.Join(", ", item.ToppingNames)</span>
+                                                    }
+                                                    @if (!string.IsNullOrEmpty(item.Note))
+                                                    {
+                                                        <span> | Ghi chú: @item.Note</span>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4 col-sm-2 font-weight-bold">
+                                            @item.Quantity
+                                        </div>
+
+                                        <div class="col-4 col-sm-2 text-muted">
+                                            @item.UnitPriceWithToppings.ToString("N0")đ
+                                        </div>
+
+                                        <div class="col-4 col-sm-2 text-right font-weight-bold" style="color: var(--accent-2);">
+                                            @item.LineTotal.ToString("N0")đ
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- CỘT PHẢI: MÃ KHUYẾN MÃI & CHI PHÍ + HÌNH THỨC THANH TOÁN -->
+                    <div class="col-lg-5">
+                        <!-- 1. Mã khuyến mãi & Chi phí -->
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="checkout-section-title mb-0">
+                                Mã khuyến mãi & Chi phí
+                            </div>
+                        </div>
+
+                        <div class="summary-box-card mb-4">
+                            <div class="summary-line">
+                                <span class="text-muted">Mã khuyến mãi áp dụng:</span>
+                                <span id="lblCheckoutVoucher" class="font-weight-bold" style="color: var(--accent-2);">
+                                    @(string.IsNullOrEmpty(Model.AppliedVoucherCode) ? "Không sử dụng" : Model.AppliedVoucherCode)
+                                </span>
+                            </div>
+
+                            <div class="summary-line">
+                                <span class="text-muted">Tạm tính:</span>
+                                <span class="font-weight-bold" id="lblSubtotal">@Model.Subtotal.ToString("N0")đ</span>
+                            </div>
+
+                            <div class="summary-line">
+                                <span class="text-muted">Giảm giá khuyến mãi:</span>
+                                <span class="font-weight-bold text-success" id="lblDiscount">-@Model.TotalDiscount.ToString("N0")đ</span>
+                            </div>
+
+                            <div class="summary-line mb-0">
+                                <span class="text-muted">Phí vận chuyển:</span>
+                                <span class="font-weight-bold" id="lblShipping">@Model.ShippingFee.ToString("N0")đ</span>
+                            </div>
+
+                            <div class="summary-total-line">
+                                <span class="font-weight-bold" style="font-size: 1.1rem; color: var(--accent-2);">Tổng thanh toán:</span>
+                                <span class="summary-total-price" id="lblFinalTotal">@Model.FinalTotal.ToString("N0")đ</span>
+                            </div>
+                        </div>
+
+                        <!-- 2. Chọn hình thức thanh toán -->
+                        <div class="checkout-section-title">
+                            Chọn hình thức thanh toán
+                        </div>
+
+                        <div id="paymentMethodsGroup" class="mb-4">
+                            <label class="payment-option-card @(Model.PaymentMethod == "COD" ? "active" : "")">
+                                @Html.RadioButtonFor(m => m.PaymentMethod, "COD")
+                                <div>
+                                    <div class="font-weight-bold" style="color: var(--heading);">
+                                        <i class="fas fa-money-bill-wave mr-1" style="color: var(--accent-2);"></i> Thanh toán tiền mặt khi nhận hàng (COD)
+                                    </div>
+                                    <small class="text-muted">Thanh toán bằng tiền mặt trực tiếp cho nhân viên giao hàng.</small>
+                                </div>
+                            </label>
+
+                            <label class="payment-option-card @(Model.PaymentMethod == "BANK_QR" ? "active" : "")">
+                                @Html.RadioButtonFor(m => m.PaymentMethod, "BANK_QR")
+                                <div>
+                                    <div class="font-weight-bold" style="color: var(--heading);">
+                                        <i class="fas fa-qrcode mr-1" style="color: var(--accent-2);"></i> Chuyển khoản ngân hàng (QR Code)
+                                    </div>
+                                    <small class="text-muted">Quét mã QR qua ứng dụng ngân hàng hoặc ví điện tử nội địa.</small>
+                                </div>
+                            </label>
+
+                            <label class="payment-option-card @(Model.PaymentMethod == "CARD" ? "active" : "")">
+                                @Html.RadioButtonFor(m => m.PaymentMethod, "CARD")
+                                <div>
+                                    <div class="font-weight-bold" style="color: var(--heading);">
+                                        <i class="fas fa-credit-card mr-1" style="color: var(--accent-2);"></i> Thẻ ngân hàng (Credit/Debit Card)
+                                    </div>
+                                    <small class="text-muted">Thanh toán trực tuyến bằng thẻ Visa, Mastercard, hoặc thẻ ATM nội địa.</small>
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- 3. Nút xác nhận đặt hàng -->
+                        <button type="submit" class="btn-confirm-order">
+                            <i class="fas fa-check-circle mr-2"></i> XÁC NHẬN THANH TOÁN & ĐẶT HÀNG
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            function formatVND(num) {
+                return Math.max(0, Math.round(num)).toLocaleString('vi-VN') + 'đ';
+            }
+
+            // Đổi viền thẻ khi chọn phương thức thanh toán
+            $('#paymentMethodsGroup input[type="radio"]').on('change', function () {
+                $('.payment-option-card').removeClass('active');
+                $(this).closest('.payment-option-card').addClass('active');
+            });
+
+            // Áp dụng voucher qua AJAX ngay trên trang Thanh toán
+            function updateCheckoutVoucher(code) {
+                $.post('@Url.Action("ApplyCheckoutVoucherAjax", "Orders")', { code: code }, function (res) {
+                    if (!res.success) {
+                        $('#lblModalVoucherErr').text(res.message);
+                        return;
+                    }
+                    $('#lblModalVoucherErr').text('');
+                    $('#hdnAppliedVoucherCode').val(res.code);
+                    $('#lblCheckoutVoucher').text(res.code ? res.code : 'Không sử dụng');
+                    $('#lblDiscount').text('-' + formatVND(res.discount));
+                    $('#lblFinalTotal').text(formatVND(res.finalTotal));
+                    $('#modalCheckoutVoucher').modal('hide');
+                });
+            }
+
+            $('#btnApplyCheckoutVoucher').on('click', function () {
+                updateCheckoutVoucher($('#txtCheckoutVoucher').val());
+            });
+
+            $('.quick-voucher').on('click', function () {
+                var code = $(this).data('code');
+                $('#txtCheckoutVoucher').val(code);
+                updateCheckoutVoucher(code);
+            });
+
+            $('#btnClearCheckoutVoucher').on('click', function () {
+                $('#txtCheckoutVoucher').val('');
+                updateCheckoutVoucher('');
+            });
+        });
+    </script>
+}

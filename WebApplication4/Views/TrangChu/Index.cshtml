@@ -1,0 +1,524 @@
+@model WebApplication4.Models.TrangChuViewModel
+
+@{
+    ViewBag.Title = "Trang Chủ";
+    Layout = "~/Views/Shared/LayoutPage.cshtml";
+}
+
+@section Sidebar {
+    @Html.Partial("_SidebarPartial")
+}
+
+@functions {
+
+    public string ResolveProductImage(string imgPath)
+    {
+        if (string.IsNullOrWhiteSpace(imgPath))
+        {
+            return Url.Content("~/Images/default-tea.png");
+        }
+        if (imgPath.StartsWith("~/"))
+        {
+            return Url.Content(imgPath);
+        }
+        if (imgPath.StartsWith("/"))
+        {
+            return Url.Content("~" + imgPath);
+        }
+        return Url.Content("~/Images/" + imgPath);
+    }
+
+    public string GetCategoryIcon(string catName)
+    {
+        if (string.IsNullOrEmpty(catName)) return "🧋";
+        var lower = catName.ToLower();
+        if (lower.Contains("trái cây") || lower.Contains("hoa quả")) return "🍊";
+        if (lower.Contains("cà phê") || lower.Contains("cafe")) return "☕";
+        if (lower.Contains("đá xay")) return "🍧";
+        return "🧋";
+    }
+}
+
+<style>
+    /* Dual Banner Styling */
+    .dual-banner-wrapper {
+        position: relative;
+        overflow: hidden;
+        border-radius: 14px;
+    }
+
+    .dual-banner-track {
+        display: flex;
+        transition: transform 0.45s ease-in-out;
+    }
+
+    .dual-banner-slide {
+        flex: 0 0 50%;
+        max-width: 50%;
+        padding: 0 8px;
+        box-sizing: border-box;
+    }
+
+    @@media (max-width: 767.98px) {
+        .dual-banner-slide {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+
+    .dual-banner-img-card {
+        display: block;
+        height: 260px;
+        border-radius: 14px;
+        box-shadow: 0 3px 12px var(--shadow);
+        border: 1px solid var(--border);
+        overflow: hidden;
+        background-color: #FFFDF8;
+        position: relative;
+    }
+
+        .dual-banner-img-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.35s ease;
+        }
+
+        .dual-banner-img-card:hover img {
+            transform: scale(1.03);
+        }
+
+    .dual-banner-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: rgba(255, 253, 248, 0.9);
+        border: 1px solid var(--border);
+        color: var(--heading);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 5;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        transition: all .2s;
+    }
+
+        .dual-banner-btn:hover {
+            background: #FFFFFF;
+            transform: translateY(-50%) scale(1.08);
+        }
+
+    .dual-banner-prev {
+        left: 16px;
+    }
+
+    .dual-banner-next {
+        right: 16px;
+    }
+
+    /* Store Intro Hero (Nền lá trà) */
+    .store-intro-hero {
+        position: relative;
+        border-radius: 16px;
+        overflow: hidden;
+        background-image: url('https://hacoocha.com/wp-content/uploads/tra-la-gi.jpg');
+        background-size: cover;
+        background-position: center;
+        box-shadow: 0 4px 16px var(--shadow);
+        border: 1px solid var(--border);
+        margin-bottom: 1.75rem;
+    }
+
+    .store-intro-overlay {
+        background: linear-gradient(135deg, rgba(44, 34, 30, 0.72), rgba(74, 58, 48, 0.62));
+        backdrop-filter: blur(3.5px);
+        -webkit-backdrop-filter: blur(3.5px);
+        padding: 2.2rem 1.75rem;
+        text-align: center;
+        color: #FFFDF8;
+    }
+
+        .store-intro-overlay h3 {
+            color: #F6D87B;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.35);
+        }
+
+        .store-intro-overlay p {
+            color: #F7F2E6;
+            max-width: 720px;
+            margin: 0 auto 1.1rem auto;
+            line-height: 1.65;
+            font-size: 0.98rem;
+        }
+
+    /* Category pills */
+    .cat-pill {
+        background: rgba(255, 253, 248, 0.95);
+        border: 1px solid var(--border);
+        border-radius: 25px;
+        padding: 7px 16px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text);
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+        margin: 4px;
+        text-decoration: none !important;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+    }
+
+        .cat-pill:hover {
+            background: var(--accent);
+            color: var(--on-accent);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+    /* Section Headings */
+    .section-title-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid var(--border);
+        padding-bottom: 10px;
+        margin-bottom: 22px;
+        margin-top: 10px;
+    }
+
+        .section-title-wrap h3 {
+            font-size: 1.45rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--heading);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title-wrap a {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--link);
+        }
+
+    /* Product Cards */
+    .ts-card {
+        background: #FFFFFF;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        position: relative;
+    }
+
+        .ts-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(87, 76, 80, 0.12);
+            border-color: var(--accent-2);
+        }
+
+    .ts-card-img-wrap {
+        position: relative;
+        width: 100%;
+        height: 190px;
+        background: #FAF7F0;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .ts-card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+    .ts-card:hover .ts-card-img-wrap img {
+        transform: scale(1.05);
+    }
+
+    .ts-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 20px;
+        z-index: 2;
+    }
+
+    .ts-badge-hot {
+        background: #E53935;
+        color: #FFFFFF;
+        box-shadow: 0 2px 6px rgba(229, 57, 53, 0.4);
+    }
+
+    .ts-card-body {
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        text-align: left;
+    }
+
+    .ts-category-tag {
+        font-size: 0.78rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+        font-weight: 600;
+    }
+
+    .ts-product-name {
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin-bottom: 6px;
+        line-height: 1.35;
+        color: var(--heading);
+        height: 2.7em;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+        .ts-product-name a {
+            color: var(--heading);
+        }
+
+            .ts-product-name a:hover {
+                color: var(--link);
+            }
+
+    .ts-product-desc {
+        font-size: 0.82rem;
+        color: var(--muted);
+        line-height: 1.4;
+        margin-bottom: 12px;
+        height: 2.8em;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .ts-price-box {
+        margin-top: auto;
+        padding-top: 8px;
+        border-top: 1px dashed var(--border);
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+    }
+
+    .ts-current-price {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: var(--brand);
+    }
+
+    .ts-card-actions {
+        margin-top: 12px;
+        display: flex;
+        gap: 6px;
+    }
+
+        .ts-card-actions .btn {
+            font-size: 0.85rem;
+            padding: 6px 10px;
+            border-radius: 8px;
+        }
+</style>
+
+<!-- BANNER ĐÔI -->
+<div class="dual-banner-wrapper mb-3" style="margin-left: -8px; margin-right: -8px;">
+    <button type="button" class="dual-banner-btn dual-banner-prev" id="btnBannerPrev" aria-label="Banner trước">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+    <div class="dual-banner-track" id="dualBannerTrack">
+        <div class="dual-banner-slide">
+            <div class="dual-banner-img-card">
+                <img src="https://cdn.s99.vn/ss0/prod/product/9e2f2c0ffe8468589daaf5792867e65b.jpg" alt="Khuyến mãi Trà Sữa 1" />
+            </div>
+        </div>
+        <div class="dual-banner-slide">
+            <div class="dual-banner-img-card">
+                <img src="https://img.magnific.com/vector-mien-phi/thiet-ke-phang-cua-banner-giam-gia-thuc-pham_23-2149104044.jpg?semt=ais_hybrid&w=740&q=80" alt="Khuyến mãi Cà Phê 3" />
+            </div>
+        </div>
+        <div class="dual-banner-slide">
+            <div class="dual-banner-img-card">
+                <img src="https://png.pngtree.com/png-clipart/20210620/original/pngtree-coffee-shop-coffee-promotion-banner-png-image_6440530.jpg" alt="Khuyến mãi Cà Phê 4" />
+            </div>
+        </div>
+    </div>
+    <button type="button" class="dual-banner-btn dual-banner-next" id="btnBannerNext" aria-label="Banner tiếp">
+        <i class="fas fa-chevron-right"></i>
+    </button>
+</div>
+
+<div class="store-intro-hero">
+    <div class="store-intro-overlay">
+        <h3 class="mb-2">CHÀO MỪNG ĐẾN VỚI MILKTEA STORE</h3>
+        <p>
+            Hành trình đánh thức vị giác từ những búp trà nguyên lá tuyển chọn vùng cao nguyên, kết hợp cùng sữa tươi thanh khiết và trân châu thủ công nấu mới mỗi ngày. Mỗi ly trà tại MILKTEA STORE đều được pha chế tỉ mỉ theo khẩu vị riêng của bạn — đậm đà, trọn hương và sảng khoái.
+        </p>
+    </div>
+</div>
+
+<!-- ============================================== -->
+<!-- 1. MÓN BÁN CHẠY NHẤT (BEST SELLER) -->
+<!-- ============================================== -->
+<div class="section-title-wrap">
+    <h3>🔥 Món Bán Chạy / Nổi Bật</h3>
+    <a href="@Url.Action("Index", "SanPham", new { sort = "banchay" })">Xem tất cả &rarr;</a>
+</div>
+
+<div class="row">
+    @if (Model != null && Model.SanPhamBanChay != null && Model.SanPhamBanChay.Any())
+    {
+        foreach (var item in Model.SanPhamBanChay)
+        {
+            <div class="col-12 col-sm-6 col-lg-3 mb-4">
+                <div class="ts-card">
+                    @if (item.is_featured)
+                    {
+                        <span class="ts-badge ts-badge-hot">BEST SELLER</span>
+                    }
+                    <div class="ts-card-img-wrap">
+                        <img src="@ResolveProductImage(item.image)"
+                             alt="@item.name"
+                             onerror="this.onerror=null; this.src='https://placehold.co/400x300/F7F2E6/574C50?text=' + encodeURIComponent('@item.name');" />
+                    </div>
+                    <div class="ts-card-body">
+                        <span class="ts-category-tag">@(item.categories != null ? item.categories.name : "Trà sữa")</span>
+                        <div class="ts-product-name">
+                            <a href="@Url.Action("Details", "SanPham", new { id = item.id })" title="@item.name">
+                                @item.name
+                            </a>
+                        </div>
+                        <p class="ts-product-desc" title="@item.description">
+                            @(string.IsNullOrEmpty(item.description) ? "Thức uống thơm ngon pha chế từ trà tươi mỗi ngày." : item.description)
+                        </p>
+                        <div class="ts-price-box">
+                            <span class="ts-current-price">@item.price.ToString("N0") đ</span>
+                        </div>
+                        <div class="ts-card-actions">
+                            <a href="@Url.Action("Details", "SanPham", new { id = item.id })" class="btn btn-outline-primary flex-fill">
+                                Chi tiết
+                            </a>
+                            <a href="@Url.Action("Details", "SanPham", new { id = item.id })" class="btn btn-ts flex-fill">
+                                Chọn món
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<!-- ============================================== -->
+<!-- 2. THỰC ĐƠN ĐA DẠNG DÀNH CHO BẠN -->
+<!-- ============================================== -->
+<div class="section-title-wrap mt-2">
+    <h3>✨ Món Mới & Đa Dạng Hương Vị</h3>
+    <a href="@Url.Action("Index", "SanPham")">Xem thực đơn đầy đủ &rarr;</a>
+</div>
+
+<div class="row">
+    @if (Model != null && Model.SanPhamMoi != null && Model.SanPhamMoi.Any())
+    {
+        foreach (var item in Model.SanPhamMoi)
+        {
+            <div class="col-12 col-sm-6 col-lg-3 mb-4">
+                <div class="ts-card">
+                    @if (item.is_featured)
+                    {
+                        <span class="ts-badge ts-badge-hot">HOT</span>
+                    }
+                    <div class="ts-card-img-wrap">
+                        <img src="@ResolveProductImage(item.image)"
+                             alt="@item.name"
+                             onerror="this.onerror=null; this.src='https://placehold.co/400x300/F7F2E6/574C50?text=' + encodeURIComponent('@item.name');" />
+                    </div>
+                    <div class="ts-card-body">
+                        <span class="ts-category-tag">@(item.categories != null ? item.categories.name : "Trà sữa")</span>
+                        <div class="ts-product-name">
+                            <a href="@Url.Action("Details", "SanPham", new { id = item.id })" title="@item.name">
+                                @item.name
+                            </a>
+                        </div>
+                        <p class="ts-product-desc" title="@item.description">
+                            @(string.IsNullOrEmpty(item.description) ? "Thức uống thơm ngon pha chế từ trà tươi mỗi ngày." : item.description)
+                        </p>
+                        <div class="ts-price-box">
+                            <span class="ts-current-price">@item.price.ToString("N0") đ</span>
+                        </div>
+                        <div class="ts-card-actions">
+                            <a href="@Url.Action("Details", "SanPham", new { id = item.id })" class="btn btn-outline-primary flex-fill">
+                                Chi tiết
+                            </a>
+                            <a href="@Url.Action("Details", "SanPham", new { id = item.id })" class="btn btn-ts flex-fill">
+                                Chọn món
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            var currentIndex = 0;
+            var $track = $('#dualBannerTrack');
+            var $slides = $('.dual-banner-slide');
+            var totalSlides = $slides.length;
+
+            function updateBannerPosition() {
+                var visibleCount = window.innerWidth < 768 ? 1 : 2;
+                var maxIndex = Math.max(0, totalSlides - visibleCount);
+                if (currentIndex > maxIndex) currentIndex = 0;
+                if (currentIndex < 0) currentIndex = maxIndex;
+
+                var stepPercent = 100 / visibleCount;
+                $track.css('transform', 'translateX(-' + (currentIndex * stepPercent) + '%)');
+            }
+
+            $('#btnBannerNext').click(function () {
+                var visibleCount = window.innerWidth < 768 ? 1 : 2;
+                var maxIndex = Math.max(0, totalSlides - visibleCount);
+                currentIndex = (currentIndex >= maxIndex) ? 0 : currentIndex + 1;
+                updateBannerPosition();
+            });
+
+            $('#btnBannerPrev').click(function () {
+                var visibleCount = window.innerWidth < 768 ? 1 : 2;
+                var maxIndex = Math.max(0, totalSlides - visibleCount);
+                currentIndex = (currentIndex <= 0) ? maxIndex : currentIndex - 1;
+                updateBannerPosition();
+            });
+
+            $(window).on('resize', updateBannerPosition);
+        });
+    </script>
+}

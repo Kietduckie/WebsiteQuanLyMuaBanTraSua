@@ -1,0 +1,691 @@
+﻿@model List<WebApplication4.Models.GioHang>
+@{
+    ViewBag.Title = "Giỏ Hàng";
+    Layout = "~/Views/Shared/LayoutPage.cshtml";
+
+    // DỮ LIỆU ẢO ĐỂ KIỂM TRA GIAO DIỆN GIỎ HÀNG (Xóa khối if này khi chạy dữ liệu thật)
+    var cartItems = Model;
+    if (cartItems == null || !cartItems.Any())
+    {
+        cartItems = new List<WebApplication4.Models.GioHang>
+        {
+            //new WebApplication4.Models.GioHang
+            //{
+            //    CartItemId = 1,
+            //    ProductId = 1,
+            //    ProductName = "Trà Sữa Trân Châu Đường Đen",
+            //    ProductImage = "https://images.unsplash.com/photo-1558857563-b371033873b8?w=300&q=80",
+            //    SizeName = "L",
+            //    BasePrice = 35000,
+            //    ExtraPrice = 5000,
+            //    ToppingsTotalPerCup = 10000,
+            //    SugarLevel = 70,
+            //    IceLevel = 50,
+            //    ToppingNames = new List<string> { "Trân châu đen", "Kem cheese" },
+            //    Note = "Ít đá, giao nhanh giúp mình",
+            //    Quantity = 1
+            //},
+            //new WebApplication4.Models.GioHang
+            //{
+            //    CartItemId = 2,
+            //    ProductId = 2,
+            //    ProductName = "Trà Đào Cam Sả Nhiệt Đới",
+            //    ProductImage = "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300&q=80",
+            //    SizeName = "M",
+            //    BasePrice = 32000,
+            //    ExtraPrice = 0,
+            //    ToppingsTotalPerCup = 5000,
+            //    SugarLevel = 100,
+            //    IceLevel = 100,
+            //    ToppingNames = new List<string> { "Thạch đào" },
+            //    Note = "",
+            //    Quantity = 2
+            //},
+            //new WebApplication4.Models.GioHang
+            //{
+            //    CartItemId = 3,
+            //    ProductId = 3,
+            //    ProductName = "Matcha Latte Kem Trứng Nướng",
+            //    ProductImage = "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=300&q=80",
+            //    SizeName = "L",
+            //    BasePrice = 40000,
+            //    ExtraPrice = 5000,
+            //    ToppingsTotalPerCup = 0,
+            //    SugarLevel = 50,
+            //    IceLevel = 70,
+            //    ToppingNames = new List<string>(),
+            //    Note = "Để riêng đá",
+            //    Quantity = 1
+            //}
+        };
+    }
+
+    decimal subtotal = (cartItems != null && cartItems.Any()) ? cartItems.Sum(item => item.LineTotal) : 0;
+    int totalItems = (cartItems != null && cartItems.Any()) ? cartItems.Sum(item => item.Quantity) : 0;
+    string appliedVoucher = ViewBag.AppliedVoucher as string ?? "";
+}
+
+@section styles {
+    <style>
+        .empty-cart-box {
+            background: #FFFDF8;
+            border: 1.5px dashed var(--border);
+            border-radius: 16px;
+            padding: 4rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 14px var(--shadow);
+        }
+
+        .empty-cart-icon {
+            width: 92px;
+            height: 92px;
+            border-radius: 50%;
+            background: #F6EBC8;
+            color: var(--accent-2);
+            font-size: 2.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+        }
+
+        /* Bảng sản phẩm đồng bộ tông LayoutPage */
+        .cart-box-card {
+            background: #FFFDF8;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            box-shadow: 0 2px 10px var(--shadow);
+            overflow: hidden;
+        }
+
+        .cart-table-header {
+            padding: 14px 24px;
+            border-bottom: 1px solid var(--border);
+            color: var(--side-title-text);
+            font-weight: 700;
+            font-size: .95rem;
+            background: linear-gradient(135deg, rgba(174,191,176,.35), rgba(232,196,95,.22));
+        }
+
+        .cart-table-row {
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--border);
+            transition: background .15s;
+        }
+
+            .cart-table-row:last-child {
+                border-bottom: 0;
+            }
+
+            .cart-table-row:hover {
+                background: #F6EBC8;
+            }
+
+        .cart-item-img {
+            width: 78px;
+            height: 78px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: #FAF5E6;
+        }
+
+        .cart-item-price {
+            color: var(--accent-2);
+            font-weight: 700;
+        }
+
+        .cart-remove-link {
+            color: var(--muted);
+            font-weight: 500;
+            cursor: pointer;
+            transition: color .15s;
+        }
+
+            .cart-remove-link:hover {
+                color: var(--link-hover);
+                text-decoration: none;
+            }
+
+        .qty-control-group {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: var(--input-bg);
+            overflow: hidden;
+        }
+
+        .qty-btn {
+            width: 30px;
+            height: 30px;
+            border: 0;
+            background: transparent;
+            color: var(--heading);
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background .15s, color .15s;
+        }
+
+            .qty-btn:hover {
+                background: #F6EBC8;
+                color: var(--link-hover);
+            }
+
+        .qty-val {
+            min-width: 36px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.92rem;
+            color: var(--text);
+            border-left: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            line-height: 30px;
+        }
+
+        /* Thanh Voucher & Thanh toán đồng bộ tông màu chung */
+        .cart-checkout-bar {
+            background: #FFFDF8;
+            border: 1px solid var(--border);
+            border-top: 3px solid var(--accent);
+            border-radius: 14px;
+            box-shadow: 0 4px 12px var(--shadow);
+            margin-top: 18px;
+            padding: 18px 24px;
+        }
+
+        .cart-checkout-divider {
+            border-top: 1px dashed var(--border);
+            margin: 16px 0;
+        }
+
+        .btn-outline-voucher {
+            border: 1.5px solid var(--accent-2);
+            color: var(--accent-2);
+            background: #FFFDF8;
+            border-radius: 20px;
+            padding: 6px 18px;
+            font-size: .9rem;
+            font-weight: 600;
+            transition: all .2s;
+            cursor: pointer;
+        }
+
+            .btn-outline-voucher:hover {
+                background: rgba(188,106,82,.12);
+                border-color: var(--link-hover);
+                color: var(--link-hover);
+            }
+
+        .btn-checkout-submit {
+            background: linear-gradient(135deg, #C97A5F, #BC6A52);
+            border: 0;
+            color: var(--on-accent-2) !important;
+            font-weight: 700;
+            font-size: 1rem;
+            border-radius: 24px;
+            padding: 11px 42px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            box-shadow: 0 3px 10px rgba(188,106,82,.38);
+            transition: all .2s;
+        }
+
+            .btn-checkout-submit:hover {
+                background: linear-gradient(135deg, #B5624A, #8F4A37);
+                color: var(--on-accent-2) !important;
+                transform: translateY(-1px);
+                box-shadow: 0 5px 14px rgba(143,74,55,.42);
+            }
+
+        .total-price-highlight {
+            color: var(--accent-2);
+            font-size: 1.45rem;
+            font-weight: 700;
+        }
+
+        .voucher-code-badge {
+            color: var(--accent-2);
+            font-weight: 700;
+        }
+
+        .voucher-type-tag {
+            display: inline-block;
+            font-size: .72rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 999px;
+            margin-left: 6px;
+        }
+
+        .tag-item-discount {
+            background: rgba(188,106,82,.15);
+            color: var(--accent-2);
+        }
+
+        .tag-ship-discount {
+            background: rgba(174,191,176,.35);
+            color: var(--side-title-text);
+        }
+
+        .voucher-option-item {
+            border: 1.5px dashed var(--accent-2);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            background: #FFFDF8;
+            transition: background .2s;
+        }
+
+            .voucher-option-item:hover {
+                background: #F6EBC8;
+            }
+    </style>
+}
+
+<div class="container my-4">
+    <!-- TRẠNG THÁI GIỎ HÀNG TRỐNG -->
+    <div id="emptyCartContainer" class="empty-cart-box my-3 @((cartItems != null && cartItems.Any()) ? "d-none" : "")">
+        <div class="empty-cart-icon">
+            <i class="fas fa-mug-hot"></i>
+        </div>
+        <h4 class="font-weight-bold mb-2">Giỏ hàng của bạn đang trống!</h4>
+        <p class="text-muted mx-auto mb-4" style="max-width: 480px;">
+            Có vẻ như bạn chưa chọn ly trà sữa hay thức uống nào. Hãy ghé qua trang chủ để khám phá thực đơn thơm ngon và các ưu đãi hấp dẫn nhé!
+        </p>
+        <a href="@Url.Action("Index", "TrangChu")" class="btn btn-ts px-4 py-2">
+            <i class="fas fa-home mr-2"></i> Khám phá thực đơn tại Trang chủ
+        </a>
+    </div>
+
+    <!-- NỘI DUNG GIỎ HÀNG KHI CÓ SẢN PHẨM -->
+    <div id="activeCartContainer" class="@((cartItems == null || !cartItems.Any()) ? "d-none" : "")">
+        <!-- 1. KHUNG BẢNG DANH SÁCH SẢN PHẨM -->
+        <div class="cart-box-card">
+            <!-- Tiêu đề cột -->
+            <div class="cart-table-header d-none d-md-flex align-items-center text-center">
+                <div class="col-md-5 text-left pl-0">Sản Phẩm</div>
+                <div class="col-md-2">Đơn Giá</div>
+                <div class="col-md-2">Số Lượng</div>
+                <div class="col-md-2">Số Tiền</div>
+                <div class="col-md-1 pr-0">Thao Tác</div>
+            </div>
+
+            <!-- Từng dòng sản phẩm -->
+            <div id="cartItemsList">
+                @if (cartItems != null)
+                {
+                    foreach (var item in cartItems)
+                    {
+                        <div class="cart-table-row" id="cart-row-@item.CartItemId" data-id="@item.CartItemId">
+                            <div class="row align-items-center text-center">
+                                <!-- Cột Sản Phẩm -->
+                                <div class="col-12 col-md-5 text-left d-flex align-items-center mb-2 mb-md-0">
+                                    <img src="@(string.IsNullOrEmpty(item.ProductImage) ? "https://hacoocha.com/wp-content/uploads/tra-la-gi.jpg" : item.ProductImage)"
+                                         alt="@item.ProductName" class="cart-item-img mr-3 flex-shrink-0" />
+                                    <div>
+                                        <div class="font-weight-bold" style="font-size: 1rem; color: var(--heading);">@item.ProductName</div>
+                                        <div class="small text-muted mt-1">
+                                            Phân loại: Size @item.SizeName, @item.SugarLevel% đường, @item.IceLevel% đá
+                                            @if (item.ToppingNames != null && item.ToppingNames.Any())
+                                            {
+                                                <span> | Topping: @string.Join(", ", item.ToppingNames)</span>
+                                            }
+                                            @if (!string.IsNullOrEmpty(item.Note))
+                                            {
+                                                <span> | Ghi chú: @item.Note</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Cột Đơn Giá -->
+                                <div class="col-4 col-md-2 font-weight-bold" style="color: var(--text);">
+                                    <span class="d-md-none text-muted small d-block">Đơn giá</span>
+                                    @item.UnitPriceWithToppings.ToString("N0")đ
+                                </div>
+
+                                <!-- Cột Số Lượng -->
+                                <div class="col-4 col-md-2">
+                                    <div class="qty-control-group">
+                                        <button type="button" class="qty-btn btn-qty-change" data-id="@item.CartItemId" data-delta="-1" title="Giảm">-</button>
+                                        <span class="qty-val" id="qty-val-@item.CartItemId">@item.Quantity</span>
+                                        <button type="button" class="qty-btn btn-qty-change" data-id="@item.CartItemId" data-delta="1" title="Tăng">+</button>
+                                    </div>
+                                </div>
+
+                                <!-- Cột Số Tiền -->
+                                <div class="col-4 col-md-2 cart-item-price">
+                                    <span class="d-md-none text-muted small d-block">Số tiền</span>
+                                    <span id="line-total-@item.CartItemId">@item.LineTotal.ToString("N0")đ</span>
+                                </div>
+
+                                <!-- Cột Thao Tác -->
+                                <div class="col-12 col-md-1 text-right text-md-center mt-2 mt-md-0">
+                                    <a href="javascript:void(0);"
+                                       class="cart-remove-link btn-remove-item"
+                                       data-id="@item.CartItemId"
+                                       data-name="@item.ProductName">
+                                        <i class="fas fa-trash-alt mr-1 d-md-none"></i>Xóa
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        <!-- 2. KHUNG CHỌN VOUCHER & THANH TOÁN -->
+        <div class="cart-checkout-bar">
+            <!-- Hàng 1: Chọn mã khuyến mãi (bên phải) -->
+            <div class="d-flex flex-wrap justify-content-between align-items-center" style="gap: 12px;">
+                <div class="d-flex align-items-center ml-auto" style="gap: 14px;">
+                    <span class="text-muted" id="selectedVoucherLabel">Chưa chọn mã</span>
+                    <button type="button" class="btn-outline-voucher" data-toggle="modal" data-target="#modalChonVoucherGioHang">
+                         Chọn mã khuyến mãi
+                    </button>
+                </div>
+            </div>
+
+            <div class="cart-checkout-divider"></div>
+
+            <!-- Hàng 2: Xóa tất cả (bên trái) & Tổng thanh toán + Nút THANH TOÁN (bên phải) -->
+            <div class="d-flex flex-wrap justify-content-between align-items-center" style="gap: 16px;">
+                <div class="d-flex align-items-center" style="gap: 16px;">
+                    <a href="javascript:void(0);" id="btnClearAllCart" class="small font-weight-bold" style="color: var(--accent-2);">
+                        <i class="fas fa-trash-alt mr-1"></i> Xóa tất cả
+                    </a>
+                </div>
+
+                <div class="d-flex flex-wrap align-items-center ml-auto" style="gap: 20px;">
+                    <div class="text-right">
+                        <div class="d-flex align-items-baseline justify-content-end" style="gap: 10px;">
+                            <span style="font-size: 1rem; color: var(--heading);">
+                                Tổng thanh toán (<span id="totalItemsCount">@totalItems</span> sản phẩm):
+                            </span>
+                            <span class="total-price-highlight" id="valTotal" data-subtotal="@subtotal">
+                                @subtotal.ToString("N0")đ
+                            </span>
+                        </div>
+                        <small class="font-weight-bold d-none" id="discountNoteText"></small>
+                    </div>
+
+                    <a href="@Url.Action("Checkout", "ThanhToan")" class="btn btn-checkout-submit">
+                        THANH TOÁN
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL CHỌN MÃ KHUYẾN MÃI CHO GIỎ HÀNG -->
+<div class="modal fade" id="modalChonVoucherGioHang" tabindex="-1" role="dialog" aria-labelledby="modalChonVoucherLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius: 16px; background: #FFFDF8;">
+            <div class="modal-header" style="background: var(--side-title-bg); color: var(--side-title-text); border-radius: 14px 14px 0 0;">
+                <h5 class="modal-title font-weight-bold" id="modalChonVoucherLabel">
+                    <i class="fas fa-ticket-alt mr-2" style="color: var(--accent-2);"></i> Chọn Mã Khuyến Mãi
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Nhập mã thủ công -->
+                <div class="input-group mb-2">
+                    <input type="text" id="inputCustomVoucher" class="form-control" placeholder="Nhập mã voucher (VD: FREESHIP, GIAM20K, MILKTEA15)..." />
+                    <div class="input-group-append ml-2">
+                        <button type="button" class="btn btn-ts" id="btnApplyCustomVoucher">Áp dụng</button>
+                    </div>
+                </div>
+                <small id="modalVoucherError" class="font-weight-bold d-block mb-3" style="color: var(--accent-2);"></small>
+
+                <!-- Danh sách mã có sẵn -->
+                <div class="voucher-option-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <div>
+                            <span class="voucher-code-badge">GIAM20K</span>
+                            <span class="voucher-type-tag tag-item-discount">Giảm tiền món</span>
+                        </div>
+                        <small class="text-muted">Giảm trực tiếp 20.000đ cho đơn từ 100.000đ</small>
+                    </div>
+                    <button type="button" class="btn btn-ts btn-sm btn-pick-voucher" data-code="GIAM20K">Chọn</button>
+                </div>
+
+                <div class="voucher-option-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <div>
+                            <span class="voucher-code-badge">MILKTEA15</span>
+                            <span class="voucher-type-tag tag-item-discount">Giảm tiền món</span>
+                        </div>
+                        <small class="text-muted">Giảm 15% (tối đa 30.000đ) cho mọi đơn hàng</small>
+                    </div>
+                    <button type="button" class="btn btn-ts btn-sm btn-pick-voucher" data-code="MILKTEA15">Chọn</button>
+                </div>
+
+                <div class="voucher-option-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <div>
+                            <span class="voucher-code-badge">GIAM5K</span>
+                            <span class="voucher-type-tag tag-item-discount">Giảm tiền món</span>
+                        </div>
+                        <small class="text-muted">Giảm 5.000đ cho đơn từ 30.000đ</small>
+                    </div>
+                    <button type="button" class="btn btn-ts btn-sm btn-pick-voucher" data-code="GIAM5K">Chọn</button>
+                </div>
+
+                <div class="voucher-option-item d-flex justify-content-between align-items-center mb-0">
+                    <div>
+                        <div>
+                            <span class="voucher-code-badge">FREESHIP</span>
+                            <span class="voucher-type-tag tag-ship-discount">Giảm ship khi thanh toán</span>
+                        </div>
+                        <small class="text-muted">Miễn phí vận chuyển (áp dụng ở bước thanh toán)</small>
+                    </div>
+                    <button type="button" class="btn btn-ts btn-sm btn-pick-voucher" data-code="FREESHIP">Chọn</button>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-light btn-sm rounded-pill" id="btnRemoveVoucher">Bỏ chọn mã</button>
+                <button type="button" class="btn btn-secondary btn-sm rounded-pill" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            function formatVND(num) {
+                return Math.max(0, Math.round(num)).toLocaleString('vi-VN') + 'đ';
+            }
+
+            // Cập nhật badge giỏ hàng trên Header (LayoutPage)
+            function updateHeaderCartBadge(totalQty) {
+                var $badge = $('.cart-badge');
+                if ($badge.length) {
+                    $badge.text(totalQty);
+                    if (totalQty > 0) $badge.show(); else $badge.hide();
+                }
+            }
+
+            // Hiển thị trạng thái giỏ hàng trống nếu hết sản phẩm
+            function toggleEmptyCart(isEmpty) {
+                if (isEmpty) {
+                    $('#activeCartContainer').addClass('d-none');
+                    $('#emptyCartContainer').removeClass('d-none');
+                    updateHeaderCartBadge(0);
+                }
+            }
+
+            // Cập nhật giao diện Tổng tiền + Trạng thái Voucher (Giảm món vs Giảm ship)
+            function renderVoucherUI(subtotal, voucherData) {
+                $('#valTotal').data('subtotal', subtotal);
+
+                if (!voucherData || !voucherData.success || !voucherData.code) {
+                    $('#selectedVoucherLabel')
+                        .text('Chưa chọn mã')
+                        .removeClass('text-success font-weight-bold')
+                        .addClass('text-muted');
+                    $('#discountNoteText').addClass('d-none').text('');
+                    $('#valTotal').text(formatVND(subtotal));
+                    return;
+                }
+
+                $('#selectedVoucherLabel')
+                    .html('<i class="fas fa-tag mr-1" style="color: var(--accent-2);"></i> Đã áp dụng: <b>' + voucherData.code + '</b>')
+                    .removeClass('text-muted')
+                    .addClass('text-success');
+
+                if (voucherData.voucherType === 'SHIP') {
+                    // Giảm ship: giữ nguyên tiền món trên giỏ hàng, ghi chú sẽ trừ ở bước thanh toán
+                    $('#valTotal').text(formatVND(subtotal));
+                    $('#discountNoteText')
+                        .removeClass('d-none text-success')
+                        .css('color', 'var(--side-title-text)')
+                        .html('<i class="fas fa-shipping-fast mr-1"></i> ' + voucherData.message);
+                } else {
+                    // Giảm tiền món: trừ trực tiếp vào tổng thanh toán
+                    $('#valTotal').text(formatVND(voucherData.finalTotal));
+                    $('#discountNoteText')
+                        .removeClass('d-none')
+                        .addClass('text-success')
+                        .css('color', '')
+                        .text(voucherData.message + ' (Giá gốc: ' + formatVND(subtotal) + ')');
+                }
+            }
+
+            // Khôi phục Voucher đang lưu trong Session khi tải trang
+            var initialVoucher = '@appliedVoucher';
+            if (initialVoucher) {
+                $.post('@Url.Action("ApplyVoucherAjax", "GioHang")', { code: initialVoucher }, function (res) {
+                    var currentSub = parseFloat($('#valTotal').data('subtotal')) || 0;
+                    if (res.success) {
+                        renderVoucherUI(currentSub, res);
+                    } else {
+                        renderVoucherUI(currentSub, null);
+                    }
+                });
+            }
+
+            // 1. TĂNG / GIẢM SỐ LƯỢNG MÓN
+            $(document).on('click', '.btn-qty-change', function () {
+                var $btn = $(this);
+                var itemId = $btn.data('id');
+                var delta = parseInt($btn.data('delta'), 10);
+                var currentQty = parseInt($('#qty-val-' + itemId).text(), 10) || 1;
+                var newQty = currentQty + delta;
+
+                if (newQty <= 0) {
+                    if (!confirm('Số lượng về 0 sẽ xóa món này khỏi giỏ hàng. Bạn đồng ý chứ?')) {
+                        return;
+                    }
+                }
+
+                $btn.prop('disabled', true);
+                $.post('@Url.Action("UpdateQuantityAjax", "GioHang")', { cart_item_id: itemId, quantity: newQty }, function (res) {
+                    if (res.success) {
+                        if (res.removed) {
+                            $('#cart-row-' + itemId).fadeOut(200, function () {
+                                $(this).remove();
+                                toggleEmptyCart(res.isEmpty);
+                            });
+                        } else {
+                            $('#qty-val-' + itemId).text(res.itemQuantity);
+                            $('#line-total-' + itemId).text(formatVND(res.itemLineTotal));
+                        }
+
+                        $('#totalItemsCount').text(res.totalItems);
+                        updateHeaderCartBadge(res.totalItems);
+
+                        if (res.voucher && res.voucher.success) {
+                            renderVoucherUI(res.subtotal, res.voucher);
+                        } else {
+                            renderVoucherUI(res.subtotal, null);
+                        }
+                    }
+                }).always(function () {
+                    $btn.prop('disabled', false);
+                });
+            });
+
+            // 2. XÓA TỪNG MÓN
+            $(document).on('click', '.btn-remove-item', function () {
+                var itemId = $(this).data('id');
+                var itemName = $(this).data('name');
+
+                if (!confirm('Bạn muốn xóa món "' + itemName + '" khỏi giỏ hàng?')) {
+                    return;
+                }
+
+                $.post('@Url.Action("RemoveItemAjax", "GioHang")', { cart_item_id: itemId }, function (res) {
+                    if (res.success) {
+                        $('#cart-row-' + itemId).fadeOut(200, function () {
+                            $(this).remove();
+                            toggleEmptyCart(res.isEmpty);
+                        });
+
+                        $('#totalItemsCount').text(res.totalItems);
+                        updateHeaderCartBadge(res.totalItems);
+
+                        if (res.voucher && res.voucher.success) {
+                            renderVoucherUI(res.subtotal, res.voucher);
+                        } else {
+                            renderVoucherUI(res.subtotal, null);
+                        }
+                    }
+                });
+            });
+
+            // 3. XÓA TẤT CẢ MÓN
+            $('#btnClearAllCart').on('click', function () {
+                if (!confirm('Bạn có chắc muốn xóa toàn bộ giỏ hàng?')) {
+                    return;
+                }
+
+                $.post('@Url.Action("ClearCartAjax", "GioHang")', function (res) {
+                    if (res.success) {
+                        $('#cartItemsList').empty();
+                        toggleEmptyCart(true);
+                    }
+                });
+            });
+
+            // 4. ÁP DỤNG / BỎ CHỌN VOUCHER
+            function submitVoucher(code) {
+                $.post('@Url.Action("ApplyVoucherAjax", "GioHang")', { code: code }, function (res) {
+                    var currentSub = parseFloat($('#valTotal').data('subtotal')) || 0;
+                    if (!res.success) {
+                        $('#modalVoucherError').text(res.message);
+                        return;
+                    }
+
+                    $('#modalVoucherError').text('');
+                    renderVoucherUI(currentSub, res);
+                    $('#modalChonVoucherGioHang').modal('hide');
+                });
+            }
+
+            $('.btn-pick-voucher').on('click', function () {
+                var code = $(this).data('code');
+                $('#inputCustomVoucher').val(code);
+                submitVoucher(code);
+            });
+
+            $('#btnApplyCustomVoucher').on('click', function () {
+                var code = $('#inputCustomVoucher').val();
+                submitVoucher(code);
+            });
+
+            $('#btnRemoveVoucher').on('click', function () {
+                $('#inputCustomVoucher').val('');
+                submitVoucher('');
+            });
+        });
+    </script>
+}
