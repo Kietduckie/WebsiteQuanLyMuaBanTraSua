@@ -1,0 +1,254 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Quản Trị Tiệm Trà Sữa</title>
+
+    <!-- Bootstrap 5.3 CSS & Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --tea-primary: #8b5a2b;
+            --tea-dark: #4a2e16;
+            --tea-sidebar: #2c1e16;
+            --tea-accent: #d4a373;
+            --tea-bg: #f8f5f0;
+        }
+
+        body {
+            background-color: var(--tea-bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar trái */
+        #sidebar-wrapper {
+            min-height: 100vh;
+            width: 260px;
+            background-color: var(--tea-sidebar);
+            color: #fff;
+            transition: margin 0.25s ease-out;
+            flex-shrink: 0;
+        }
+
+        .sidebar-heading {
+            padding: 1.25rem 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #f3e5d8;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08rem;
+            color: #a8988d;
+            padding: 1rem 1.5rem 0.35rem;
+            font-weight: 600;
+        }
+
+        #sidebar-wrapper .list-group-item {
+            background-color: transparent;
+            color: #e0d6cf;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+        }
+
+            #sidebar-wrapper .list-group-item:hover {
+                background-color: rgba(212, 163, 115, 0.15);
+                color: #fff;
+            }
+
+            #sidebar-wrapper .list-group-item.active {
+                background-color: var(--tea-primary);
+                color: #fff;
+                font-weight: 600;
+                border-left: 4px solid var(--tea-accent);
+            }
+
+        /* Nội dung chính bên phải */
+        #page-content-wrapper {
+            width: 100%;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-navbar {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5ddd3;
+            padding: 0.75rem 1.5rem;
+        }
+
+        .main-container {
+            padding: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .admin-footer {
+            background-color: #ffffff;
+            border-top: 1px solid #e5ddd3;
+            padding: 0.85rem 1.5rem;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        /* Thu gọn sidebar trên màn hình nhỏ */
+        body.sb-sidenav-toggled #sidebar-wrapper {
+            margin-left: -260px;
+        }
+
+        @@media (max-width: 768px) {
+            #sidebar-wrapper {
+                margin-left: -260px;
+            }
+
+            body.sb-sidenav-toggled #sidebar-wrapper {
+                margin-left: 0;
+            }
+        }
+    </style>
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    @{
+        string currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+        string adminName = Session["UserName"] != null ? Session["UserName"].ToString() : "Quản trị viên";
+    }
+
+    <div class="d-flex" id="wrapper">
+        <!-- SIDEBAR MENU -->
+        <div id="sidebar-wrapper">
+            <div class="sidebar-heading">
+                <i class="bi bi-cup-straw text-warning fs-4"></i>
+                <span>ADMIN TRÀ SỮA</span>
+            </div>
+
+            <div class="list-group list-group-flush my-2">
+                <div class="sidebar-label">Tổng quan</div>
+                <a href="@Url.Action("Index", "ThongKe")"
+                   class="list-group-item list-group-item-action @(currentController == "ThongKe" ? "active" : "")">
+                    <i class="bi bi-bar-chart-line"></i> Thống kê doanh thu
+                </a>
+
+                <div class="sidebar-label">Quản lý cửa hàng</div>
+                <a href="@Url.Action("Index", "DanhMuc")"
+                   class="list-group-item list-group-item-action @(currentController == "DanhMuc" ? "active" : "")">
+                    <i class="bi bi-tags"></i> Quản lý danh mục
+                </a>
+                <a href="@Url.Action("Index", "SanPhamAdmin")"
+                   class="list-group-item list-group-item-action @(currentController == "SanPhamAdmin" ? "active" : "")">
+                    <i class="bi bi-cup-hot"></i> Quản lý sản phẩm
+                </a>
+                <a href="@Url.Action("Index", "ToppingAdmin")"
+                   class="list-group-item list-group-item-action @(currentController == "ToppingAdmin" ? "active" : "")">
+                    <i class="bi bi-plus-circle"></i> Quản lý topping
+                </a>
+
+                <div class="sidebar-label">Bán hàng & Ưu đãi</div>
+                <a href="@Url.Action("Index", "DonHangAdmin")"
+                   class="list-group-item list-group-item-action @(currentController == "DonHangAdmin" ? "active" : "")">
+                    <i class="bi bi-receipt-cutoff"></i> Quản lý đơn hàng
+                </a>
+                <a href="@Url.Action("Index", "KhuyenMai")"
+                   class="list-group-item list-group-item-action @(currentController == "KhuyenMai" ? "active" : "")">
+                    <i class="bi bi-ticket-perforated"></i> Mã khuyến mãi
+                </a>
+
+                <div class="sidebar-label">Hệ thống</div>
+                <a href="@Url.Action("Index", "TaiKhoanAdmin")"
+                   class="list-group-item list-group-item-action @(currentController == "TaiKhoanAdmin" ? "active" : "")">
+                    <i class="bi bi-people"></i> Quản lý tài khoản
+                </a>
+            </div>
+        </div>
+
+        <!-- NỘI DUNG BÊN PHẢI -->
+        <div id="page-content-wrapper">
+            <!-- Top Navbar -->
+            <nav class="navbar navbar-expand-lg admin-navbar shadow-sm">
+                <div class="container-fluid px-0">
+                    <button class="btn btn-outline-secondary btn-sm" id="sidebarToggle" title="Ẩn/hiện menu">
+                        <i class="bi bi-list fs-5"></i>
+                    </button>
+
+                    <span class="ms-3 fw-semibold text-secondary d-none d-md-inline">
+                        @ViewBag.Title
+                    </span>
+
+                    <div class="ms-auto d-flex align-items-center gap-3">
+                        <a href="@Url.Action("Index", "TrangChu")" class="btn btn-sm btn-outline-dark" target="_blank">
+                            <i class="bi bi-shop"></i> Xem trang bán hàng
+                        </a>
+
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 fw-semibold text-dark"
+                               href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle fs-5 text-secondary"></i>
+                                <span>@adminName</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                <li><span class="dropdown-item-text small text-muted">Vai trò: Admin</span></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="@Url.Action("DangXuat", "NguoiDung")">
+                                        <i class="bi bi-box-arrow-right"></i> Đăng xuất
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Vùng hiển thị View của từng thành viên -->
+            <div class="main-container">
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle-fill me-2"></i>@TempData["SuccessMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>@TempData["ErrorMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                @RenderBody()
+            </div>
+
+            <!-- Footer -->
+            <footer class="admin-footer text-center text-md-start d-flex justify-content-between">
+                <span>Hệ thống Quản lý Tiệm Trà Sữa &copy; 2026</span>
+                <span class="d-none d-sm-inline">Khu vực Quản trị viên</span>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5.3 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById("sidebarToggle").addEventListener("click", function (e) {
+            e.preventDefault();
+            document.body.classList.toggle("sb-sidenav-toggled");
+        });
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,78 @@
+﻿@model IEnumerable<WebApplication4.Models.categories>
+
+@{
+    ViewBag.Title = "Quản lý danh mục";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var parentNames = ViewBag.ParentNames as Dictionary<int, string>;
+}
+
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 fw-bold text-dark">
+            <i class="bi bi-tags me-2 text-warning"></i>Danh sách loại trà sữa / danh mục
+        </h5>
+        <a href="@Url.Action("Create", "DanhMuc")" class="btn btn-primary btn-sm">
+            <i class="bi bi-plus-lg"></i> Thêm danh mục mới
+        </a>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 70px;">Mã</th>
+                        <th>Tên danh mục</th>
+                        <th>Danh mục cha</th>
+                        <th>Mô tả</th>
+                        <th style="width: 140px;">Trạng thái</th>
+                        <th style="width: 170px;" class="text-end">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">#@item.id</td>
+                            <td class="fw-semibold text-dark">@item.name</td>
+                            <td>
+                                @if (item.parent_category_id.HasValue && parentNames != null && parentNames.ContainsKey(item.parent_category_id.Value))
+                                {
+                                    <span class="badge bg-light text-dark border">@parentNames[item.parent_category_id.Value]</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">— Danh mục gốc —</span>
+                                }
+                            </td>
+                            <td class="text-muted">@(string.IsNullOrEmpty(item.description) ? "Không có mô tả" : item.description)</td>
+                            <td>
+                                @if (item.status)
+                                {
+                                    <span class="badge bg-success">Hiển thị</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Đang ẩn</span>
+                                }
+                            </td>
+                            <td class="text-end">
+                                <a href="@Url.Action("Edit", "DanhMuc", new { id = item.id })" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-pencil-square"></i> Sửa
+                                </a>
+
+                                @using (Html.BeginForm("Delete", "DanhMuc", new { id = item.id }, FormMethod.Post, new { @class = "d-inline", onsubmit = "return confirm('Bạn có chắc muốn xóa danh mục này không?');" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i> Xóa
+                                    </button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

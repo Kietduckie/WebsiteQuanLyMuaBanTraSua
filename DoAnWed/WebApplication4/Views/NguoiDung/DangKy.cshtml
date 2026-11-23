@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Đăng ký tài khoản";
+    Layout = "~/Views/Shared/LayoutPage.cshtml";
+    ViewBag.HideBanner = true;
+}
+
+<div class="row justify-content-center my-3 text-left">
+    <div class="col-md-8 col-lg-7">
+        <div class="card border-0">
+            <div class="card-header font-weight-bold text-center">
+                🧋 Đăng Ký Thành Viên Mới
+            </div>
+            <div class="card-body p-4">
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Error</div>
+                }
+
+                @using (Html.BeginForm("DangKy", "NguoiDung", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        <label class="font-weight-bold">Họ và tên <span class="text-danger">*</span></label>
+                        <input type="text" name="name" class="form-control" placeholder="Nhập họ tên của bạn" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="font-weight-bold">Email <span class="text-danger">*</span></label>
+                        <input type="email" name="email" class="form-control" placeholder="example@gmail.com" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="font-weight-bold">Số điện thoại</label>
+                        <input type="text" name="phone" class="form-control" placeholder="0901234567" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="font-weight-bold">Mật khẩu <span class="text-danger">*</span></label>
+                        <input type="password" name="password" class="form-control" placeholder="Nhập mật khẩu" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="font-weight-bold">Xác nhận mật khẩu <span class="text-danger">*</span></label>
+                        <input type="password" name="confirmPassword" class="form-control" placeholder="Nhập lại mật khẩu" required />
+                    </div>
+
+                    <button type="submit" class="btn btn-ts btn-block py-2 mt-3">
+                        Đăng ký ngay
+                    </button>
+                }
+
+                <div class="text-center mt-3">
+                    <span class="text-muted">Đã có tài khoản?</span>
+                    <a href="@Url.Action("DangNhap", "NguoiDung")" class="font-weight-bold">Đăng nhập</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
