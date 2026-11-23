@@ -85,21 +85,123 @@
 }
 
 <style>
-    /* Custom Styling for Homepage */
-    .home-hero-banner {
-        background: linear-gradient(135deg, rgba(188, 106, 82, 0.12), rgba(232, 196, 95, 0.18));
-        border: 1px dashed var(--accent-2);
-        border-radius: 16px;
-        padding: 24px;
-        margin-bottom: 28px;
-        text-align: center;
+    /* Dual Banner Styling */
+    .dual-banner-wrapper {
+        position: relative;
+        overflow: hidden;
+        border-radius: 14px;
     }
 
-    .home-hero-banner h2 {
-        font-weight: 800;
-        color: var(--brand);
-        margin-bottom: 8px;
+    .dual-banner-track {
+        display: flex;
+        transition: transform 0.45s ease-in-out;
     }
+
+    .dual-banner-slide {
+        flex: 0 0 50%;
+        max-width: 50%;
+        padding: 0 8px;
+        box-sizing: border-box;
+    }
+
+    @@media (max-width: 767.98px) {
+        .dual-banner-slide {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+
+    .dual-banner-img-card {
+        display: block;
+        height: 260px;
+        border-radius: 14px;
+        box-shadow: 0 3px 12px var(--shadow);
+        border: 1px solid var(--border);
+        overflow: hidden;
+        background-color: #FFFDF8;
+        position: relative;
+    }
+
+        .dual-banner-img-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.35s ease;
+        }
+
+        .dual-banner-img-card:hover img {
+            transform: scale(1.03);
+        }
+
+    .dual-banner-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: rgba(255, 253, 248, 0.9);
+        border: 1px solid var(--border);
+        color: var(--heading);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 5;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        transition: all .2s;
+    }
+
+        .dual-banner-btn:hover {
+            background: #FFFFFF;
+            transform: translateY(-50%) scale(1.08);
+        }
+
+    .dual-banner-prev {
+        left: 16px;
+    }
+
+    .dual-banner-next {
+        right: 16px;
+    }
+
+    /* Store Intro Hero (Nền lá trà) */
+    .store-intro-hero {
+        position: relative;
+        border-radius: 16px;
+        overflow: hidden;
+        background-image: url('https://hacoocha.com/wp-content/uploads/tra-la-gi.jpg');
+        background-size: cover;
+        background-position: center;
+        box-shadow: 0 4px 16px var(--shadow);
+        border: 1px solid var(--border);
+        margin-bottom: 1.75rem;
+    }
+
+    .store-intro-overlay {
+        background: linear-gradient(135deg, rgba(44, 34, 30, 0.72), rgba(74, 58, 48, 0.62));
+        backdrop-filter: blur(3.5px);
+        -webkit-backdrop-filter: blur(3.5px);
+        padding: 2.2rem 1.75rem;
+        text-align: center;
+        color: #FFFDF8;
+    }
+
+        .store-intro-overlay h3 {
+            color: #F6D87B;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.35);
+        }
+
+        .store-intro-overlay p {
+            color: #F7F2E6;
+            max-width: 720px;
+            margin: 0 auto 1.1rem auto;
+            line-height: 1.65;
+            font-size: 0.98rem;
+        }
 
     .section-title-wrap {
         display: flex;
@@ -319,92 +421,46 @@
         margin-bottom: 0;
     }
 
-    .home-hero-banner-dark {
-        background: linear-gradient(135deg, #2D241D, #3F3327);
-        border: 1px solid rgba(232, 196, 95, 0.35);
-        border-radius: 16px;
-        padding: 30px 24px;
-        text-align: center;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.14);
-    }
-
-    .home-hero-banner-dark h2 {
-        font-weight: 800;
-        color: #E8C45F;
-        font-size: 1.65rem;
-        margin-bottom: 12px;
-        letter-spacing: 0.5px;
-    }
-
-    .home-hero-banner-dark p {
-        color: #E5E1D8;
-        font-size: 0.95rem;
-        line-height: 1.65;
-        max-width: 800px;
-        margin: 0 auto;
-        opacity: 0.95;
-    }
 </style>
 
-<!-- ============================================== -->
-<!-- 1. CỤM BANNER SLIDER / QUẢNG CÁO (NHƯ HÌNH MẪU) -->
-<!-- ============================================== -->
-<div class="row mb-3">
-    <div class="col-12 col-lg-6 mb-3 mb-lg-0">
-        <div id="homeBannerCarousel" class="carousel slide h-100" data-ride="carousel" data-interval="4500">
-            <ol class="carousel-indicators">
-                <li data-target="#homeBannerCarousel" data-slide-to="0" class="active"></li>
-                <li data-target="#homeBannerCarousel" data-slide-to="1"></li>
-            </ol>
-            <div class="carousel-inner h-100" style="border-radius: 16px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
-                <div class="carousel-item active h-100">
-                    <img src="@Url.Content("~/Images/banner-matcha.jpg")" class="d-block w-100 h-100" style="object-fit: cover; min-height: 200px; max-height: 230px;" alt="Matcha Signature" />
-                </div>
-                <div class="carousel-item h-100">
-                    <img src="@Url.Content("~/Images/banner-coffee.jpg")" class="d-block w-100 h-100" style="object-fit: cover; min-height: 200px; max-height: 230px;" alt="Coffee Shop" />
-                </div>
+<!-- BANNER ĐÔI -->
+<div class="dual-banner-wrapper mb-3" style="margin-left: -8px; margin-right: -8px;">
+    <button type="button" class="dual-banner-btn dual-banner-prev" id="btnBannerPrev" aria-label="Banner trước">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+    <div class="dual-banner-track" id="dualBannerTrack">
+        <div class="dual-banner-slide">
+            <div class="dual-banner-img-card">
+                <img src="@Url.Content("~/Images/banner-matcha.jpg")" alt="Khuyến mãi Trà Sữa Matcha" />
             </div>
-            <a class="carousel-control-prev" href="#homeBannerCarousel" role="button" data-slide="prev" style="width: 40px; height: 40px; top: calc(50% - 20px); left: 12px; background: rgba(255,255,255,0.9); border-radius: 50%; opacity: 1; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                <i class="fas fa-chevron-left text-dark" style="font-size: 0.95rem;"></i>
-            </a>
-            <a class="carousel-control-next" href="#homeBannerCarousel" role="button" data-slide="next" style="width: 40px; height: 40px; top: calc(50% - 20px); right: 12px; background: rgba(255,255,255,0.9); border-radius: 50%; opacity: 1; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                <i class="fas fa-chevron-right text-dark" style="font-size: 0.95rem;"></i>
-            </a>
+        </div>
+        <div class="dual-banner-slide">
+            <div class="dual-banner-img-card">
+                <img src="@Url.Content("~/Images/banner-coffee.jpg")" alt="Khuyến mãi Cà Phê Đặc Biệt" />
+            </div>
+        </div>
+        <div class="dual-banner-slide">
+            <div class="dual-banner-img-card">
+                <img src="@Url.Content("~/Images/Banner1.png")" alt="Khuyến mãi MilkTea Store 1" />
+            </div>
+        </div>
+        <div class="dual-banner-slide">
+            <div class="dual-banner-img-card">
+                <img src="@Url.Content("~/Images/Banner2.png")" alt="Khuyến mãi MilkTea Store 2" />
+            </div>
         </div>
     </div>
-    <div class="col-12 col-lg-6">
-        <div class="h-100 position-relative" style="border-radius: 16px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
-            <img src="@Url.Content("~/Images/banner-coffee.jpg")" class="d-block w-100 h-100" style="object-fit: cover; min-height: 200px; max-height: 230px;" alt="Khuyến mãi Coffee Shop" />
-            <a href="@Url.Action("Index", "SanPham", new { maLoai = 3 })" style="position: absolute; right: 12px; top: calc(50% - 20px); width: 40px; height: 40px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); color: #333; text-decoration: none;" title="Xem menu cà phê">
-                <i class="fas fa-chevron-right" style="font-size: 0.95rem;"></i>
-            </a>
-        </div>
-    </div>
+    <button type="button" class="dual-banner-btn dual-banner-next" id="btnBannerNext" aria-label="Banner tiếp">
+        <i class="fas fa-chevron-right"></i>
+    </button>
 </div>
 
-<!-- ============================================== -->
-<!-- 2. KHỐI GIỚI THIỆU CHÀO MỪNG (DARK HERO BANNER) -->
-<!-- ============================================== -->
-<div class="home-hero-banner-dark mb-4">
-    <h2>Chào Mừng Đến Với MILKTEA STORE</h2>
-    <p>
-        Hành trình đánh thức vị giác từ những búp trà nguyên lá tuyển chọn vùng cao nguyên, kết hợp cùng sữa tươi thanh khiết và trân châu thủ công nấu mới mỗi ngày. Mỗi ly trà tại MILKTEA STORE đều được pha chế tỉ mỉ theo khẩu vị riêng của bạn — đậm đà, trọn hương và sảng khoái.
-    </p>
-    <div class="d-flex flex-wrap justify-content-center mt-3">
-        @if (Model != null && Model.DanhMucNoiBat != null)
-        {
-            foreach (var cat in Model.DanhMucNoiBat)
-            {
-                <a href="@Url.Action("Index", "SanPham", new { maLoai = cat.id })" class="cat-pill">
-                    <span>@GetCategoryIcon(cat.name)</span>
-                    <span>@cat.name</span>
-                    @if (cat.products != null && cat.products.Count > 0)
-                    {
-                        <span class="badge badge-light" style="background: rgba(0,0,0,0.06);">@cat.products.Count</span>
-                    }
-                </a>
-            }
-        }
+<div class="store-intro-hero">
+    <div class="store-intro-overlay">
+        <h3 class="mb-2">Chào Mừng Đến Với MILKTEA STORE</h3>
+        <p class="mb-0">
+            Hành trình đánh thức vị giác từ những búp trà nguyên lá tuyển chọn vùng cao nguyên, kết hợp cùng sữa tươi thanh khiết và trân châu thủ công nấu mới mỗi ngày. Mỗi ly trà tại MILKTEA STORE đều được pha chế tỉ mỉ theo khẩu vị riêng của bạn — đậm đà, trọn hương và sảng khoái.
+        </p>
     </div>
 </div>
 
@@ -554,6 +610,59 @@
 
 @section scripts {
     <script>
+        $(document).ready(function () {
+            var currentIndex = 0;
+            var $track = $('#dualBannerTrack');
+            var $slides = $('.dual-banner-slide');
+            var totalSlides = $slides.length;
+
+            function updateBannerPosition() {
+                var visibleCount = window.innerWidth < 768 ? 1 : 2;
+                var maxIndex = Math.max(0, totalSlides - visibleCount);
+                if (currentIndex > maxIndex) currentIndex = 0;
+                if (currentIndex < 0) currentIndex = maxIndex;
+
+                var stepPercent = 100 / visibleCount;
+                $track.css('transform', 'translateX(-' + (currentIndex * stepPercent) + '%)');
+            }
+
+            $('#btnBannerNext').click(function () {
+                var visibleCount = window.innerWidth < 768 ? 1 : 2;
+                var maxIndex = Math.max(0, totalSlides - visibleCount);
+                currentIndex = (currentIndex >= maxIndex) ? 0 : currentIndex + 1;
+                updateBannerPosition();
+            });
+
+            $('#btnBannerPrev').click(function () {
+                var visibleCount = window.innerWidth < 768 ? 1 : 2;
+                var maxIndex = Math.max(0, totalSlides - visibleCount);
+                currentIndex = (currentIndex <= 0) ? maxIndex : currentIndex - 1;
+                updateBannerPosition();
+            });
+
+            $(window).on('resize', updateBannerPosition);
+
+            // Tự động chuyển banner sau mỗi 5s
+            var bannerInterval = setInterval(function () {
+                var visibleCount = window.innerWidth < 768 ? 1 : 2;
+                var maxIndex = Math.max(0, totalSlides - visibleCount);
+                currentIndex = (currentIndex >= maxIndex) ? 0 : currentIndex + 1;
+                updateBannerPosition();
+            }, 5000);
+
+            $('.dual-banner-wrapper').hover(
+                function () { clearInterval(bannerInterval); },
+                function () {
+                    bannerInterval = setInterval(function () {
+                        var visibleCount = window.innerWidth < 768 ? 1 : 2;
+                        var maxIndex = Math.max(0, totalSlides - visibleCount);
+                        currentIndex = (currentIndex >= maxIndex) ? 0 : currentIndex + 1;
+                        updateBannerPosition();
+                    }, 5000);
+                }
+            );
+        });
+
         window.addEventListener("error", function (e) {
             var el = e.target;
             if (el && el.tagName === "IMG") {
