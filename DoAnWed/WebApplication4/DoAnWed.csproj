@@ -112,6 +112,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\TrangChuController.cs" />
+    <Compile Include="Controllers\SanPhamController.cs" />
     <Compile Include="Models\carts.cs">
       <DependentUpon>QuanLyTraSua.tt</DependentUpon>
     </Compile>
@@ -194,8 +195,47 @@
       <DependentUpon>QuanLyTraSua.edmx</DependentUpon>
     </Content>
     <None Include="packages.config" />
+    <Content Include="Images\banner-matcha.jpg" />
+    <Content Include="Images\banner-coffee.jpg" />
+    <Content Include="Images\Banner1.png" />
+    <Content Include="Images\Banner2.png" />
+    <Content Include="Images\BacXiu.jpg" />
+    <Content Include="Images\ca-phe-sua-da.jpg" />
+    <Content Include="Images\ca-phe-sua.jpg" />
+    <Content Include="Images\CaPheDen.jpg" />
+    <Content Include="Images\CaPheMuoi.jpg" />
+    <Content Include="Images\CaPheSuaDa.jpg" />
+    <Content Include="Images\default-tea.png" />
+    <Content Include="Images\KemChesse.jpg" />
+    <Content Include="Images\puudingTrung.jpg" />
+    <Content Include="Images\ThachTraiCay.jpg" />
+    <Content Include="Images\tra-dao-cam-sa.jpg" />
+    <Content Include="Images\tra-dao.jpg" />
+    <Content Include="Images\tra-olong-nuong.jpg" />
+    <Content Include="Images\tra-sua-matcha.jpg" />
+    <Content Include="Images\tra-sua-o-long-nuong.jpg" />
+    <Content Include="Images\tra-sua-truyen-thong.jpg" />
+    <Content Include="Images\tra-vai-thanh-mat.jpg" />
+    <Content Include="Images\tra-vai.jpg" />
+    <Content Include="Images\TraChanhDay.jpg" />
+    <Content Include="Images\TraDaoCamSa.jpg" />
+    <Content Include="Images\TraDau.jpg" />
+    <Content Include="Images\TranChauDen.jpg" />
+    <Content Include="Images\TranChauTrang.jpg" />
+    <Content Include="Images\TraOiHong.jpg" />
+    <Content Include="Images\TraSuaKhoaiMon.jpg" />
+    <Content Include="Images\TraSuaMatCha.jpg" />
+    <Content Include="Images\TraSuaOLongNuong.jpg" />
+    <Content Include="Images\TraSuaSocola.jpg" />
+    <Content Include="Images\TraSuaThaiXanh.jpg" />
+    <Content Include="Images\TraSuaTranChauDuongDen.jpg" />
+    <Content Include="Images\TraSuaTruyenThong.jpg" />
+    <Content Include="Images\TraVaiThanhMat.jpg" />
+    <Content Include="Images\TraXoai.jpg" />
     <Content Include="Views\Shared\LayoutPage.cshtml" />
+    <Content Include="Views\Shared\_SidebarPartial.cshtml" />
     <Content Include="Views\TrangChu\Index.cshtml" />
+    <Content Include="Views\SanPham\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -205,7 +245,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Image\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

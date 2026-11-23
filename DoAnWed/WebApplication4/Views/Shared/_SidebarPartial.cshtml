@@ -1,0 +1,68 @@
+﻿@{
+    bool hasFlashSale = false;
+    var session = ViewContext.HttpContext.Session;
+    if (ViewBag.HasFlashSale is bool && (bool)ViewBag.HasFlashSale)
+    {
+        hasFlashSale = true;
+    }
+    else if (session != null && session["HasFlashSale"] is bool && (bool)session["HasFlashSale"])
+    {
+        hasFlashSale = true;
+    }
+}
+
+<div class="col-12 col-lg-3 mb-3" id="sidebarCol">
+    <div class="ts-side ts-side-sticky">
+        <div class="d-flex justify-content-between align-items-center mb-2 px-1">
+            <span class="small font-weight-bold text-muted text-uppercase">Khám phá thực đơn</span>
+            <button type="button" class="btn btn-sm btn-light rounded-pill py-1 px-3 text-muted font-weight-bold" id="btnHideSidebarInner" title="Thu gọn danh mục">
+                <i class="fas fa-angle-double-left mr-1"></i> Thu gọn
+            </button>
+        </div>
+
+        <ul class="list-group list-group-flush text-left" id="sidebarStaticMenu">
+            <li class="list-group-item ts-side-title">
+                <a href="@Url.Action("Index", "SanPham")">Danh mục sản phẩm</a>
+            </li>
+            <li class="list-group-item">
+                <a href="@Url.Action("Index", "SanPham", new { maLoai = 1 })" data-cat-title="Trà sữa">
+                    <i class="fa-solid fa-glass-water mr-2 text-muted"></i> Trà sữa
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="@Url.Action("Index", "SanPham", new { maLoai = 2 })" data-cat-title="Trà trái cây">
+                    <i class="fas fa-lemon mr-2 text-muted"></i> Trà trái cây
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="@Url.Action("Index", "SanPham", new { maLoai = 3 })" data-cat-title="Cà phê">
+                    <i class="fas fa-coffee mr-2 text-muted"></i> Cà phê
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="@Url.Action("Index", "SanPham", new { maLoai = 4 })" data-cat-title="Topping thêm">
+                    <i class="fas fa-cubes mr-2 text-muted"></i> Topping thêm
+                </a>
+            </li>
+        </ul>
+
+        <!-- Các mục tự động đồng bộ từ nội dung trang -->
+        <ul class="list-group list-group-flush text-left mt-2 pt-2 border-top d-none" id="sidebarDynamicSection">
+            <li class="list-group-item ts-side-title">
+                <span>Mục trên trang</span>
+            </li>
+        </ul>
+
+        @if (hasFlashSale)
+        {
+            <ul class="list-group list-group-flush text-left mt-2 pt-2 border-top">
+                <li class="list-group-item ts-side-title" style="background: linear-gradient(135deg, #f8d7da, #f5c6cb);">
+                    <i class="fas fa-bolt text-danger"></i>
+                    <span style="color: #721c24; font-weight:700;">Flash Sale Giờ Vàng</span>
+                </li>
+                <li class="list-group-item"><a href="#flash-sale-section"><i class="fas fa-clock text-danger mr-2"></i> Giảm sốc 50% trân châu</a></li>
+                <li class="list-group-item"><a href="#flash-sale-section"><i class="fas fa-fire text-warning mr-2"></i> Combo mua 2 tặng 1</a></li>
+            </ul>
+        }
+    </div>
+</div>

@@ -1,0 +1,501 @@
+@model WebApplication4.Models.DanhSachSanPhamViewModel
+
+@{
+    ViewBag.Title = Model.TenLoaiHienTai + " - Thực Đơn MilkTea Store";
+    Layout = "~/Views/Shared/LayoutPage.cshtml";
+}
+
+@section Sidebar {
+    @Html.Partial("_SidebarPartial")
+}
+
+@functions {
+    public string ResolveProductImage(string imgPath, string productName = "")
+    {
+        string mappedFile = GetImageByProductName(productName);
+
+        if (!string.IsNullOrWhiteSpace(imgPath))
+        {
+            string fileName = System.IO.Path.GetFileName(imgPath);
+            string phys = System.Web.Hosting.HostingEnvironment.MapPath("~/Images/" + fileName);
+            if (!string.IsNullOrEmpty(phys) && System.IO.File.Exists(phys))
+            {
+                return Url.Content("~/Images/" + fileName);
+            }
+        }
+
+        if (!string.IsNullOrEmpty(mappedFile))
+        {
+            return Url.Content("~/Images/" + mappedFile);
+        }
+
+        if (!string.IsNullOrWhiteSpace(imgPath))
+        {
+            if (imgPath.StartsWith("~/")) return Url.Content(imgPath);
+            if (imgPath.StartsWith("/")) return Url.Content("~" + imgPath);
+            return Url.Content("~/Images/" + imgPath);
+        }
+
+        return Url.Content("~/Images/TraSuaTruyenThong.jpg");
+    }
+
+    public string GetImageByProductName(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name)) return null;
+        var n = name.ToLower();
+        if (n.Contains("truyền thống") || n.Contains("truyen thong")) return "TraSuaTruyenThong.jpg";
+        if (n.Contains("matcha")) return "TraSuaMatCha.jpg";
+        if (n.Contains("đào") || n.Contains("dao")) return "TraDaoCamSa.jpg";
+        if (n.Contains("vải") || n.Contains("vai")) return "TraVaiThanhMat.jpg";
+        if (n.Contains("nướng") || n.Contains("nuong") || n.Contains("o long") || n.Contains("ô long")) return "TraSuaOLongNuong.jpg";
+        if (n.Contains("đường đen") || n.Contains("duong den")) return "TraSuaTranChauDuongDen.jpg";
+        if (n.Contains("khoai môn") || n.Contains("khoai mon")) return "TraSuaKhoaiMon.jpg";
+        if (n.Contains("thái") || n.Contains("thai")) return "TraSuaThaiXanh.jpg";
+        if (n.Contains("socola") || n.Contains("chocolate")) return "TraSuaSocola.jpg";
+        if (n.Contains("xoài") || n.Contains("xoai")) return "TraXoai.jpg";
+        if (n.Contains("chanh dây") || n.Contains("chanh day")) return "TraChanhDay.jpg";
+        if (n.Contains("ổi") || n.Contains("oi")) return "TraOiHong.jpg";
+        if (n.Contains("dâu") || n.Contains("dau")) return "TraDau.jpg";
+        if (n.Contains("cà phê sữa") || n.Contains("cafe sữa") || n.Contains("ca phe sua")) return "CaPheSuaDa.jpg";
+        if (n.Contains("đen") || n.Contains("den")) return "CaPheDen.jpg";
+        if (n.Contains("bạc xỉu") || n.Contains("bac xiu")) return "BacXiu.jpg";
+        if (n.Contains("muối") || n.Contains("muoi")) return "CaPheMuoi.jpg";
+        if (n.Contains("trân châu đen") || n.Contains("tran chau den")) return "TranChauDen.jpg";
+        if (n.Contains("trân châu trắng") || n.Contains("tran chau trang")) return "TranChauTrang.jpg";
+        if (n.Contains("pudding")) return "puudingTrung.jpg";
+        if (n.Contains("thạch") || n.Contains("thach")) return "ThachTraiCay.jpg";
+        if (n.Contains("cheese") || n.Contains("kem")) return "KemChesse.jpg";
+        return null;
+    }
+}
+
+<style>
+    /* Styling riêng cho trang Danh Sách Sản Phẩm (TV2 - Phần 3) */
+    .catalog-header {
+        background: #FFFFFF;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 18px 22px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px var(--shadow);
+    }
+
+    .catalog-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--heading);
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .filter-card {
+        background: #FFFFFF;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 16px 20px;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 8px var(--shadow);
+    }
+
+    .filter-tab-pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--text);
+        background: var(--bg);
+        border: 1px solid var(--border);
+        transition: all 0.2s ease;
+        margin-right: 6px;
+        margin-bottom: 8px;
+        text-decoration: none !important;
+    }
+
+    .filter-tab-pill:hover, .filter-tab-pill.active {
+        background: linear-gradient(135deg, #F0CD6B, #E2B94C);
+        color: #574C50;
+        border-color: #E2B94C;
+        box-shadow: 0 2px 6px rgba(226,185,76,0.35);
+    }
+
+    .filter-control-select {
+        border-radius: 20px;
+        height: 38px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--text);
+        border: 1px solid var(--border);
+        padding: 0 14px;
+        background-color: #FFFFFF;
+    }
+
+    .filter-control-select:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 0.2rem var(--ring);
+        outline: none;
+    }
+
+    /* Product Card */
+    .ts-card {
+        background: #FFFFFF;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        position: relative;
+    }
+
+    .ts-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(87, 76, 80, 0.12);
+        border-color: var(--accent-2);
+    }
+
+    .ts-card-img-wrap {
+        position: relative;
+        width: 100%;
+        height: 175px;
+        background: #FAF7F0;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ts-card-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.35s ease;
+    }
+
+    .ts-card:hover .ts-card-img-wrap img {
+        transform: scale(1.06);
+    }
+
+    .ts-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 20px;
+        z-index: 2;
+    }
+
+    .ts-badge-hot {
+        background: #E53935;
+        color: #FFFFFF;
+        box-shadow: 0 2px 6px rgba(229, 57, 53, 0.4);
+    }
+
+    .ts-card-body {
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        text-align: left;
+    }
+
+    .ts-category-tag {
+        font-size: 0.76rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+        font-weight: 600;
+    }
+
+    .ts-product-name {
+        font-size: 1.02rem;
+        font-weight: 700;
+        margin-bottom: 6px;
+        line-height: 1.35;
+    }
+
+    .ts-product-name a {
+        color: var(--heading);
+        text-decoration: none;
+    }
+
+    .ts-product-name a:hover {
+        color: var(--link);
+    }
+
+    .ts-product-desc {
+        font-size: 0.83rem;
+        color: var(--muted);
+        margin-bottom: 10px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        flex-grow: 1;
+        line-height: 1.45;
+    }
+
+    .ts-price-box {
+        margin-top: auto;
+    }
+
+    .ts-current-price {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: var(--brand);
+    }
+
+    .ts-card-actions {
+        margin-top: 12px;
+        display: flex;
+        gap: 6px;
+    }
+
+    .ts-card-actions .btn {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+        border-radius: 8px;
+    }
+
+    /* Phân trang */
+    .pagination-custom .page-link {
+        color: var(--text);
+        border: 1px solid var(--border);
+        margin: 0 3px;
+        border-radius: 8px;
+        font-weight: 600;
+        padding: 7px 14px;
+        transition: all 0.2s;
+    }
+
+    .pagination-custom .page-item.active .page-link {
+        background: linear-gradient(135deg, #F0CD6B, #E2B94C);
+        border-color: #E2B94C;
+        color: #574C50;
+        box-shadow: 0 2px 6px rgba(226,185,76,0.35);
+    }
+
+    .pagination-custom .page-link:hover {
+        background: #F6EBC8;
+        color: #8F4A37;
+    }
+
+    .empty-state-box {
+        background: #FFFFFF;
+        border: 1px dashed var(--border);
+        border-radius: 16px;
+        padding: 48px 24px;
+        text-align: center;
+        margin: 20px 0;
+    }
+</style>
+
+<!-- TIÊU ĐỀ TRANG DANH SÁCH -->
+<div class="catalog-header d-flex flex-wrap justify-content-between align-items-center">
+    <div>
+        <h2 class="catalog-title">
+            <i class="fas fa-mug-hot text-warning"></i>
+            <span>@Model.TenLoaiHienTai</span>
+        </h2>
+        <small class="text-muted">Khám phá các thức uống hảo hạng pha chế từ nguyên liệu tươi mới mỗi ngày</small>
+    </div>
+    <div class="mt-2 mt-sm-0">
+        <span class="badge badge-pill badge-warning px-3 py-2 font-weight-bold" style="font-size: 0.9rem;">
+            Tìm thấy: @Model.TongSoSanPham món
+        </span>
+    </div>
+</div>
+
+<!-- THANH CÔNG CỤ LỌC & SẮP XẾP SẢN PHẨM -->
+<div class="filter-card">
+    <div class="row align-items-center">
+        <!-- 1. Tabs Lọc theo Danh mục món -->
+        <div class="col-12 col-xl-7 mb-2 mb-xl-0">
+            <span class="small font-weight-bold text-muted text-uppercase d-block mb-1">Danh mục món:</span>
+            <div class="d-flex flex-wrap align-items-center">
+                <a href="@Url.Action("Index", "SanPham", new { maLoai = (int?)null, tuKhoa = Model.TuKhoa, mucGia = Model.MucGia, sort = Model.Sort })"
+                   class="filter-tab-pill @(!Model.MaLoaiHienTai.HasValue ? "active" : "")">
+                    Tất cả món
+                </a>
+
+                @if (Model.DanhMuc != null)
+                {
+                    foreach (var cat in Model.DanhMuc)
+                    {
+                        <a href="@Url.Action("Index", "SanPham", new { maLoai = cat.id, tuKhoa = Model.TuKhoa, mucGia = Model.MucGia, sort = Model.Sort })"
+                           class="filter-tab-pill @(Model.MaLoaiHienTai == cat.id ? "active" : "")">
+                            @cat.name
+                        </a>
+                    }
+                }
+            </div>
+        </div>
+
+        <!-- 2. Dropdown Lọc theo Mức giá & Sắp xếp -->
+        <div class="col-12 col-xl-5">
+            <div class="row">
+                <div class="col-6">
+                    <span class="small font-weight-bold text-muted text-uppercase d-block mb-1">Mức giá:</span>
+                    <select class="form-control filter-control-select" id="selectMucGia" onchange="applyFilter()">
+                        <option value="" @(string.IsNullOrEmpty(Model.MucGia) ? "selected" : "")>Tất cả mức giá</option>
+                        <option value="duoi30" @(Model.MucGia == "duoi30" ? "selected" : "")>Dưới 30.000đ</option>
+                        <option value="30den50" @(Model.MucGia == "30den50" ? "selected" : "")>30.000đ - 50.000đ</option>
+                        <option value="tren50" @(Model.MucGia == "tren50" ? "selected" : "")>Trên 50.000đ</option>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <span class="small font-weight-bold text-muted text-uppercase d-block mb-1">Sắp xếp:</span>
+                    <select class="form-control filter-control-select" id="selectSort" onchange="applyFilter()">
+                        <option value="moi-nhat" @(Model.Sort == "moi-nhat" ? "selected" : "")>Mới nhất</option>
+                        <option value="banchay" @(Model.Sort == "banchay" ? "selected" : "")>Bán chạy nhất</option>
+                        <option value="gia-tang" @(Model.Sort == "gia-tang" ? "selected" : "")>Giá tăng dần</option>
+                        <option value="gia-giam" @(Model.Sort == "gia-giam" ? "selected" : "")>Giá giảm dần</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thông báo từ khóa tìm kiếm đang áp dụng (nếu có) -->
+    @if (!string.IsNullOrWhiteSpace(Model.TuKhoa))
+    {
+        <div class="mt-3 pt-2 border-top d-flex align-items-center justify-content-between">
+            <div>
+                <span class="text-muted small">Đang lọc theo từ khóa:</span>
+                <span class="badge badge-light border px-2 py-1 ml-1 font-weight-bold text-danger">"@Model.TuKhoa"</span>
+            </div>
+            <a href="@Url.Action("Index", "SanPham", new { maLoai = Model.MaLoaiHienTai, mucGia = Model.MucGia, sort = Model.Sort })"
+               class="btn btn-sm btn-outline-danger rounded-pill py-0 px-2" title="Xóa từ khóa tìm kiếm">
+                <i class="fas fa-times"></i> Xóa tìm kiếm
+            </a>
+        </div>
+    }
+</div>
+
+<!-- LƯỚI HIỂN THỊ DANH SÁCH MÓN ĂN -->
+@if (Model.DanhSachSanPham != null && Model.DanhSachSanPham.Any())
+{
+    <div class="row">
+        @foreach (var item in Model.DanhSachSanPham)
+        {
+            <div class="col-12 col-sm-6 col-lg-3 mb-4">
+                <div class="ts-card">
+                    @if (item.is_featured)
+                    {
+                        <span class="ts-badge ts-badge-hot">BEST SELLER</span>
+                    }
+                    <div class="ts-card-img-wrap">
+                        <img src="@ResolveProductImage(item.image, item.name)" 
+                             alt="@item.name" />
+                    </div>
+                    <div class="ts-card-body">
+                        <span class="ts-category-tag">@(item.categories != null ? item.categories.name : "Trà sữa")</span>
+                        <div class="ts-product-name">
+                            <a href="@Url.Action("Details", "SanPham", new { id = item.id })" title="@item.name">
+                                @item.name
+                            </a>
+                        </div>
+                        <p class="ts-product-desc" title="@item.description">
+                            @(string.IsNullOrEmpty(item.description) ? "Thức uống thơm ngon pha chế từ trà tươi mỗi ngày." : item.description)
+                        </p>
+                        <div class="ts-price-box">
+                            <span class="ts-current-price">@item.price.ToString("N0") đ</span>
+                        </div>
+                        <div class="ts-card-actions">
+                            <a href="@Url.Action("Details", "SanPham", new { id = item.id })" class="btn btn-outline-primary flex-fill">
+                                Chi tiết
+                            </a>
+                            <a href="@Url.Action("Details", "SanPham", new { id = item.id })" class="btn btn-ts flex-fill">
+                                Chọn món
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- THANH PHÂN TRANG (PAGINATION) -->
+    if (Model.TongSoTrang > 1)
+    {
+        <div class="d-flex justify-content-center mt-3 mb-4">
+            <nav aria-label="Phân trang sản phẩm">
+                <ul class="pagination pagination-custom">
+                    <!-- Nút Trang trước -->
+                    <li class="page-item @(Model.TrangHienTai <= 1 ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("Index", "SanPham", new { page = Model.TrangHienTai - 1, maLoai = Model.MaLoaiHienTai, tuKhoa = Model.TuKhoa, mucGia = Model.MucGia, sort = Model.Sort })" aria-label="Trước">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+
+                    <!-- Các số trang -->
+                    @for (int p = 1; p <= Model.TongSoTrang; p++)
+                    {
+                        <li class="page-item @(p == Model.TrangHienTai ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Index", "SanPham", new { page = p, maLoai = Model.MaLoaiHienTai, tuKhoa = Model.TuKhoa, mucGia = Model.MucGia, sort = Model.Sort })">
+                                @p
+                            </a>
+                        </li>
+                    }
+
+                    <!-- Nút Trang sau -->
+                    <li class="page-item @(Model.TrangHienTai >= Model.TongSoTrang ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("Index", "SanPham", new { page = Model.TrangHienTai + 1, maLoai = Model.MaLoaiHienTai, tuKhoa = Model.TuKhoa, mucGia = Model.MucGia, sort = Model.Sort })" aria-label="Sau">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    }
+}
+else
+{
+    <!-- TRẠNG THÁI KHÔNG TÌM THẤY MÓN PHÙ HỢP -->
+    <div class="empty-state-box">
+        <i class="fas fa-search text-muted mb-3" style="font-size: 3rem; opacity: 0.5;"></i>
+        <h4 class="font-weight-bold text-dark">Rất tiếc, không tìm thấy món phù hợp!</h4>
+        <p class="text-muted" style="max-width: 500px; margin: 0 auto 16px;">
+            Hãy thử tìm kiếm với từ khóa khác, chọn mức giá rộng hơn hoặc xem lại toàn bộ thực đơn của chúng tôi.
+        </p>
+        <a href="@Url.Action("Index", "SanPham")" class="btn btn-ts px-4 py-2">
+            <i class="fas fa-redo-alt mr-1"></i> Xem lại tất cả thực đơn
+        </a>
+    </div>
+}
+
+@section scripts {
+    <script>
+        // Hàm tự động chuyển trang khi thay đổi Dropdown Mức Giá hoặc Sắp Xếp
+        function applyFilter() {
+            var mucGia = document.getElementById("selectMucGia").value;
+            var sort = document.getElementById("selectSort").value;
+            var url = '@Url.Action("Index", "SanPham")?maLoai=@(Model.MaLoaiHienTai)&tuKhoa=@(Url.Encode(Model.TuKhoa))';
+            if (mucGia) {
+                url += '&mucGia=' + encodeURIComponent(mucGia);
+            }
+            if (sort) {
+                url += '&sort=' + encodeURIComponent(sort);
+            }
+            window.location.href = url;
+        }
+
+        // Bắt lỗi ảnh fallback an toàn không gây lỗi TypeScript
+        window.addEventListener("error", function (e) {
+            var el = e.target;
+            if (el && el.tagName === "IMG") {
+                var fallback = "@Url.Content("~/Images/TraSuaTruyenThong.jpg")";
+                if (el.getAttribute("src") !== fallback) {
+                    el.setAttribute("src", fallback);
+                }
+            }
+        }, true);
+    </script>
+}

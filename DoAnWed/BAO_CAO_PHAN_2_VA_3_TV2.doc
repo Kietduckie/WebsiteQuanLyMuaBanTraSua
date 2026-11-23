@@ -1,0 +1,388 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+    <meta charset="utf-8" />
+    <title>Báo Cáo Nhiệm Vụ Thành Viên 2 - Phần 2 & 3</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 13pt;
+            line-height: 1.5;
+            color: #1a1a1a;
+            margin: 30px;
+        }
+        h1 {
+            color: #BC6A52;
+            font-size: 20pt;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        h2 {
+            color: #574C50;
+            font-size: 15pt;
+            border-bottom: 2px solid #BC6A52;
+            padding-bottom: 5px;
+            margin-top: 25px;
+        }
+        h3 {
+            color: #8F4A37;
+            font-size: 13.5pt;
+            margin-top: 18px;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 13.5pt;
+            font-style: italic;
+            color: #555555;
+            margin-bottom: 25px;
+        }
+        .author-box {
+            background-color: #F7F2E6;
+            border: 1px solid #E1E4D3;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 12pt;
+        }
+        th, td {
+            border: 1px solid #cccccc;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #AEBFB0;
+            color: #333333;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #FAF8F2;
+        }
+        .code-block {
+            background-color: #2b2b2b;
+            color: #f8f8f2;
+            padding: 12px 15px;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 10.5pt;
+            overflow-x: auto;
+            margin: 12px 0;
+            line-height: 1.4;
+        }
+        .highlight-box {
+            background-color: #FFFDF0;
+            border-left: 5px solid #E8C45F;
+            padding: 10px 15px;
+            margin: 15px 0;
+            font-size: 12pt;
+        }
+        .tip-box {
+            background-color: #EEF7EE;
+            border-left: 5px solid #4CAF50;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        ul, ol {
+            margin-left: 20px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        .badge {
+            background-color: #BC6A52;
+            color: #ffffff;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10pt;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>BÁO CÁO CHI TIẾT NHIỆM VỤ THÀNH VIÊN 2 (TV2)</h1>
+    <div class="subtitle">Đồ Án Lập Trình Web ASP.NET MVC — Website Quản Lý Mua Bán Trà Sữa (MilkTea Store)</div>
+
+    <div class="author-box">
+        <b>Dự án:</b> Website Quản Lý Mua Bán Trà Sữa (MilkTea Store)<br />
+        <b>Vai trò đảm nhận:</b> Thành viên 2 (TV2) – Hiển thị và lựa chọn trà sữa<br />
+        <b>Nhiệm vụ trọng tâm:</b> Thiết kế và lập trình hoàn thiện <b>Phần 2 (Trang Chủ)</b> và <b>Phần 3 (Danh Sách Sản Phẩm & Bộ Lọc)</b><br />
+        <b>Công nghệ áp dụng:</b> ASP.NET MVC 5, C# .NET 4.7.2, Entity Framework 6, Razor View Engine, Bootstrap 4, jQuery, HTML5/CSS3 Responsive.
+    </div>
+
+    <h2>CHƯƠNG 1: TỔNG QUAN VAI TRÒ & PHÂN TÍCH NHIỆM VỤ CỦA TV2</h2>
+    <p>
+        Trong đồ án xây dựng Website Quản lý và Mua bán Trà sữa, <b>Thành viên 2 (TV2)</b> giữ vai trò cốt lõi trong việc xây dựng 
+        <b>Toàn bộ giao diện mua sắm và phần xử lý hiển thị sản phẩm</b> cho người tiêu dùng.
+    </p>
+    <p>Theo bản phân công trách nhiệm nhóm, nhiệm vụ của TV2 được chia thành 5 phần việc tuần tự:</p>
+    <ul>
+        <li><b>Phần 1:</b> Thiết kế Layout dùng chung (<code>LayoutPage.cshtml</code>), Menu 2 cấp, thanh Sidebar danh mục (<code>_SidebarPartial.cshtml</code>).</li>
+        <li><b>Phần 2:</b> Thiết kế và lập trình giao diện <b>Trang Chủ (Homepage Showcase)</b> hoàn chỉnh với Banner Slider đôi, Slogan giới thiệu, Món bán chạy nhất và Thực đơn theo nhóm.</li>
+        <li><b>Phần 3:</b> Thiết kế và lập trình <b>Trang Danh Sách Sản Phẩm & Bộ Lọc Đa Năng (Catalog & Filter)</b> với đầy đủ bộ lọc danh mục, lọc theo mức giá, sắp xếp và phân trang.</li>
+        <li><b>Phần 4:</b> Thiết kế <b>Trang Chi Tiết Món (Product Details)</b> với các tùy chọn chọn Size (M/L), thêm Topping, chọn mức đường/đá và tính giá động.</li>
+        <li><b>Phần 5:</b> Kiểm thử luồng dữ liệu, tích hợp CSDL Entity Framework và chuyển giao dữ liệu đơn đặt hàng cho TV3 (Làm giỏ hàng).</li>
+    </ul>
+
+    <hr />
+
+    <h2>CHƯƠNG 2: CHI TIẾT CÁC BƯỚC THỰC HIỆN VÀ GIẢI THÍCH MÃ NGUỒN PHẦN 2 (TRANG CHỦ)</h2>
+    
+    <h3>2.1. Cấu trúc tổng thể của Trang Chủ (Views/TrangChu/Index.cshtml)</h3>
+    <p>Trang chủ là trang tiếp cận đầu tiên của khách hàng, được xây dựng gồm 5 khối chức năng bám sát hình ảnh mẫu thực tế:</p>
+    <ol>
+        <li><b>Cụm Banner Đôi / Slider:</b> Bên trái là Carousel tự động trượt giới thiệu sản phẩm đặc sắc (Matcha Signature, Coffee Shop) kèm nút chuyển slide; bên phải là Banner khuyến mãi đồ uống có nút dẫn trực tiếp sang menu Cà phê.</li>
+        <li><b>Khối Giới Thiệu Chào Mừng (Dark Hero Banner):</b> Thiết kế theo tone nâu sẫm ấm cúng của hạt cà phê/trà (<code>linear-gradient(135deg, #2D241D, #3F3327)</code>), hiển thị câu chuyện thương hiệu và các nút chuyển nhanh danh mục có kèm số lượng món.</li>
+        <li><b>Khối Món Bán Chạy Nhất (Best Seller):</b> Lọc ra các món có thuộc tính <code>is_featured = true</code>, gắn nhãn đỏ nổi bật để kích thích sức mua.</li>
+        <li><b>Khối Món Mới & Đa Dạng Hương Vị:</b> Liệt kê danh sách thực đơn chia theo từng nhóm (Trà sữa, Trà trái cây, Cà phê, Topping).</li>
+        <li><b>Khối Cam Kết Dịch Vụ:</b> 3 khối chính sách tạo độ tin cậy (100% Trà tươi nguyên lá, Topping nấu mới mỗi ngày, Giao hàng siêu tốc).</li>
+    </ol>
+
+    <h3>2.2. Giải thích chi tiết mã nguồn Controller (TrangChuController.cs)</h3>
+    <p>Trong <code>TrangChuController</code>, action <code>Index()</code> chịu trách nhiệm chuẩn bị toàn bộ dữ liệu cho ViewModel:</p>
+    
+    <div class="code-block">
+public ActionResult Index()
+{
+    var mockData = GetMockViewModel();
+    try
+    {
+        // 1. Lấy danh sách sản phẩm và danh mục đang hoạt động qua Entity Framework
+        var dsProducts = db.products.Include(p => p.categories).Where(p => p.status).ToList();
+        var dsCategories = db.categories.Where(c => c.status).ToList();
+
+        if (dsProducts.Any())
+        {
+            // Bổ sung đầy đủ 22 món từ thư mục Images nếu CSDL chưa có đủ
+            var existingNames = new HashSet&lt;string&gt;(dsProducts.Select(p => p.name.ToLower().Trim()));
+            foreach (var mp in mockData.TatCaSanPham)
+            {
+                if (!existingNames.Contains(mp.name.ToLower().Trim()))
+                {
+                    dsProducts.Add(mp);
+                }
+            }
+
+            viewModel.SanPhamBanChay = dsProducts.Where(p => p.is_featured).Take(4).ToList();
+            viewModel.SanPhamMoi = dsProducts.OrderByDescending(p => p.id).Take(8).ToList();
+            viewModel.TatCaSanPham = dsProducts;
+            viewModel.DanhMucNoiBat = dsCategories;
+            return View(viewModel);
+        }
+    }
+    catch (Exception) { }
+
+    return View(mockData);
+}
+    </div>
+
+    <div class="highlight-box">
+        <b>Tác dụng của đoạn code:</b>
+        <ul>
+            <li>Sử dụng <code>db.products.Include(p => p.categories)</code> để nạp kèm thông tin tên danh mục bằng Eager Loading, tối ưu hiệu năng truy vấn.</li>
+            <li>Cơ chế <b>bổ sung thông minh (Merge Fallback)</b>: Nếu CSDL của bạn mới chỉ nhập 4 món, Controller sẽ tự động bổ sung 18 món còn lại từ bộ ảnh để trang web luôn tràn ngập đủ 22 món hấp dẫn ở 4 danh mục.</li>
+        </ul>
+    </div>
+
+    <h3>2.3. Giải thích hàm ánh xạ ảnh thông minh (ResolveProductImage) trong View</h3>
+    <p>Để giải quyết triệt để vấn đề tên ảnh không khớp giữa CSDL và file trên đĩa:</p>
+
+    <div class="code-block">
+public string ResolveProductImage(string imgPath, string productName = "")
+{
+    // 1. Quét theo tên món để tìm file ảnh thực tế tương ứng trong thư mục Images
+    string mappedFile = GetImageByProductName(productName);
+
+    // 2. Nếu trong CSDL có đường dẫn, kiểm tra file có tồn tại trên ổ đĩa không
+    if (!string.IsNullOrWhiteSpace(imgPath))
+    {
+        string fileName = System.IO.Path.GetFileName(imgPath);
+        string phys = System.Web.Hosting.HostingEnvironment.MapPath("~/Images/" + fileName);
+        if (!string.IsNullOrEmpty(phys) && System.IO.File.Exists(phys))
+        {
+            return Url.Content("~/Images/" + fileName);
+        }
+    }
+
+    // 3. Nếu tên món khớp với file ảnh đã có trong thư mục Images
+    if (!string.IsNullOrEmpty(mappedFile))
+    {
+        return Url.Content("~/Images/" + mappedFile);
+    }
+
+    return Url.Content("~/Images/TraSuaTruyenThong.jpg");
+}
+    </div>
+
+    <hr />
+
+    <h2>CHƯƠNG 3: CHI TIẾT CÁC BƯỚC THỰC HIỆN VÀ GIẢI THÍCH MÃ NGUỒN PHẦN 3 (DANH SÁCH & BỘ LỌC)</h2>
+
+    <h3>3.1. Thiết kế ViewModel (DanhSachSanPhamViewModel)</h3>
+    <p>Để quản lý dữ liệu lọc đa chiều từ URL, TV2 tạo một ViewModel chuyên dụng trong <code>Models/SanPham.cs</code>:</p>
+
+    <table>
+        <tr>
+            <th>Tên thuộc tính</th>
+            <th>Kiểu dữ liệu</th>
+            <th>Ý nghĩa và tác dụng</th>
+        </tr>
+        <tr>
+            <td><code>DanhSachSanPham</code></td>
+            <td><code>List&lt;products&gt;</code></td>
+            <td>Chứa danh sách các món sau khi đã lọc và phân trang để đổ lên lưới hiển thị.</td>
+        </tr>
+        <tr>
+            <td><code>DanhMuc</code></td>
+            <td><code>List&lt;categories&gt;</code></td>
+            <td>Chứa các danh mục trà sữa để hiển thị lên thanh tab lọc nhanh.</td>
+        </tr>
+        <tr>
+            <td><code>MaLoaiHienTai</code></td>
+            <td><code>int?</code></td>
+            <td>Lưu mã danh mục đang được lọc (null = xem tất cả).</td>
+        </tr>
+        <tr>
+            <td><code>TuKhoa</code></td>
+            <td><code>string</code></td>
+            <td>Từ khóa tìm kiếm nhận từ thanh Search trên Header của TV1.</td>
+        </tr>
+        <tr>
+            <td><code>MucGia</code></td>
+            <td><code>string</code></td>
+            <td>Tiêu chí lọc giá: <code>duoi30</code>, <code>30den50</code>, <code>tren50</code>.</td>
+        </tr>
+        <tr>
+            <td><code>Sort</code></td>
+            <td><code>string</code></td>
+            <td>Tiêu chí sắp xếp: <code>moi-nhat</code>, <code>banchay</code>, <code>gia-tang</code>, <code>gia-giam</code>.</td>
+        </tr>
+        <tr>
+            <td><code>TrangHienTai / TongSoTrang</code></td>
+            <td><code>int</code></td>
+            <td>Quản lý số trang phục vụ thanh điều hướng phân trang.</td>
+        </tr>
+    </table>
+
+    <h3>3.2. Giải thích chi tiết Controller (SanPhamController.cs)</h3>
+    <p>Action <code>Index</code> trong <code>SanPhamController</code> thực hiện chuỗi lọc dữ liệu (Pipeline Filtering) bằng LINQ:</p>
+
+    <div class="code-block">
+public ActionResult Index(int? maLoai, string tuKhoa, string sort, string mucGia, int page = 1)
+{
+    int pageSize = 12; // 12 món / trang (3 hàng x 4 cột cân đối)
+    var query = allProducts.AsQueryable();
+
+    // 1. Lọc theo Danh mục
+    if (maLoai.HasValue && maLoai.Value > 0)
+    {
+        query = query.Where(p => p.category_id == maLoai.Value);
+    }
+
+    // 2. Tìm kiếm theo Từ khóa (Tên món hoặc Mô tả)
+    if (!string.IsNullOrWhiteSpace(tuKhoa))
+    {
+        string kw = tuKhoa.Trim().ToLower();
+        query = query.Where(p => (p.name != null && p.name.ToLower().Contains(kw)) ||
+                                 (p.description != null && p.description.ToLower().Contains(kw)));
+    }
+
+    // 3. Lọc theo Mức giá
+    if (!string.IsNullOrWhiteSpace(mucGia))
+    {
+        if (mucGia == "duoi30") query = query.Where(p => p.price < 30000);
+        else if (mucGia == "30den50") query = query.Where(p => p.price >= 30000 && p.price <= 50000);
+        else if (mucGia == "tren50") query = query.Where(p => p.price > 50000);
+    }
+
+    // 4. Sắp xếp kết quả
+    switch (sort)
+    {
+        case "gia-tang": query = query.OrderBy(p => p.price); break;
+        case "gia-giam": query = query.OrderByDescending(p => p.price); break;
+        case "banchay":  query = query.OrderByDescending(p => p.is_featured); break;
+        default:         query = query.OrderByDescending(p => p.id); break; // Mới nhất
+    }
+
+    // 5. Phân trang toán học
+    int totalItems = query.Count();
+    int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+    var pagedList = query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+    return View(viewModel);
+}
+    </div>
+
+    <h3>3.3. Tinh chỉnh kích thước ảnh món ăn gọn gàng và thẩm mỹ</h3>
+    <p>Để giải quyết tình trạng <i>"ảnh món ăn bị hơi bự"</i>, TV2 đã tinh chỉnh lại CSS khung chứa ảnh (<code>.ts-card-img-wrap</code>):</p>
+    <ul>
+        <li>Thay thế tỉ lệ cao cũ (<code>padding-top: 85%</code>) bằng chiều cao cố định chuẩn: <b><code>height: 175px</code></b>.</li>
+        <li>Sử dụng thuộc tính <code>object-fit: cover</code> giúp ảnh luôn căng tròn, sắc nét, không bị méo tỉ lệ nhưng cũng không chiếm quá nhiều diện tích thẻ sản phẩm.</li>
+        <li>Tạo khoảng trống cân bằng để phần Tên món, Mô tả ngắn và Giá tiền hiển thị trang nhã, hiện đại.</li>
+    </ul>
+
+    <hr />
+
+    <h2>CHƯƠNG 4: RÀ SOÁT LỖI & ĐIỂM GIAO TIẾP VỚI CÁC THÀNH VIÊN KHÁC</h2>
+
+    <table>
+        <tr>
+            <th>Thành viên phối hợp</th>
+            <th>Điểm giao tiếp dữ liệu</th>
+            <th>Kết quả rà soát xung đột</th>
+        </tr>
+        <tr>
+            <td><b>TV1 (Tài khoản & Danh mục)</b></td>
+            <td>
+                - Form tìm kiếm trên Navbar: <code>Html.BeginForm("TimKiem", "SanPham")</code>.<br />
+                - Bảng <code>categories</code>: TV1 quản lý thêm/sửa/xóa loại món.
+            </td>
+            <td>
+                <span class="badge">Tương thích 100%</span> TV2 đã tạo action <code>TimKiem</code> tiếp nhận từ khóa mượt mà. Khi TV1 cập nhật danh mục, thanh Tab lọc của TV2 tự động cập nhật theo CSDL.
+            </td>
+        </tr>
+        <tr>
+            <td><b>TV3 (Mua hàng & Giỏ hàng)</b></td>
+            <td>
+                - Nút <i>"Chọn món"</i> dẫn đến <code>SanPham/Details/{id}</code>.<br />
+                - Badge giỏ hàng trên Header: Đọc <code>Session["GioHang"]</code>.
+            </td>
+            <td>
+                <span class="badge">Sẵn sàng kết nối</span> TV2 đã chuẩn bị sẵn Action <code>Details</code> trong <code>SanPhamController</code> để bàn giao luồng tùy chọn Size/Topping sang giỏ hàng của TV3.
+            </td>
+        </tr>
+        <tr>
+            <td><b>TV4 (Quản trị sản phẩm)</b></td>
+            <td>
+                - Cấu trúc bảng <code>products</code>, <code>toppings</code>.<br />
+                - Tên file hình ảnh trong thư mục <code>WebApplication4/Images</code>.
+            </td>
+            <td>
+                <span class="badge">Đồng bộ hoàn toàn</span> File ảnh của TV2 đã được chuẩn hóa. TV2 đã viết sẵn file <code>QuanLyTraSua_SeedData.sql</code> để TV4 nạp dữ liệu vào SQL Server mà không bị lệch cột.
+            </td>
+        </tr>
+    </table>
+
+    <hr />
+
+    <h2>CHƯƠNG 5: TỔNG KẾT CÁC TẬP TIN ĐÃ THỰC HIỆN BỞI TV2</h2>
+    <ul>
+        <li><code>Controllers/TrangChuController.cs</code>: Quản lý logic hiển thị Trang Chủ và dữ liệu mẫu dự phòng.</li>
+        <li><code>Controllers/SanPhamController.cs</code>: Quản lý danh sách món, bộ lọc đa năng, sắp xếp, tìm kiếm và phân trang.</li>
+        <li><code>Models/SanPham.cs</code>: Mở rộng thực thể <code>products</code>, khai báo <code>TrangChuViewModel</code> và <code>DanhSachSanPhamViewModel</code>.</li>
+        <li><code>Views/Shared/LayoutPage.cshtml</code>: Khung sườn giao diện chung toàn site, tích hợp Theme màu kem ấm, thanh Header và Modal tiện ích.</li>
+        <li><code>Views/Shared/_SidebarPartial.cshtml</code>: Thanh danh mục bên trái, hỗ trợ thu gọn/mở rộng và đồng bộ mục trang.</li>
+        <li><code>Views/TrangChu/Index.cshtml</code>: Giao diện Trang chủ hoàn chỉnh có Banner Carousel đôi và khối giới thiệu thương hiệu.</li>
+        <li><code>Views/SanPham/Index.cshtml</code>: Giao diện Danh sách sản phẩm kèm bộ lọc tương tác hiện đại (ảnh gọn 175px).</li>
+        <li><code>DoAnWed/WebApplication4/Images/</code>: Thư mục chứa trọn bộ 22 ảnh sản phẩm chất lượng cao cùng 2 ảnh Banner quảng cáo.</li>
+        <li><code>DoAnWed/QuanLyTraSua_SeedData.sql</code>: Script SQL nạp dữ liệu mẫu đồng bộ hoàn toàn với mã nguồn.</li>
+        <li><code>DoAnWed/BAO_CAO_PHAN_2_VA_3_TV2.doc</code>: <b>File tài liệu Word chính thức để nộp đồ án.</b></li>
+    </ul>
+
+</body>
+</html>
