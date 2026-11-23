@@ -75,51 +75,19 @@
         background: #FFFFFF;
         border: 1px solid var(--border);
         border-radius: 14px;
-        padding: 18px 22px;
-        margin-bottom: 20px;
+        padding: 16px 22px;
+        margin-bottom: 22px;
         box-shadow: 0 2px 8px var(--shadow);
     }
 
     .catalog-title {
-        font-size: 1.5rem;
+        font-size: 1.45rem;
         font-weight: 800;
         color: var(--heading);
         margin: 0;
         display: flex;
         align-items: center;
         gap: 10px;
-    }
-
-    .filter-card {
-        background: #FFFFFF;
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 16px 20px;
-        margin-bottom: 24px;
-        box-shadow: 0 2px 8px var(--shadow);
-    }
-
-    .filter-tab-pill {
-        display: inline-flex;
-        align-items: center;
-        padding: 6px 16px;
-        border-radius: 20px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        color: var(--text);
-        background: var(--bg);
-        border: 1px solid var(--border);
-        transition: all 0.2s ease;
-        margin-right: 6px;
-        margin-bottom: 8px;
-        text-decoration: none !important;
-    }
-
-    .filter-tab-pill:hover, .filter-tab-pill.active {
-        background: linear-gradient(135deg, #F0CD6B, #E2B94C);
-        color: #574C50;
-        border-color: #E2B94C;
-        box-shadow: 0 2px 6px rgba(226,185,76,0.35);
     }
 
     .filter-control-select {
@@ -297,49 +265,25 @@
     }
 </style>
 
-<!-- TIÊU ĐỀ TRANG DANH SÁCH -->
-<div class="catalog-header d-flex flex-wrap justify-content-between align-items-center">
-    <div>
-        <h2 class="catalog-title">
-            <i class="fas fa-mug-hot text-warning"></i>
-            <span>@Model.TenLoaiHienTai</span>
-        </h2>
-        <small class="text-muted">Khám phá các thức uống hảo hạng pha chế từ nguyên liệu tươi mới mỗi ngày</small>
-    </div>
-    <div class="mt-2 mt-sm-0">
-        <span class="badge badge-pill badge-warning px-3 py-2 font-weight-bold" style="font-size: 0.9rem;">
-            Tìm thấy: @Model.TongSoSanPham món
-        </span>
-    </div>
-</div>
-
-<!-- THANH CÔNG CỤ LỌC & SẮP XẾP SẢN PHẨM -->
-<div class="filter-card">
+<!-- TIÊU ĐỀ TRANG VÀ BỘ LỌC SẮP XẾP -->
+<div class="catalog-header">
     <div class="row align-items-center">
-        <!-- 1. Tabs Lọc theo Danh mục món -->
-        <div class="col-12 col-xl-7 mb-2 mb-xl-0">
-            <span class="small font-weight-bold text-muted text-uppercase d-block mb-1">Danh mục món:</span>
-            <div class="d-flex flex-wrap align-items-center">
-                <a href="@Url.Action("Index", "SanPham", new { maLoai = (int?)null, tuKhoa = Model.TuKhoa, mucGia = Model.MucGia, sort = Model.Sort })"
-                   class="filter-tab-pill @(!Model.MaLoaiHienTai.HasValue ? "active" : "")">
-                    Tất cả món
-                </a>
-
-                @if (Model.DanhMuc != null)
-                {
-                    foreach (var cat in Model.DanhMuc)
-                    {
-                        <a href="@Url.Action("Index", "SanPham", new { maLoai = cat.id, tuKhoa = Model.TuKhoa, mucGia = Model.MucGia, sort = Model.Sort })"
-                           class="filter-tab-pill @(Model.MaLoaiHienTai == cat.id ? "active" : "")">
-                            @cat.name
-                        </a>
-                    }
-                }
+        <!-- 1. Tiêu đề danh mục và số lượng món -->
+        <div class="col-12 col-lg-6 col-xl-7 mb-3 mb-lg-0">
+            <div class="d-flex align-items-center flex-wrap">
+                <h2 class="catalog-title mb-0 mr-3">
+                    <i class="fas fa-mug-hot text-warning"></i>
+                    <span>@Model.TenLoaiHienTai</span>
+                </h2>
+                <span class="badge badge-pill badge-warning px-3 py-1 font-weight-bold" style="font-size: 0.88rem;">
+                    Tìm thấy: @Model.TongSoSanPham món
+                </span>
             </div>
+            <small class="text-muted d-block mt-1">Khám phá các thức uống hảo hạng pha chế từ nguyên liệu tươi mới mỗi ngày</small>
         </div>
 
-        <!-- 2. Dropdown Lọc theo Mức giá & Sắp xếp -->
-        <div class="col-12 col-xl-5">
+        <!-- 2. Bộ lọc Mức giá & Sắp xếp được đẩy lên đây -->
+        <div class="col-12 col-lg-6 col-xl-5">
             <div class="row">
                 <div class="col-6">
                     <span class="small font-weight-bold text-muted text-uppercase d-block mb-1">Mức giá:</span>
