@@ -36,4 +36,33 @@ namespace WebApplication4.Models
         public int TrangHienTai { get; set; }
         public int TongSoTrang { get; set; }
     }
+
+    // Model cho Tùy chọn Size (Phần 4)
+    public class TuyChonSize
+    {
+        public string MaSize { get; set; }
+        public string TenSize { get; set; }
+        public decimal GiaCongThem { get; set; }
+        public bool MacDinh { get; set; }
+    }
+
+    // Model cho Tùy chọn Topping (Phần 4)
+    public class TuyChonTopping
+    {
+        public int Id { get; set; }
+        public string TenTopping { get; set; }
+        public decimal Gia { get; set; }
+        public string HinhAnh { get; set; }
+    }
+
+    // ViewModel cho trang Chi tiết sản phẩm & Tùy chọn món (Phần 4 - TV2)
+    public class ChiTietSanPhamViewModel
+    {
+        public products SanPham { get; set; }
+        public List<products> SanPhamLienQuan { get; set; }
+        public List<TuyChonSize> DanhSachSize { get; set; }
+        public List<TuyChonTopping> DanhSachTopping { get; set; }
+        public List<string> DanhSachDuong { get; set; }
+        public List<string> DanhSachDa { get; set; }
+    }
 }

@@ -158,7 +158,7 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Index", new { tuKhoa = tuKhoa });
         }
 
-        // Action xem chi tiết sản phẩm (Chuẩn bị cho Phần 4)
+        // GET: SanPham/Details/5 (Chi tiết sản phẩm & Tùy chọn món - Nhiệm vụ TV2 Phần 4)
         public ActionResult Details(int? id)
         {
             if (!id.HasValue)
@@ -169,7 +169,7 @@ namespace WebApplication4.Controllers
             products product = null;
             try
             {
-                product = db.products.Include(p => p.categories).FirstOrDefault(p => p.id == id.Value);
+                product = db.products.Include(p => p.categories).FirstOrDefault(p => p.id == id.Value && p.status);
             }
             catch { }
 
@@ -178,23 +178,84 @@ namespace WebApplication4.Controllers
                 product = GetMockProducts().FirstOrDefault(p => p.id == id.Value) ?? GetMockProducts().First();
             }
 
-            // Danh sách sản phẩm liên quan (cùng danh mục)
-            List<products> lienQuan;
+            // 1. Sản phẩm liên quan (cùng danh mục)
+            List<products> lienQuan = new List<products>();
             try
             {
-                lienQuan = db.products.Where(p => p.category_id == product.category_id && p.id != product.id).Take(4).ToList();
-                if (!lienQuan.Any())
-                {
-                    lienQuan = GetMockProducts().Where(p => p.category_id == product.category_id && p.id != product.id).Take(4).ToList();
-                }
+                lienQuan = db.products.Include(p => p.categories)
+                    .Where(p => p.category_id == product.category_id && p.id != product.id && p.status)
+                    .Take(4).ToList();
             }
-            catch
+            catch { }
+
+            if (!lienQuan.Any())
             {
-                lienQuan = GetMockProducts().Where(p => p.category_id == product.category_id && p.id != product.id).Take(4).ToList();
+                lienQuan = GetMockProducts()
+                    .Where(p => p.category_id == product.category_id && p.id != product.id)
+                    .Take(4).ToList();
             }
 
-            ViewBag.SanPhamLienQuan = lienQuan;
-            return View(product);
+            if (lienQuan.Count < 4)
+            {
+                var others = GetMockProducts().Where(p => p.id != product.id && !lienQuan.Any(l => l.id == p.id)).Take(4 - lienQuan.Count).ToList();
+                lienQuan.AddRange(others);
+            }
+
+            // 2. Danh sách Size (nếu là thức uống; nếu là topping thì không có size)
+            var dsSize = new List<TuyChonSize>();
+            if (product.category_id != 4)
+            {
+                dsSize.Add(new TuyChonSize { MaSize = "M", TenSize = "Size Vừa (M)", GiaCongThem = 0, MacDinh = true });
+                dsSize.Add(new TuyChonSize { MaSize = "L", TenSize = "Size Lớn (L)", GiaCongThem = 6000, MacDinh = false });
+            }
+
+            // 3. Danh sách Topping (Lấy từ danh mục Topping thêm)
+            var dsTopping = new List<TuyChonTopping>();
+            if (product.category_id != 4)
+            {
+                try
+                {
+                    var dbToppings = db.products.Where(p => p.category_id == 4 && p.status).ToList();
+                    if (dbToppings.Any())
+                    {
+                        dsTopping = dbToppings.Select(t => new TuyChonTopping
+                        {
+                            Id = t.id,
+                            TenTopping = t.name,
+                            Gia = t.price,
+                            HinhAnh = t.image
+                        }).ToList();
+                    }
+                }
+                catch { }
+
+                if (!dsTopping.Any())
+                {
+                    dsTopping = GetMockProducts().Where(p => p.category_id == 4).Select(t => new TuyChonTopping
+                    {
+                        Id = t.id,
+                        TenTopping = t.name,
+                        Gia = t.price,
+                        HinhAnh = t.image
+                    }).ToList();
+                }
+            }
+
+            // 4. Danh sách Đường và Đá
+            var dsDuong = new List<string> { "100% đường (Chuẩn)", "70% đường", "50% đường", "30% đường", "Không đường (0%)" };
+            var dsDa = new List<string> { "100% đá (Chuẩn)", "70% đá", "50% đá", "Không đá (0%)", "Để đá riêng" };
+
+            var viewModel = new ChiTietSanPhamViewModel
+            {
+                SanPham = product,
+                SanPhamLienQuan = lienQuan,
+                DanhSachSize = dsSize,
+                DanhSachTopping = dsTopping,
+                DanhSachDuong = dsDuong,
+                DanhSachDa = dsDa
+            };
+
+            return View(viewModel);
         }
 
         // Dữ liệu mẫu dự phòng đồng bộ 22 món khớp với thư mục Images

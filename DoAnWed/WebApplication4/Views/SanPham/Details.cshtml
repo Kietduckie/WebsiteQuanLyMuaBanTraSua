@@ -1,0 +1,890 @@
+@model WebApplication4.Models.ChiTietSanPhamViewModel
+
+@{
+    ViewBag.Title = Model.SanPham.name + " - Chi Tiết Món | MilkTea Store";
+    Layout = "~/Views/Shared/LayoutPage.cshtml";
+}
+
+@section Sidebar {
+    @Html.Partial("_SidebarPartial")
+}
+
+@functions {
+    public string ResolveProductImage(string imgPath, string productName = "")
+    {
+        string mappedFile = GetImageByProductName(productName);
+
+        if (!string.IsNullOrWhiteSpace(imgPath))
+        {
+            string fileName = System.IO.Path.GetFileName(imgPath);
+            string phys = System.Web.Hosting.HostingEnvironment.MapPath("~/Images/" + fileName);
+            if (!string.IsNullOrEmpty(phys) && System.IO.File.Exists(phys))
+            {
+                return Url.Content("~/Images/" + fileName);
+            }
+        }
+
+        if (!string.IsNullOrEmpty(mappedFile))
+        {
+            return Url.Content("~/Images/" + mappedFile);
+        }
+
+        if (!string.IsNullOrWhiteSpace(imgPath))
+        {
+            if (imgPath.StartsWith("~/")) return Url.Content(imgPath);
+            if (imgPath.StartsWith("/")) return Url.Content("~" + imgPath);
+            return Url.Content("~/Images/" + imgPath);
+        }
+
+        return Url.Content("~/Images/TraSuaTruyenThong.jpg");
+    }
+
+    public string GetImageByProductName(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name)) return null;
+        var n = name.ToLower();
+        if (n.Contains("truyền thống") || n.Contains("truyen thong")) return "TraSuaTruyenThong.jpg";
+        if (n.Contains("matcha")) return "TraSuaMatCha.jpg";
+        if (n.Contains("đào") || n.Contains("dao")) return "TraDaoCamSa.jpg";
+        if (n.Contains("vải") || n.Contains("vai")) return "TraVaiThanhMat.jpg";
+        if (n.Contains("nướng") || n.Contains("nuong") || n.Contains("o long") || n.Contains("ô long")) return "TraSuaOLongNuong.jpg";
+        if (n.Contains("đường đen") || n.Contains("duong den")) return "TraSuaTranChauDuongDen.jpg";
+        if (n.Contains("khoai môn") || n.Contains("khoai mon")) return "TraSuaKhoaiMon.jpg";
+        if (n.Contains("thái") || n.Contains("thai")) return "TraSuaThaiXanh.jpg";
+        if (n.Contains("socola") || n.Contains("chocolate")) return "TraSuaSocola.jpg";
+        if (n.Contains("xoài") || n.Contains("xoai")) return "TraXoai.jpg";
+        if (n.Contains("chanh dây") || n.Contains("chanh day")) return "TraChanhDay.jpg";
+        if (n.Contains("ổi") || n.Contains("oi")) return "TraOiHong.jpg";
+        if (n.Contains("dâu") || n.Contains("dau")) return "TraDau.jpg";
+        if (n.Contains("cà phê sữa") || n.Contains("cafe sữa") || n.Contains("ca phe sua")) return "CaPheSuaDa.jpg";
+        if (n.Contains("đen") || n.Contains("den")) return "CaPheDen.jpg";
+        if (n.Contains("bạc xỉu") || n.Contains("bac xiu")) return "BacXiu.jpg";
+        if (n.Contains("muối") || n.Contains("muoi")) return "CaPheMuoi.jpg";
+        if (n.Contains("trân châu đen") || n.Contains("tran chau den")) return "TranChauDen.jpg";
+        if (n.Contains("trân châu trắng") || n.Contains("tran chau trang")) return "TranChauTrang.jpg";
+        if (n.Contains("pudding")) return "puudingTrung.jpg";
+        if (n.Contains("thạch") || n.Contains("thach")) return "ThachTraiCay.jpg";
+        if (n.Contains("cheese") || n.Contains("kem")) return "KemChesse.jpg";
+        return null;
+    }
+}
+
+<style>
+    /* Styling trang Chi Tiết Sản Phẩm (TV2 - Phần 4) */
+    .dt-breadcrumb {
+        background: #FFFFFF;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px 18px;
+        margin-bottom: 20px;
+        font-size: 0.9rem;
+    }
+
+    .dt-breadcrumb a {
+        color: var(--link);
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .dt-breadcrumb a:hover {
+        color: var(--brand);
+    }
+
+    .dt-main-card {
+        background: #FFFFFF;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        box-shadow: 0 4px 16px var(--shadow);
+        padding: 28px 24px;
+        margin-bottom: 36px;
+    }
+
+    /* Khung ảnh chi tiết */
+    .dt-img-box {
+        position: relative;
+        background: #FFFDF8;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        height: 380px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .dt-img-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+    .dt-img-box:hover img {
+        transform: scale(1.05);
+    }
+
+    .dt-badge {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        background: #E84C3D;
+        color: #FFFFFF;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        padding: 4px 12px;
+        border-radius: 20px;
+        box-shadow: 0 2px 6px rgba(232,76,61,0.35);
+        z-index: 2;
+    }
+
+    .dt-features-list {
+        display: flex;
+        gap: 12px;
+        margin-top: 14px;
+    }
+
+    .dt-feature-item {
+        flex: 1;
+        background: #FFFDF8;
+        border: 1px dashed var(--border);
+        border-radius: 10px;
+        padding: 8px 10px;
+        text-align: center;
+        font-size: 0.78rem;
+        color: var(--text);
+        font-weight: 600;
+    }
+
+    .dt-feature-item i {
+        color: var(--brand);
+        display: block;
+        font-size: 1.1rem;
+        margin-bottom: 4px;
+    }
+
+    /* Thông tin món */
+    .dt-category-label {
+        display: inline-block;
+        background: rgba(143, 74, 55, 0.1);
+        color: var(--brand);
+        font-weight: 700;
+        font-size: 0.8rem;
+        padding: 3px 12px;
+        border-radius: 20px;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+    }
+
+    .dt-title {
+        font-size: 1.85rem;
+        font-weight: 800;
+        color: var(--heading);
+        margin-bottom: 8px;
+        line-height: 1.3;
+    }
+
+    .dt-rating-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.88rem;
+        color: var(--muted);
+        margin-bottom: 14px;
+    }
+
+    .dt-stars {
+        color: #F1C40F;
+        letter-spacing: 2px;
+    }
+
+    .dt-price-wrap {
+        background: #FFF9EE;
+        border: 1px solid #F6D87B;
+        border-radius: 12px;
+        padding: 12px 18px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+    }
+
+    .dt-price-main {
+        font-size: 1.8rem;
+        font-weight: 900;
+        color: var(--brand);
+    }
+
+    .dt-price-note {
+        font-size: 0.85rem;
+        color: var(--muted);
+    }
+
+    .dt-desc {
+        font-size: 0.94rem;
+        color: var(--text);
+        line-height: 1.6;
+        margin-bottom: 22px;
+    }
+
+    /* Tùy chọn món (Size, Đường, Đá) */
+    .option-group-title {
+        font-size: 0.92rem;
+        font-weight: 800;
+        color: var(--heading);
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .option-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 18px;
+    }
+
+    .option-pill-label {
+        cursor: pointer;
+        margin: 0;
+    }
+
+    .option-pill-label input[type="radio"] {
+        display: none;
+    }
+
+    .option-pill-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 7px 16px;
+        border-radius: 24px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--text);
+        background: #FFFDF8;
+        border: 1px solid var(--border);
+        transition: all 0.2s ease;
+    }
+
+    .option-pill-label input[type="radio"]:checked + .option-pill-btn {
+        background: linear-gradient(135deg, #F0CD6B, #E2B94C);
+        color: #4A3E3D;
+        border-color: #E2B94C;
+        font-weight: 700;
+        box-shadow: 0 2px 6px rgba(226,185,76,0.4);
+    }
+
+    /* Topping Card Select */
+    .topping-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 10px;
+        margin-bottom: 22px;
+    }
+
+    .topping-item-label {
+        cursor: pointer;
+        margin: 0;
+    }
+
+    .topping-item-label input[type="checkbox"] {
+        display: none;
+    }
+
+    .topping-card {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px;
+        border-radius: 12px;
+        background: #FFFDF8;
+        border: 1px solid var(--border);
+        transition: all 0.2s;
+    }
+
+    .topping-card img {
+        width: 38px;
+        height: 38px;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+
+    .topping-card .tp-name {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--heading);
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    .topping-card .tp-price {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--brand);
+        margin: 0;
+    }
+
+    .topping-item-label input[type="checkbox"]:checked + .topping-card {
+        background: #FFF9EE;
+        border-color: #E2B94C;
+        box-shadow: 0 2px 8px rgba(226,185,76,0.3);
+    }
+
+    .topping-card .tp-check-icon {
+        margin-left: auto;
+        color: #D1C7BD;
+        font-size: 1rem;
+        transition: color 0.2s;
+    }
+
+    .topping-item-label input[type="checkbox"]:checked + .topping-card .tp-check-icon {
+        color: #27AE60;
+    }
+
+    /* Stepper số lượng & Nút đặt hàng */
+    .dt-action-box {
+        background: #FAF8F5;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 16px 20px;
+        margin-top: 24px;
+    }
+
+    .stepper-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid var(--border);
+        background: #FFFFFF;
+        font-weight: 800;
+        color: var(--heading);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .stepper-btn:hover {
+        background: var(--brand);
+        color: #FFFFFF;
+        border-color: var(--brand);
+    }
+
+    .stepper-input {
+        width: 50px;
+        height: 36px;
+        text-align: center;
+        font-weight: 800;
+        font-size: 1rem;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #FFFFFF;
+    }
+
+    .btn-add-cart {
+        background: linear-gradient(135deg, #F0CD6B, #E2B94C);
+        color: #4A3E3D;
+        font-weight: 800;
+        border: 1px solid #E2B94C;
+        border-radius: 26px;
+        padding: 10px 24px;
+        font-size: 1rem;
+        transition: all 0.25s;
+        box-shadow: 0 3px 10px rgba(226,185,76,0.35);
+    }
+
+    .btn-add-cart:hover {
+        background: linear-gradient(135deg, #E2B94C, #D4A836);
+        color: #2D241D;
+        transform: translateY(-2px);
+    }
+
+    .btn-buy-now {
+        background: var(--brand);
+        color: #FFFFFF;
+        font-weight: 700;
+        border: 1px solid var(--brand);
+        border-radius: 26px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        transition: all 0.25s;
+    }
+
+    .btn-buy-now:hover {
+        background: #733A2B;
+        color: #FFFFFF;
+    }
+
+    /* Sản phẩm liên quan */
+    .related-section {
+        margin-top: 40px;
+    }
+
+    .related-title {
+        font-size: 1.35rem;
+        font-weight: 800;
+        color: var(--heading);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .ts-card {
+        background: #FFFFFF;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        box-shadow: 0 2px 6px var(--shadow);
+    }
+
+    .ts-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 18px var(--shadow);
+        border-color: var(--accent);
+    }
+
+    .ts-card-img-wrap {
+        position: relative;
+        width: 100%;
+        height: 175px;
+        background-color: #FFFDF8;
+        overflow: hidden;
+    }
+
+    .ts-card-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.35s ease;
+    }
+
+    .ts-card:hover .ts-card-img-wrap img {
+        transform: scale(1.05);
+    }
+
+    .ts-card-body {
+        padding: 14px 16px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+
+    .ts-product-name a {
+        font-size: 0.98rem;
+        font-weight: 700;
+        color: var(--heading);
+        text-decoration: none;
+    }
+
+    .ts-product-name a:hover {
+        color: var(--link);
+    }
+
+    .ts-current-price {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: var(--brand);
+    }
+
+    /* Toast thông báo */
+    #cartToast {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background: #27AE60;
+        color: #FFFFFF;
+        padding: 14px 22px;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        font-weight: 700;
+        font-size: 0.95rem;
+        z-index: 9999;
+        display: none;
+        align-items: center;
+        gap: 12px;
+        animation: fadeIn 0.3s ease;
+    }
+
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<!-- BREADCRUMB ĐIỀU HƯỚNG -->
+<div class="dt-breadcrumb d-flex align-items-center">
+    <a href="@Url.Action("Index", "TrangChu")"><i class="fas fa-home mr-1"></i> Trang chủ</a>
+    <span class="mx-2 text-muted">/</span>
+    <a href="@Url.Action("Index", "SanPham", new { maLoai = Model.SanPham.category_id })">
+        @(Model.SanPham.categories != null ? Model.SanPham.categories.name : "Thực đơn")
+    </a>
+    <span class="mx-2 text-muted">/</span>
+    <span class="text-dark font-weight-bold">@Model.SanPham.name</span>
+</div>
+
+<!-- THẺ CHI TIẾT SẢN PHẨM CHÍNH -->
+<div class="dt-main-card">
+    <div class="row">
+        <!-- CỘT TRÁI: HÌNH ẢNH MÓN ĂN & CAM KẾT CHẤT LƯỢNG -->
+        <div class="col-12 col-md-5 col-lg-5 mb-4 mb-md-0">
+            <div class="dt-img-box">
+                @if (Model.SanPham.is_featured)
+                {
+                    <span class="dt-badge">HOT SELLER</span>
+                }
+                <img src="@ResolveProductImage(Model.SanPham.image, Model.SanPham.name)" alt="@Model.SanPham.name" id="mainProductImg" />
+            </div>
+
+            <!-- Cam kết chất lượng -->
+            <div class="dt-features-list">
+                <div class="dt-feature-item">
+                    <i class="fas fa-leaf"></i>
+                    Trà tươi mỗi ngày
+                </div>
+                <div class="dt-feature-item">
+                    <i class="fas fa-heart"></i>
+                    Sữa thanh khiết
+                </div>
+                <div class="dt-feature-item">
+                    <i class="fas fa-bolt"></i>
+                    Giao nhanh 30'
+                </div>
+            </div>
+        </div>
+
+        <!-- CỘT PHẢI: THÔNG TIN CHI TIẾT & TÙY CHỌN MÓN (SIZE, TOPPING, ĐƯỜNG, ĐÁ) -->
+        <div class="col-12 col-md-7 col-lg-7">
+            <span class="dt-category-label">
+                @(Model.SanPham.categories != null ? Model.SanPham.categories.name : "Thực đơn")
+            </span>
+            <h1 class="dt-title">@Model.SanPham.name</h1>
+
+            <div class="dt-rating-wrap">
+                <span class="dt-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </span>
+                <span>4.9 / 5.0</span>
+                <span>•</span>
+                <span>Đã bán 320+ lượt</span>
+            </div>
+
+            <!-- Khung giá động tự nhảy theo Size & Topping -->
+            <div class="dt-price-wrap">
+                <span class="dt-price-main" id="displayUnitPrice">@Model.SanPham.price.ToString("N0") đ</span>
+                <span class="dt-price-note">(Giá đã bao gồm tùy chọn kích cỡ)</span>
+            </div>
+
+            <p class="dt-desc">
+                @(string.IsNullOrWhiteSpace(Model.SanPham.description)
+                    ? "Hương vị trà hảo hạng kết hợp tinh tế cùng sữa béo thơm, tạo nên trải nghiệm giải nhiệt sảng khoái và đậm đà khó quên."
+                    : Model.SanPham.description)
+            </p>
+
+            <form id="formProductOptions" onsubmit="event.preventDefault(); addToCart();">
+                <!-- 1. TÙY CHỌN SIZE (Chỉ áp dụng cho đồ uống) -->
+                @if (Model.DanhSachSize != null && Model.DanhSachSize.Any())
+                {
+                    <div class="mb-3">
+                        <div class="option-group-title">
+                            <i class="fas fa-coffee text-warning"></i> Chọn kích cỡ (Size):
+                        </div>
+                        <div class="option-pills">
+                            @foreach (var s in Model.DanhSachSize)
+                            {
+                                <label class="option-pill-label">
+                                    <input type="radio" name="optSize" value="@s.MaSize" data-price="@s.GiaCongThem"
+                                           @(s.MacDinh ? "checked" : "") onchange="calculatePrice()" />
+                                    <span class="option-pill-btn">
+                                        @s.TenSize @(s.GiaCongThem > 0 ? "(+" + s.GiaCongThem.ToString("N0") + "đ)" : "")
+                                    </span>
+                                </label>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <!-- 2. TÙY CHỌN LƯỢNG ĐƯỜNG & LƯỢNG ĐÁ (Chỉ áp dụng cho đồ uống) -->
+                @if (Model.DanhSachDuong != null && Model.DanhSachDuong.Any() && Model.SanPham.category_id != 4)
+                {
+                    <div class="row">
+                        <!-- Chọn Đường -->
+                        <div class="col-12 col-sm-6 mb-3">
+                            <div class="option-group-title">
+                                <i class="fas fa-cube text-warning"></i> Chọn độ ngọt:
+                            </div>
+                            <div class="option-pills">
+                                @for (int i = 0; i < Model.DanhSachDuong.Count; i++)
+                                {
+                                    var duong = Model.DanhSachDuong[i];
+                                    <label class="option-pill-label">
+                                        <input type="radio" name="optDuong" value="@duong" @(i == 0 ? "checked" : "") />
+                                        <span class="option-pill-btn">@duong</span>
+                                    </label>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Chọn Đá -->
+                        <div class="col-12 col-sm-6 mb-3">
+                            <div class="option-group-title">
+                                <i class="fas fa-icicles text-info"></i> Chọn lượng đá:
+                            </div>
+                            <div class="option-pills">
+                                @for (int i = 0; i < Model.DanhSachDa.Count; i++)
+                                {
+                                    var da = Model.DanhSachDa[i];
+                                    <label class="option-pill-label">
+                                        <input type="radio" name="optDa" value="@da" @(i == 0 ? "checked" : "") />
+                                        <span class="option-pill-btn">@da</span>
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <!-- 3. TÙY CHỌN TOPPING THÊM -->
+                @if (Model.DanhSachTopping != null && Model.DanhSachTopping.Any())
+                {
+                    <div class="mb-3">
+                        <div class="option-group-title">
+                            <i class="fas fa-plus-circle text-success"></i> Thêm Topping yêu thích:
+                        </div>
+                        <div class="topping-grid">
+                            @foreach (var tp in Model.DanhSachTopping)
+                            {
+                                <label class="topping-item-label">
+                                    <input type="checkbox" name="optTopping" value="@tp.Id" data-name="@tp.TenTopping" data-price="@tp.Gia" onchange="calculatePrice()" />
+                                    <div class="topping-card">
+                                        <img src="@ResolveProductImage(tp.HinhAnh, tp.TenTopping)" alt="@tp.TenTopping" />
+                                        <div>
+                                            <p class="tp-name">@tp.TenTopping</p>
+                                            <p class="tp-price">+@tp.Gia.ToString("N0")đ</p>
+                                        </div>
+                                        <i class="fas fa-check-circle tp-check-icon"></i>
+                                    </div>
+                                </label>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <!-- 4. CHỌN SỐ LƯỢNG & NÚT THÊM VÀO GIỎ HÀNG -->
+                <div class="dt-action-box">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-sm-5 mb-3 mb-sm-0">
+                            <span class="small font-weight-bold text-muted text-uppercase d-block mb-1">Số lượng:</span>
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="button" class="stepper-btn" onclick="changeQuantity(-1)">-</button>
+                                <input type="number" id="txtQuantity" class="stepper-input mx-2" value="1" min="1" max="99" onchange="calculatePrice()" />
+                                <button type="button" class="stepper-btn" onclick="changeQuantity(1)">+</button>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-7 text-sm-right">
+                            <span class="small font-weight-bold text-muted text-uppercase d-block mb-1">Tổng cộng:</span>
+                            <span class="dt-price-main text-danger" id="displayTotalPrice">
+                                @Model.SanPham.price.ToString("N0") đ
+                            </span>
+                        </div>
+                    </div>
+
+                    <hr style="border-color: var(--border); margin: 16px 0;" />
+
+                    <div class="d-flex flex-wrap gap-2 justify-content-end">
+                        <a href="@Url.Action("Index", "SanPham", new { maLoai = Model.SanPham.category_id })" class="btn btn-outline-secondary rounded-pill px-3 mr-auto">
+                            <i class="fas fa-arrow-left mr-1"></i> Quay lại thực đơn
+                        </a>
+                        <button type="button" class="btn btn-add-cart" onclick="addToCart()">
+                            <i class="fas fa-cart-plus mr-1"></i> Thêm vào giỏ hàng
+                        </button>
+                        <button type="button" class="btn btn-buy-now ml-2" onclick="buyNow()">
+                            <i class="fas fa-bolt mr-1"></i> Mua ngay
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- SẢN PHẨM LIÊN QUAN / CÙNG LOẠI -->
+@if (Model.SanPhamLienQuan != null && Model.SanPhamLienQuan.Any())
+{
+    <div class="related-section">
+        <h3 class="related-title">
+            <i class="fas fa-fire text-danger"></i>
+            <span>Có Thể Bạn Cũng Thích (Cùng Loại)</span>
+        </h3>
+        <div class="row">
+            @foreach (var item in Model.SanPhamLienQuan)
+            {
+                <div class="col-12 col-sm-6 col-lg-3 mb-4">
+                    <div class="ts-card">
+                        <div class="ts-card-img-wrap">
+                            <img src="@ResolveProductImage(item.image, item.name)" alt="@item.name" />
+                        </div>
+                        <div class="ts-card-body">
+                            <span class="small text-muted font-weight-bold text-uppercase mb-1">
+                                @(item.categories != null ? item.categories.name : "Trà sữa")
+                            </span>
+                            <div class="ts-product-name mb-2">
+                                <a href="@Url.Action("Details", "SanPham", new { id = item.id })" title="@item.name">
+                                    @item.name
+                                </a>
+                            </div>
+                            <div class="mt-auto d-flex justify-content-between align-items-center pt-2 border-top">
+                                <span class="ts-current-price">@item.price.ToString("N0") đ</span>
+                                <a href="@Url.Action("Details", "SanPham", new { id = item.id })" class="btn btn-sm btn-outline-warning text-dark font-weight-bold rounded-pill px-3">
+                                    Xem món
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+<!-- TOAST THÔNG BÁO KHI THÊM GIỎ HÀNG -->
+<div id="cartToast">
+    <i class="fas fa-check-circle" style="font-size: 1.3rem;"></i>
+    <div>
+        <div id="toastTitle">Đã thêm vào giỏ hàng thành công!</div>
+        <small id="toastDesc" style="opacity: 0.9;"></small>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var basePrice = @Model.SanPham.price;
+
+        // Tính toán lại giá khi thay đổi Size, Topping hoặc Số lượng
+        function calculatePrice() {
+            var sizeExtra = 0;
+            var sizeRadios = document.getElementsByName('optSize');
+            for (var i = 0; i < sizeRadios.length; i++) {
+                if (sizeRadios[i].checked) {
+                    sizeExtra = parseFloat(sizeRadios[i].getAttribute('data-price')) || 0;
+                    break;
+                }
+            }
+
+            var toppingTotal = 0;
+            var toppingChecks = document.getElementsByName('optTopping');
+            for (var j = 0; j < toppingChecks.length; j++) {
+                if (toppingChecks[j].checked) {
+                    toppingTotal += parseFloat(toppingChecks[j].getAttribute('data-price')) || 0;
+                }
+            }
+
+            var unitPrice = basePrice + sizeExtra;
+            var qtyInput = document.getElementById('txtQuantity');
+            var qty = parseInt(qtyInput.value) || 1;
+            if (qty < 1) { qty = 1; qtyInput.value = 1; }
+
+            var finalTotal = (unitPrice + toppingTotal) * qty;
+
+            document.getElementById('displayUnitPrice').innerText = formatVND(unitPrice);
+            document.getElementById('displayTotalPrice').innerText = formatVND(finalTotal);
+        }
+
+        function formatVND(amount) {
+            return amount.toLocaleString('vi-VN') + ' đ';
+        }
+
+        function changeQuantity(delta) {
+            var qtyInput = document.getElementById('txtQuantity');
+            var current = parseInt(qtyInput.value) || 1;
+            var updated = current + delta;
+            if (updated >= 1 && updated <= 99) {
+                qtyInput.value = updated;
+                calculatePrice();
+            }
+        }
+
+        // Xử lý thêm vào giỏ hàng (sẵn sàng tích hợp sang TV3)
+        function addToCart() {
+            var qty = parseInt(document.getElementById('txtQuantity').value) || 1;
+            var size = "M";
+            var sizeRadios = document.getElementsByName('optSize');
+            for (var i = 0; i < sizeRadios.length; i++) {
+                if (sizeRadios[i].checked) {
+                    size = sizeRadios[i].value;
+                    break;
+                }
+            }
+
+            var toppings = [];
+            var toppingChecks = document.getElementsByName('optTopping');
+            for (var j = 0; j < toppingChecks.length; j++) {
+                if (toppingChecks[j].checked) {
+                    toppings.push(toppingChecks[j].getAttribute('data-name'));
+                }
+            }
+
+            var totalText = document.getElementById('displayTotalPrice').innerText;
+
+            // Hiển thị Toast thông báo
+            var toast = document.getElementById('cartToast');
+            var toastTitle = document.getElementById('toastTitle');
+            var toastDesc = document.getElementById('toastDesc');
+
+            toastTitle.innerText = "Đã thêm " + qty + " ly vào giỏ hàng!";
+            var desc = "Size: " + size;
+            if (toppings.length > 0) {
+                desc += " | Topping: " + toppings.join(', ');
+            }
+            desc += " (" + totalText + ")";
+            toastDesc.innerText = desc;
+
+            toast.style.display = 'flex';
+            setTimeout(function () {
+                toast.style.display = 'none';
+            }, 3500);
+
+            // Cập nhật số lượng hiển thị trên Badge giỏ hàng Navbar (nếu có)
+            var cartBadges = document.querySelectorAll('.cart-count, .badge-cart');
+            cartBadges.forEach(function (b) {
+                var currentCount = parseInt(b.innerText) || 0;
+                b.innerText = currentCount + qty;
+            });
+        }
+
+        function buyNow() {
+            addToCart();
+            var toastTitle = document.getElementById('toastTitle');
+            var toastDesc = document.getElementById('toastDesc');
+            if (toastTitle && toastDesc) {
+                toastTitle.innerText = "Đã chuẩn bị đơn Mua Ngay!";
+                toastDesc.innerText = "Món đã được thêm vào đơn hàng. Sẵn sàng chuyển tiếp sang module Thanh toán (TV3).";
+            }
+        }
+
+        // Bắt lỗi ảnh fallback an toàn không gây lỗi TypeScript
+        window.addEventListener("error", function (e) {
+            var el = e.target;
+            if (el && el.tagName === "IMG") {
+                var fallback = "@Url.Content("~/Images/TraSuaTruyenThong.jpg")";
+                if (el.getAttribute("src") !== fallback) {
+                    el.setAttribute("src", fallback);
+                }
+            }
+        }, true);
+    </script>
+}
